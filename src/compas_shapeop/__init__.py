@@ -1,6 +1,9 @@
+
 from __future__ import print_function
 
 import os
+
+from ._shapeop import add, __doc__
 
 
 __author__ = ["tom van mele"]
@@ -19,3 +22,6 @@ TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
 __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
+
+
+

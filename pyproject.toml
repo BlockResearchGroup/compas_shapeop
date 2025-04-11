@@ -1,6 +1,10 @@
 [build-system]
-requires = ["setuptools>=66.0"]
-build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools>=66.0",
+    "scikit-build-core >=0.10",
+    "nanobind >=1.3.2"
+]
+build-backend = "scikit_build_core.build"
 
 # ============================================================================
 # project info
@@ -8,15 +12,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "compas_shapeop"
+version = "0.0.1"
 description = "COMPAS bindings for ShapeOp"
-keywords = []
-authors = [
-    { name = "tom van mele", email = "tom.v.mele@gmail.com" },
-]
-license = { file = "LICENSE" }
 readme = "README.md"
 requires-python = ">=3.9"
-dynamic = ['dependencies', 'optional-dependencies', 'version']
+authors = [
+    { name = "tom van mele", email = "tom.v.mele@gmail.com" },
+    { name = "petras vestartas", email = "petrasvestartas@gmail.com" },
+]
+license = { file = "LICENSE" }
+dynamic = ['dependencies', 'optional-dependencies']
 classifiers = [
     "Development Status :: 4 - Beta",
     "Topic :: Scientific/Engineering",
@@ -28,6 +33,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: BSD License",
 ]
 
 [project.urls]
@@ -54,6 +60,28 @@ optional-dependencies = { dev = { file = "requirements-dev.txt" } }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# ============================================================================
+# scikit-build config
+# ============================================================================
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+build-dir = "build/{wheel_tag}"
+wheel.py-api = "cp312"
+
+# ============================================================================
+# cibuildwheel config
+# ============================================================================
+
+[tool.cibuildwheel]
+build-verbosity = 1
+test-command = "pytest {project}/tests"
+test-requires = "pytest"
+test-skip = "cp38-macosx_*:arm64"
+
+[tool.cibuildwheel.macos.environment]
+MACOSX_DEPLOYMENT_TARGET = "10.14"
 
 # ============================================================================
 # replace pytest.ini
