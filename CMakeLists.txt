@@ -134,3 +134,5 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "C++ Standard: C++${CMAKE_CXX_STANDARD}")
 message(STATUS "Optimization: ${FAST_COMPILE} (O0 if ON, O3 if OFF)")
 message(STATUS "=============================================")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
