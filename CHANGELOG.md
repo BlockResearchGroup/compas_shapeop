@@ -13,3 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+
+## [0.0.1] 2025-04-01
+
+### Added
+
+* Nanobind for ShapeOp solver.
+* Currently constraints: `ShapeOp::ClosenessConstraint`, `ShapeOp::EdgeStrainConstraint`, `ShapeOp::GravityForce`, `ShapeOp::ClosenessConstraint`, `ShapeOp::NormalForce`.
+
+### Changed
+
+### Removed
