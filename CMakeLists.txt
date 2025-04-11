@@ -113,6 +113,7 @@ nanobind_add_module(
   STABLE_ABI
   NB_STATIC
   src/shapeop.cpp
+
 )
 
 target_include_directories(_shapeop PRIVATE

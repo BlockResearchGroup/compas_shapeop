@@ -5,11 +5,6 @@ import os
 
 from ._shapeop import add, __doc__
 
-
-__author__ = ["tom van mele"]
-__copyright__ = "ETH Zurich - Block Research Group"
-__license__ = "MIT License"
-__email__ = "tom.v.mele@gmail.com"
 __version__ = "0.1.0"
 
 
