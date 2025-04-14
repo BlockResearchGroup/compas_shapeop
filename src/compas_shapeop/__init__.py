@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import os
 
-from ._shapeop import add, __doc__
+# from ._shapeop import add, __doc__
 
 __version__ = "0.1.0"
 

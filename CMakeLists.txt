@@ -79,6 +79,14 @@ if(NOT EXISTS ${SHAPEOP_SRC_DIR}/Constraint.cpp)
   message(FATAL_ERROR "ShapeOp source files missing. Expected: ${SHAPEOP_SRC_DIR}/Constraint.cpp")
 endif()
 
+# Find Python and nanobind
+find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(nanobind CONFIG REQUIRED)
+find_package(Threads REQUIRED)
+
+# Debugging: Print nanobind include directories
+message(STATUS "nanobind_INCLUDE_DIRS: ${nanobind_INCLUDE_DIRS}")
+
 # Build ShapeOp as a library
 add_library(shapeop STATIC
   ${SHAPEOP_SRC_DIR}/Constraint.cpp
@@ -88,43 +96,51 @@ add_library(shapeop STATIC
 )
 
 # Ensure the library is compiled with -fPIC
-# To build static library to shared library.
 target_compile_options(shapeop PRIVATE -fPIC)
 
+# Add include directories for ShapeOp
 target_include_directories(shapeop PRIVATE
   ${EIGEN_INCLUDE_DIR}
   ${SHAPEOP_INCLUDE_DIR}
   ${SHAPEOP_SRC_DIR}
   ${SHAPEOP_API_DIR}
+  ${nanobind_INCLUDE_DIRS}
 )
 
-# Enable precompiled headers for shapeop
-target_precompile_headers(shapeop PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/compas.h)
+# Create a dedicated compas PCH library
+add_library(compas_pch INTERFACE)
+target_include_directories(compas_pch INTERFACE
+  ${EIGEN_INCLUDE_DIR}
+  ${SHAPEOP_INCLUDE_DIR}
+  ${SHAPEOP_SRC_DIR}
+  ${SHAPEOP_API_DIR}
+  ${nanobind_INCLUDE_DIRS}
+)
+target_precompile_headers(compas_pch INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/compas.h)
 
+# Link the PCH library to shapeop
+target_link_libraries(shapeop PRIVATE compas_pch)
 
-target_compile_options(shapeop PRIVATE -O3)
-
-# Build the Python extension module
-find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development.Module)
-find_package(nanobind CONFIG REQUIRED)
-
+# Add the Python extension module
 nanobind_add_module(
   _shapeop
   STABLE_ABI
   NB_STATIC
   src/shapeop.cpp
-
 )
 
+# Add include directories for the Python module
 target_include_directories(_shapeop PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src
   ${EIGEN_INCLUDE_DIR}
   ${SHAPEOP_INCLUDE_DIR}
   ${SHAPEOP_SRC_DIR}
   ${SHAPEOP_API_DIR}
+  ${nanobind_INCLUDE_DIRS}
 )
 
-target_link_libraries(_shapeop PRIVATE shapeop)
+# Link against compas_pch
+target_link_libraries(_shapeop PRIVATE compas_pch shapeop)
 
 # Install directive for scikit-build-core
 install(TARGETS _shapeop LIBRARY DESTINATION compas_shapeop)
@@ -136,4 +152,5 @@ message(STATUS "C++ Standard: C++${CMAKE_CXX_STANDARD}")
 message(STATUS "Optimization: ${FAST_COMPILE} (O0 if ON, O3 if OFF)")
 message(STATUS "=============================================")
 
+# Export compile commands for debugging
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
