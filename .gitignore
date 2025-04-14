@@ -125,7 +125,7 @@ temp/**
 
 src/.build/**
 
-data/
+# data/
 
 *.tar.gz
 
