@@ -120,8 +120,8 @@ generated/
 libs/**
 !libs/PLACEHOLDER
 
-# temp/**
-# !temp/PLACEHOLDER
+temp/**
+!temp/PLACEHOLDER
 
 src/.build/**
 
@@ -145,7 +145,7 @@ scripts/
 # cmakelists
 # ------------------------------------------------------------------------------
 
-# # External dependencies
-# ext/**
-# external/
-# **/external/
+# External dependencies
+ext/**
+external/
+**/external/
