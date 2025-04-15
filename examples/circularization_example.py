@@ -44,7 +44,7 @@ for face in mesh.faces():
     solver.add_constraint("Circle", face_vertices, circle_weight)
 
 # Add gravity force
-gravity_force = 0.1
+gravity_force = 0.5
 for i in mesh.vertices():
     solver.add_vertex_force(0.0, 0.0, gravity_force, i)
 
@@ -79,7 +79,6 @@ for face in faces:
 ###############################################################################################
 # Animation
 ###############################################################################################
-max_iterations = 1000
 current_iteration = 0
 steps_per_frame = 5
 
@@ -87,15 +86,12 @@ steps_per_frame = 5
 def update(frame):
     global current_iteration
     
-    if current_iteration >= max_iterations:
+    if current_iteration >= solver.max_iterations:
         return
     
-    for _ in range(steps_per_frame):
-        if current_iteration >= max_iterations:
-            break
-        
-        solver.solve(1)
-        current_iteration += 1
+   
+    solver.solve(1)
+    current_iteration += 1
     
     updated_points = solver.get_points()
     
@@ -122,8 +118,3 @@ def update(frame):
         circle_objs[idx].update(update_data=True)
 
 viewer.show()
-
-###############################################################################################
-# Cleanup
-###############################################################################################
-solver.delete()

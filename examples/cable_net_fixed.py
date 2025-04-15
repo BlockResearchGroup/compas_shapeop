@@ -51,12 +51,12 @@ solver.init()
 viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh, show_edges=True)
 iteration = 0
-max_iterations = 100
+
 
 @viewer.on(interval=0)
 def update(frame):
     global iteration
-    if iteration >= max_iterations:
+    if iteration >= solver.max_iterations:
         return
         
     solver.solve(1)
@@ -70,8 +70,3 @@ def update(frame):
     iteration += 1
 
 viewer.show()
-
-###############################################################################################
-# Cleanup
-###############################################################################################
-solver.delete()

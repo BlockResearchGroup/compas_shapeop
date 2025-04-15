@@ -83,13 +83,12 @@ for idx in fixed_indices:
 # Animation
 ###############################################################################################
 iteration = 0
-total_iterations = 1000
 
 @viewer.on(interval=1)  
 def deform_mesh(frame):
     global iteration, mesh, solver
     
-    if iteration >= total_iterations:
+    if iteration >= solver.max_iterations:
         return
     
     solver.solve(1)
@@ -104,8 +103,3 @@ def deform_mesh(frame):
     iteration += 1
 
 viewer.show()
-
-###############################################################################################
-# Cleanup
-###############################################################################################
-solver.delete()

@@ -1,4 +1,3 @@
-
 import compas
 from compas_shapeop import Solver
 from compas.datastructures import Mesh
@@ -14,7 +13,7 @@ points = mesh.to_vertices_and_faces()[0]
 ###############################################################################################
 # Initialize solver and set points
 ###############################################################################################
-solver = Solver()
+solver = Solver(1000)
 solver.set_points(points)
 
 ###############################################################################################
@@ -78,26 +77,19 @@ for key in mesh.vertices():
 ###############################################################################################
 max_iterations = 1000
 current_iteration = 0
-steps_per_frame = 1
 
 @viewer.on(interval=1)
 def update(frame):
     global current_iteration
     
-    if current_iteration >= max_iterations:
+    if current_iteration >= solver.max_iterations:
         return
+
+    solver.solve(1)
+    current_iteration += 1
     
-    for _ in range(steps_per_frame):
-        if current_iteration >= max_iterations:
-            break
-        
-        solver.solve(1)
-        current_iteration += 1
-    
-    # Update mesh with new point positions
     updated_points = solver.get_points()
-    
-    # Update the mesh vertices directly by their index
+
     for i, vertex in enumerate(mesh.vertices()):
         if i < len(updated_points):
             mesh.vertex_attributes(vertex, 'xyz', updated_points[i])
@@ -105,8 +97,3 @@ def update(frame):
     mesh_obj.update(update_data=True)
 
 viewer.show()
-
-###############################################################################################
-# Cleanup
-###############################################################################################
-solver.delete()

@@ -58,23 +58,17 @@ solver.add_normal_force_with_faces(faces_flat_np, face_sizes_np, inflation_force
 viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh)
 
-max_iterations = 1000
 current_iteration = 0
-steps_per_frame = 5
 
 @viewer.on(interval=1)
 def inflate_balloon(frame):
     global current_iteration
     
-    if current_iteration >= max_iterations:
+    if current_iteration >= solver.max_iterations:
         return
-    
-    for _ in range(steps_per_frame):
-        if current_iteration >= max_iterations:
-            break
-            
-        solver.solve(1)
-        current_iteration += 1
+
+    solver.solve(1)
+    current_iteration += 1
     
     updated_points = solver.get_points()
     
@@ -84,8 +78,3 @@ def inflate_balloon(frame):
     mesh_obj.update(update_data=True)
 
 viewer.show()
-
-###############################################################################################
-# Cleanup
-###############################################################################################
-solver.delete()
