@@ -1,28 +1,9 @@
-#include <nanobind/nanobind.h>
-#include <nanobind/stl/string.h>
-
 #include "compas.h"
-
-#include "Solver.h" // Include the full definition of ShapeOpSolver
-#include "Constraint.h"
-#include "Force.h"
-#include "Types.h"
-#include "Common.h"
-#include "compas_api.h"
-
-//Nanobind
-#include <nanobind/eigen/dense.h>
-#include <nanobind/eigen/sparse.h>
-#include <nanobind/stl/tuple.h>
-#include <nanobind/stl/bind_vector.h>
 
 // Simple global counter for the last number of points - this approach works for simple examples
 // but would need to be made solver-specific in a production environment
 static int global_nb_points = 0;
 
-namespace nb = nanobind;
-
-using namespace nb::literals;
 
 // Wrap the ShapeOpSolver with a proper C++ class that handles deletion correctly
 class PyShapeOpSolver {

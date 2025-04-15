@@ -24,3 +24,18 @@
 #include "Types.h"
 #include "Common.h"
 #include "API.h"
+
+// Nanobind includes
+#include <nanobind/nanobind.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/eigen/dense.h>
+#include <nanobind/eigen/sparse.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/stl/bind_vector.h>
+
+namespace nb = nanobind;
+using namespace nb::literals;
+
+// Include the API wrapper
+#include "compas_api.h"
+
