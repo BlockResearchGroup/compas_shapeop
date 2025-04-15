@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "NormalForce.h"
+#include "normalforce.h"
 #include "Solver.h"
 #include "Constraint.h"
 #include <fstream>

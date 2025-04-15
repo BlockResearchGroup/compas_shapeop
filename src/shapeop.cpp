@@ -198,9 +198,6 @@ int set_closeness_position(PyShapeOpSolver& solver, int constraint_id, nb::list 
     pos(1) = nb::cast<double>(position[1]);
     pos(2) = nb::cast<double>(position[2]);
     
-    std::cout << "Setting closeness constraint position to: [" 
-              << pos(0) << ", " << pos(1) << ", " << pos(2) << "]" << std::endl;
-    
     // Set the position
     closeness_constraint->setPosition(pos);
     
@@ -235,10 +232,7 @@ int add_closeness_constraint_with_position(PyShapeOpSolver& solver, int vertex_i
     
     // Set the target position right away
     constraint->setPosition(pos);
-    
-    std::cout << "Created closeness constraint with position: [" 
-              << pos(0) << ", " << pos(1) << ", " << pos(2) << "]" << std::endl;
-    
+
     // Add to solver
     int constraint_id = solver.get()->s->addConstraint(constraint);
     
@@ -282,9 +276,7 @@ int add_shrinking_edge_constraint(PyShapeOpSolver& solver, std::vector<int> indi
     double min_range = shrink_factor - 0.05;  // 5% below target
     double max_range = shrink_factor + 0.05;  // 5% above target
     
-    std::cout << "Creating EdgeStrainConstraint with shrink factor: " << shrink_factor 
-              << " (range: " << min_range << " to " << max_range << ")" << std::endl;
-    
+   
     // Create the constraint with explicit reference to ShapeOp::EdgeStrainConstraint
     auto c = std::make_shared<ShapeOp::EdgeStrainConstraint>(
         indices, weight, points, min_range, max_range);
@@ -361,12 +353,9 @@ bool add_normal_force_with_faces(PyShapeOpSolver& solver, const std::vector<int>
 NB_MODULE(_shapeop, m) {
     m.doc() = "Python bindings for ShapeOp library";
 
-    // Vector binding
-    nb::bind_vector<std::vector<double>>(m, "VectorDouble");
-    nb::bind_vector<std::vector<int>>(m, "VectorInt");
-    nb::bind_vector<std::vector<std::tuple<int, int>>>(m, "VectorTupleIntInt");
-    nb::bind_vector<std::vector<std::vector<std::tuple<int, float, float, float>>>>(m, "VectorVectorTupleIntFloatFloatFloat");
-
+    // Removed explicit vector bindings since they're causing conflicts with nanobind's
+    // automatic STL bindings, and they're not essential for the core functionality
+    
     // Properly wrap our C++ class for Python
     nb::class_<PyShapeOpSolver>(m, "Solver")
         .def(nb::init<>())

@@ -100,7 +100,7 @@ add_library(shapeop STATIC
 
 # Create a separate library for our custom ShapeOp extensions
 add_library(shapeop_extensions STATIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/NormalForce.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/normalforce.cpp
 )
 
 # Add include directories for ShapeOp

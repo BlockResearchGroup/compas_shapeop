@@ -1,4 +1,4 @@
-#include "NormalForce.h"
+#include "normalforce.h"
 
 namespace ShapeOp {
 

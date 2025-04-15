@@ -25,7 +25,7 @@
 #include "Types.h"
 #include "Common.h"
 #include "API.h"
-#include "NormalForce.h"  // Custom class for inflation force
+#include "normalforce.h"  // Custom class for inflation force
 
 // Nanobind includes
 #include <nanobind/nanobind.h>
@@ -34,9 +34,17 @@
 #include <nanobind/eigen/sparse.h>
 #include <nanobind/stl/tuple.h>
 #include <nanobind/stl/bind_vector.h>
+#include <nanobind/stl/vector.h>
+#include <nanobind/stl/pair.h>
+
+// C++ includes
+#include <vector>
+#include <memory>
+#include <iostream>
+#include <stdexcept>
 
 namespace nb = nanobind;
 using namespace nb::literals;
 
-// Include the API wrapper
-#include "compas_api.h"
+// Include ShapeOp API
+#include "shapeop_api.h"
