@@ -98,8 +98,10 @@ add_library(shapeop STATIC
   ${SHAPEOP_SRC_DIR}/Solver.cpp
 )
 
-# Ensure the library is compiled with -fPIC
-target_compile_options(shapeop PRIVATE -fPIC)
+# Create a separate library for our custom ShapeOp extensions
+add_library(shapeop_extensions STATIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/NormalForce.cpp
+)
 
 # Add include directories for ShapeOp
 target_include_directories(shapeop PRIVATE
@@ -109,6 +111,18 @@ target_include_directories(shapeop PRIVATE
   ${SHAPEOP_API_DIR}
   ${nanobind_INCLUDE_DIRS}
 )
+
+# Add include directories for shapeop_extensions
+target_include_directories(shapeop_extensions PRIVATE
+  ${EIGEN_INCLUDE_DIR}
+  ${SHAPEOP_INCLUDE_DIR}
+  ${SHAPEOP_SRC_DIR}
+  ${SHAPEOP_API_DIR}
+)
+
+# Ensure both libraries are compiled with -fPIC
+target_compile_options(shapeop PRIVATE -fPIC)
+target_compile_options(shapeop_extensions PRIVATE -fPIC)
 
 # Create a precompiled header library (properly implemented)
 if(ENABLE_PRECOMPILED_HEADERS)
@@ -144,7 +158,7 @@ function(add_shapeop_module module_name source_file)
   )
   
   # Link shapeop and potentially PCH
-  target_link_libraries(${module_name} PRIVATE shapeop)
+  target_link_libraries(${module_name} PRIVATE shapeop shapeop_extensions)
   
   if(ENABLE_PRECOMPILED_HEADERS)
     target_link_libraries(${module_name} PRIVATE compas_pch)

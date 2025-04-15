@@ -1,4 +1,3 @@
-
 from __future__ import print_function
 
 import os
@@ -17,6 +16,3 @@ TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
 __all__ = ["HOME", "DATA", "DOCS", "TEMP"]
-
-
-

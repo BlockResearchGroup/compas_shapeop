@@ -143,6 +143,16 @@ SHAPEOP_API int shapeop_addGravityForce(ShapeOpSolver *op, ShapeOpScalar *force)
 
 /** \brief Add a vertex force to the ShapeOp solver. For more details see #ShapeOp::VertexForce.*/
 SHAPEOP_API int shapeop_addVertexForce(ShapeOpSolver *op, ShapeOpScalar *force, int id);
+
+/** \brief Add a normal force to the ShapeOp solver. For more details see #ShapeOp::NormalForce.
+  \param op The ShapeOp Solver object
+  \param faces_data Flat array of face vertex indices
+  \param face_sizes Array of face sizes (number of vertices per face)
+  \param num_faces Number of faces
+  \param magnitude Magnitude of the normal force
+  \return the id of the newly created force */
+SHAPEOP_API int shapeop_addNormalForce(ShapeOpSolver *op, int *faces_data, int *face_sizes, int num_faces, ShapeOpScalar magnitude);
+
 /** \brief Edit a vertex force previously added to the ShapeOp solver. For more details see #ShapeOp::VertexForce.*/
 SHAPEOP_API void shapeop_editVertexForce(ShapeOpSolver *op, int force_id, ShapeOpScalar *force, int id);
 ///////////////////////////////////////////////////////////////////////////////
@@ -317,6 +327,24 @@ extern int shapeop_addGravityForce(ShapeOpSolver *op, ShapeOpScalar *force) {
 extern int shapeop_addVertexForce(ShapeOpSolver *op, ShapeOpScalar *force, int id) {
   Eigen::Map<ShapeOp::Vector3> g(force, 3, 1);
   auto f = std::make_shared<ShapeOp::VertexForce>(g, id);
+  return op->s->addForces(f);
+}
+extern int shapeop_addNormalForce(ShapeOpSolver *op, int *faces_data, int *face_sizes, int num_faces, ShapeOpScalar magnitude) {
+  // Convert flat arrays to vector of vectors structure
+  std::vector<std::vector<int>> faces;
+  int idx = 0;
+  
+  // Iterate through each face
+  for (int i = 0; i < num_faces; i++) {
+    std::vector<int> face;
+    for (int j = 0; j < face_sizes[i]; j++) {
+      face.push_back(faces_data[idx++]);
+    }
+    faces.push_back(face);
+  }
+  
+  // Create and add the NormalForce
+  auto f = std::make_shared<ShapeOp::NormalForce>(faces, magnitude);
   return op->s->addForces(f);
 }
 extern void shapeop_editVertexForce(ShapeOpSolver *op, int force_id, ShapeOpScalar *force, int id) {

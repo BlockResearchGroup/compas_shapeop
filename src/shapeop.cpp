@@ -4,7 +4,6 @@
 // but would need to be made solver-specific in a production environment
 static int global_nb_points = 0;
 
-
 // Wrap the ShapeOpSolver with a proper C++ class that handles deletion correctly
 class PyShapeOpSolver {
 private:
@@ -72,14 +71,14 @@ NB_MODULE(_shapeop, m) {
             throw std::runtime_error("Invalid solver");
         }
         return shapeop_init(solver.get());
-    }, "Initialize the solver", "solver"_a);
+    }, "Initialize the solver", nb::arg("solver"));
     
     m.def("solve", [](PyShapeOpSolver& solver, unsigned int iterations) {
         if (!solver.isValid()) {
             throw std::runtime_error("Invalid solver");
         }
         return shapeop_solve(solver.get(), iterations);
-    }, "Run the solver for a given number of iterations", "solver"_a, "iterations"_a);
+    }, "Run the solver for a given number of iterations", nb::arg("solver"), nb::arg("iterations"));
 
     // Transfer geometry
     m.def("set_points", [](PyShapeOpSolver& solver, nb::list points_list) {
@@ -116,7 +115,7 @@ NB_MODULE(_shapeop, m) {
         
         // Update the global point counter
         global_nb_points = nb_points;
-    }, "Set the points for the solver", "solver"_a, "points"_a);
+    }, "Set the points for the solver", nb::arg("solver"), nb::arg("points"));
 
     m.def("get_points", [](PyShapeOpSolver& solver) {
         if (!solver.isValid()) {
@@ -142,7 +141,7 @@ NB_MODULE(_shapeop, m) {
         }
         
         return result;
-    }, "Get the points from the solver", "solver"_a);
+    }, "Get the points from the solver", nb::arg("solver"));
 
     // Constraints
     m.def("add_constraint", [](PyShapeOpSolver& solver, std::string constraint_type, std::vector<int> indices, double weight) {
@@ -152,7 +151,7 @@ NB_MODULE(_shapeop, m) {
         std::vector<int> ids = indices;
         int constraint_id = shapeop_addConstraint(solver.get(), constraint_type.c_str(), ids.data(), (int)ids.size(), weight);
         return constraint_id;
-    }, "Add a constraint to the solver", "solver"_a, "constraint_type"_a, "indices"_a, "weight"_a);
+    }, "Add a constraint to the solver", nb::arg("solver"), nb::arg("constraint_type"), nb::arg("indices"), nb::arg("weight"));
     
     // Get list of constraints
     m.def("get_constraints", [](PyShapeOpSolver& solver) {
@@ -181,7 +180,7 @@ NB_MODULE(_shapeop, m) {
         }
         
         return constraint_ids;
-    }, "Get list of constraint ids", "solver"_a);
+    }, "Get list of constraint ids", nb::arg("solver"));
     
     // Closeness constraint - set position
     m.def("set_closeness_position", [](PyShapeOpSolver& solver, int constraint_id, nb::list position) {
@@ -214,7 +213,7 @@ NB_MODULE(_shapeop, m) {
         closeness_constraint->setPosition(pos);
         
         return constraint_id;
-    }, "Set the target position for a closeness constraint", "solver"_a, "constraint_id"_a, "position"_a);
+    }, "Set the target position for a closeness constraint", nb::arg("solver"), nb::arg("constraint_id"), nb::arg("position"));
     
     // Add closeness constraint with specified position (all in one operation)
     m.def("add_closeness_constraint_with_position", [](PyShapeOpSolver& solver, int vertex_id, double weight, nb::list position) {
@@ -253,7 +252,7 @@ NB_MODULE(_shapeop, m) {
         
         return constraint_id;
     }, "Add a closeness constraint with a specified target position", 
-       "solver"_a, "vertex_id"_a, "weight"_a, "position"_a);
+       nb::arg("solver"), nb::arg("vertex_id"), nb::arg("weight"), nb::arg("position"));
     
     // EdgeStrain constraint with min/max parameters
     m.def("add_edge_strain_constraint", [](PyShapeOpSolver& solver, std::vector<int> indices, double weight, double min_range, double max_range) {
@@ -275,7 +274,7 @@ NB_MODULE(_shapeop, m) {
         int constraint_id = solver.get()->s->addConstraint(c);
         return constraint_id;
     }, "Add an edge strain constraint with custom range parameters", 
-       "solver"_a, "indices"_a, "weight"_a, "min_range"_a, "max_range"_a);
+       nb::arg("solver"), nb::arg("indices"), nb::arg("weight"), nb::arg("min_range"), nb::arg("max_range"));
     
     // Add specialized constraint for shrinking edges with a shrink factor
     m.def("add_shrinking_edge_constraint", [](PyShapeOpSolver& solver, std::vector<int> indices, double weight, double shrink_factor) {
@@ -315,7 +314,7 @@ NB_MODULE(_shapeop, m) {
         
         return constraint_id;
     }, "Add a shrinking edge constraint using a shrink factor (percentage of original length)", 
-       "solver"_a, "indices"_a, "weight"_a, "shrink_factor"_a);
+       nb::arg("solver"), nb::arg("indices"), nb::arg("weight"), nb::arg("shrink_factor"));
 
     // Forces
     m.def("add_vertex_force", [](PyShapeOpSolver& solver, double force_x, double force_y, double force_z, int vertex_id) {
@@ -325,7 +324,7 @@ NB_MODULE(_shapeop, m) {
         ShapeOpScalar force[3] = {force_x, force_y, force_z};
         int force_id = shapeop_addVertexForce(solver.get(), force, vertex_id);
         return force_id;
-    }, "Add a vertex force to the solver", "solver"_a, "force_x"_a, "force_y"_a, "force_z"_a, "vertex_id"_a);
+    }, "Add a vertex force to the solver", nb::arg("solver"), nb::arg("force_x"), nb::arg("force_y"), nb::arg("force_z"), nb::arg("vertex_id"));
     
     // Add gravity force using available ShapeOp API functions
     m.def("add_gravity_force", [](PyShapeOpSolver& solver, double gx, double gy, double gz) {
@@ -345,5 +344,25 @@ NB_MODULE(_shapeop, m) {
         }
         
         return true;
-    }, "Add a gravity-like force to all points in the solver", "solver"_a, "gravity_x"_a, "gravity_y"_a, "gravity_z"_a);
+    }, "Add a gravity-like force to all points in the solver", nb::arg("solver"), nb::arg("gravity_x"), nb::arg("gravity_y"), nb::arg("gravity_z"));
+    
+    // Add NormalForce with explicit face data using a single flat array
+    m.def("add_normal_force_with_faces", [](PyShapeOpSolver& solver, const std::vector<int>& faces_flat, const std::vector<int>& face_sizes, double magnitude) {
+        if (!solver.isValid()) {
+            throw std::runtime_error("Invalid solver");
+        }
+        
+        // Call our C API function
+        int face_count = static_cast<int>(face_sizes.size());
+        int force_id = shapeop_addNormalForce(
+            solver.get(),
+            const_cast<int*>(faces_flat.data()),
+            const_cast<int*>(face_sizes.data()),
+            face_count,
+            magnitude
+        );
+        
+        return force_id > 0;
+    }, "Add a normal force (inflation) using custom face topology. Pass faces as a flat list along with face sizes.", 
+       nb::arg("solver"), nb::arg("faces_flat"), nb::arg("face_sizes"), nb::arg("magnitude"));
 }
