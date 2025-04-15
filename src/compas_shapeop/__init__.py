@@ -1,8 +1,5 @@
-from __future__ import print_function
-
+from .solver import Solver
 import os
-
-# from ._shapeop import add, __doc__
 
 __version__ = "0.1.0"
 
@@ -15,4 +12,4 @@ DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
-__all__ = ["HOME", "DATA", "DOCS", "TEMP"]
+__all__ = ["HOME", "DATA", "DOCS", "TEMP", "Solver"]

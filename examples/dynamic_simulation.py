@@ -1,155 +1,111 @@
-"""
-Dynamic Grid simulation using ShapeOp with interactive visualization
-Python equivalent of the C++ unary_force example with live visualization
-"""
-import numpy as np
-import os
-from compas_shapeop import _shapeop as so
+from compas_shapeop import Solver
 from compas.datastructures import Mesh
 from compas.geometry import Point
 from compas.colors import Color
 from compas_viewer import Viewer
 
-# Grid parameters
-rows = 14
-cols = 14
+###############################################################################################
+# Create mesh grid and prepare for solver
+###############################################################################################
+rows, cols = 14, 14
 spacing = 1.0
 gravity_force = 0.005
 
-# Helper to get index from grid coordinates
-def index(x, y):
-    return y * cols + x
+# Create a mesh grid directly, similar to other examples
+mesh = Mesh.from_meshgrid(spacing * (cols - 1), cols-1, spacing * (rows - 1), rows-1)
 
-# Create a mesh we'll update during the simulation
-mesh = Mesh()
+# Get the mesh points for the solver
+points = mesh.to_vertices_and_faces()[0]
 
-# Initialize viewer
-viewer = Viewer()
+###############################################################################################
+# Initialize solver and set points
+###############################################################################################
+solver = Solver()
+solver.set_points(points)
 
-# Create grid points
-points = []
-for y in range(rows):
-    for x in range(cols):
-        i = index(x, y)
-        norm_x = float(x) / (cols - 1)
-        norm_y = float(y) / (rows - 1)
-        points.append([
-            norm_x * spacing * (cols - 1),
-            -norm_y * spacing * (rows - 1),
-            0.0
-        ])
-
-# Initialize solver
-print("Creating solver...")
-solver = so.Solver()
-
-# Set points to the solver
-print(f"Setting {len(points)} points...")
-so.set_points(solver, points)
-
+###############################################################################################
 # Add constraints
-print("Adding constraints...")
+###############################################################################################
+# Find corner vertices
+corners = []
+for v in mesh.vertices():
+    if len(mesh.vertex_neighbors(v)) == 2:
+        corners.append(v)
 
 # Pin corners
-corner_indices = [
-    index(0, 0),               # Top-left corner
-    index(cols - 1, 0),        # Top-right corner
-    index(0, rows - 1),        # Bottom-left corner
-    index(cols - 1, rows - 1)  # Bottom-right corner
-]
+corner_weight = 1e5
+for idx in corners:
+    solver.add_constraint("Closeness", [idx], corner_weight)
 
-for idx in corner_indices:
-    so.add_constraint(solver, "Closeness", [idx], 1e5)
+# Find center vertex (approximate)
+center_vertex = None
+center_x, center_y = (cols-1)/2, (rows-1)/2
+min_distance = float('inf')
+
+for v in mesh.vertices():
+    pos = mesh.vertex_coordinates(v)
+    dist = ((pos[0] - center_x * spacing)**2 + (pos[1] - center_y * spacing)**2)**0.5
+    if dist < min_distance:
+        min_distance = dist
+        center_vertex = v
 
 # Pin center point
-center_idx = index(cols // 2, rows // 2)
-so.add_constraint(solver, "Closeness", [center_idx], 1e5)
+solver.add_constraint("Closeness", [center_vertex], corner_weight)
 
 # Add edge strain constraints
-print("Adding edge constraints...")
-for y in range(rows):
-    for x in range(cols):
-        i = index(x, y)
-        
-        # Horizontal edges
-        if x + 1 < cols:
-            edge = [i, index(x + 1, y)]
-            so.add_constraint(solver, "EdgeStrain", edge, 1.0)
-        
-        # Vertical edges
-        if y + 1 < rows:
-            edge = [i, index(x, y + 1)]
-            so.add_constraint(solver, "EdgeStrain", edge, 1.0)
+for u, v in mesh.edges():
+    solver.add_constraint("EdgeStrain", [u, v], 1.0)
 
-# Add gravity force
-print("Adding gravity force...")
-# For a uniform gravity effect, add a small downward force to every non-pinned point
-fixed_indices = corner_indices + [center_idx]
-for i in range(rows * cols):
-    if i not in fixed_indices:
-        so.add_vertex_force(solver, 0.0, 0.0, gravity_force, i)
+# Add gravity force to non-fixed vertices
+fixed_indices = corners + [center_vertex]
+for v in mesh.vertices():
+    if v not in fixed_indices:
+        solver.add_vertex_force(0.0, 0.0, gravity_force, v)
 
+###############################################################################################
 # Initialize solver
-print("Initializing solver...")
-so.init_solver(solver)
+###############################################################################################
+solver.init()
 
-# Create initial mesh structure
-# Add vertices to the mesh
-for i, point in enumerate(points):
-    mesh.add_vertex(i, x=point[0], y=point[1], z=point[2])
-
-# Add faces to the mesh
-for y in range(rows - 1):
-    for x in range(cols - 1):
-        v1 = index(x, y)
-        v2 = index(x+1, y)
-        v3 = index(x+1, y+1)
-        v4 = index(x, y+1)
-        mesh.add_face([v1, v2, v3, v4])
-
-# Add the mesh to the viewer scene
+###############################################################################################
+# Setup visualization
+###############################################################################################
+viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh)
 
 # Highlight fixed points with spheres
 for idx in fixed_indices:
-    point = Point(*points[idx])
+    pos = mesh.vertex_coordinates(idx)
+    point = Point(*pos)
     viewer.scene.add(point, size=0.2, color=Color.red())
 
-# Set up the iteration counter
+###############################################################################################
+# Animation
+###############################################################################################
 iteration = 0
 total_iterations = 1000
 
-@viewer.on(interval=50)  # Update every 50ms
+@viewer.on(interval=1)  
 def deform_mesh(frame):
     global iteration, mesh, solver
     
-    # Exit if we've reached the maximum iterations
     if iteration >= total_iterations:
         return
     
-    # Update the simulation by one step
-    so.solve(solver, 1)
+    solver.solve(1)
+    updated_points = solver.get_points()
     
-    # Get the updated points
-    updated_points = so.get_points(solver)
+    for i, vertex in enumerate(mesh.vertices()):
+        if i < len(updated_points):
+            mesh.vertex_attributes(vertex, 'xyz', updated_points[i])
     
-    # Update the mesh vertices
-    for i, point in enumerate(updated_points):
-        mesh.vertex_attributes(i, 'xyz', point)
-    
-    # Update the mesh in the viewer
     mesh_obj.update(update_data=True)
-    
-    # Print progress periodically
-    if iteration % 50 == 0:
-        print(f"Iteration {iteration}/{total_iterations}")
-    
-    # When done, save the result to file
-    # if iteration == total_iterations - 1:
-    #     print("Simulation complete!")
-    #     mesh.to_obj("python_dynamic_simulation.obj")
     
     iteration += 1
 
-print("Starting dynamic simulation viewer...")
 viewer.show()
+
+###############################################################################################
+# Cleanup
+###############################################################################################
+solver.delete()
