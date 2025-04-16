@@ -71,10 +71,9 @@ circle_objs = []
 for face in faces:
     face_points = [Point(*points[idx]) for idx in face]
     circle = Circle.from_points(face_points)
-    circle_poly = circle.to_polygon(20)
-    circle_mesh = Mesh.from_vertices_and_faces(*circle_poly.to_vertices_and_faces())
-    circles.append(circle_mesh)
-    circle_objs.append(viewer.scene.add(circle_mesh, show_faces=False, linecolor=Color.red()))
+    circles.append(circle)
+    circle_objs.append(viewer.scene.add(circle, linecolor=Color.red()))
+
 
 ###############################################################################################
 # Animation
@@ -105,16 +104,9 @@ def update(frame):
     for idx, face in enumerate(faces):
         face_points = [Point(*updated_points[i]) for i in face]
         circle = Circle.from_points(face_points)
-        circle_poly = circle.to_polygon(20)
-        
-        vertices, poly_faces = circle_poly.to_vertices_and_faces()
-        circles[idx].clear()
-        for i, coords in enumerate(vertices):
-            circles[idx].add_vertex(i, x=coords[0], y=coords[1], z=coords[2])
-            
-        for f in poly_faces:
-            circles[idx].add_face(f)
-
+        circles[idx].frame = circle.frame
+        circles[idx].radius = circle.radius
         circle_objs[idx].update(update_data=True)
+
 
 viewer.show()

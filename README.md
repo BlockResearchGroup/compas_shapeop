@@ -15,7 +15,7 @@ To install the latest version for development, do:
 ```bash
 git clone https://github.com/blockresearchgroup/compas_shapeop.git
 cd compas_shapeop
-pip install -e ".[dev]"
+pip install --no-build-isolation -ve .
 ```
 
 ## Documentation
