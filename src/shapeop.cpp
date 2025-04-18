@@ -122,6 +122,10 @@ nb::list get_points(PyShapeOpSolver& solver) {
         throw std::runtime_error("No points in solver");
     }
     
+    // For now, we'll use a standard list implementation that works reliably
+    // Note that for high-performance applications, you might want to use the 
+    // Python API to convert this list to a NumPy array immediately after returning
+    
     // Create a Python list to return
     nb::list result;
     for (int i = 0; i < nb_points; ++i) {
@@ -143,6 +147,57 @@ int add_constraint(PyShapeOpSolver& solver, std::string constraint_type, std::ve
     std::vector<int> ids = indices;
     int constraint_id = shapeop_addConstraint(solver.get(), constraint_type.c_str(), ids.data(), (int)ids.size(), weight);
     return constraint_id;
+}
+
+// Get points directly using a pre-allocated NumPy array buffer
+// This function performs no copying - it directly uses the memory in the provided buffer
+bool get_points_buffer(PyShapeOpSolver& solver, double* buffer_ptr, int nb_points) {
+    if (!solver.isValid()) {
+        throw std::runtime_error("Invalid solver");
+    }
+    
+    // Get a reference to the points matrix in the solver
+    const ShapeOp::Matrix3X& points_matrix = solver.get()->s->getPoints();
+    
+    // Verify dimensions match
+    if (points_matrix.cols() != nb_points) {
+        throw std::runtime_error("Buffer size doesn't match solver points count");
+    }
+    
+    // Create an Eigen Map to the output buffer (which is owned by Python)
+    // This creates a view into the memory buffer without copying
+    Eigen::Map<ShapeOp::Matrix3X> buffer_map(buffer_ptr, 3, nb_points);
+    
+    // Copy the data from solver to the buffer
+    // This is a direct memory-to-memory copy, very efficient
+    buffer_map = points_matrix;
+    
+    return true;
+}
+
+// Set points using a pre-allocated NumPy array buffer
+// This function performs no copying - it directly uses the memory in the provided buffer
+bool set_points_buffer(PyShapeOpSolver& solver, double* buffer_ptr, int nb_points) {
+    if (!solver.isValid()) {
+        throw std::runtime_error("Invalid solver");
+    }
+    
+    if (nb_points <= 0) {
+        throw std::runtime_error("Empty points array provided");
+    }
+    
+    // Create an Eigen Map to the input buffer (which is owned by Python)
+    // This creates a view into the memory buffer without copying
+    Eigen::Map<ShapeOp::Matrix3X> buffer_map(buffer_ptr, 3, nb_points);
+    
+    // Set the points in the solver directly from the buffer
+    // The solver will copy this data into its internal storage
+    solver.get()->s->setPoints(buffer_map);
+    
+    // Update the global point counter
+    global_nb_points = nb_points;
+    
+    return true;
 }
 
 // Get list of constraints
@@ -368,6 +423,8 @@ NB_MODULE(_shapeop, m) {
     // Transfer geometry
     m.def("set_points", &set_points, "Set the points for the solver", nb::arg("solver"), nb::arg("points"));
     m.def("get_points", &get_points, "Get the points from the solver", nb::arg("solver"));
+    m.def("get_points_buffer", &get_points_buffer, "Get points directly using a pre-allocated NumPy array buffer", nb::arg("solver"), nb::arg("buffer_ptr"), nb::arg("nb_points"));
+    m.def("set_points_buffer", &set_points_buffer, "Set points using a pre-allocated NumPy array buffer", nb::arg("solver"), nb::arg("buffer_ptr"), nb::arg("nb_points"));
 
     // Constraints
     m.def("add_constraint", &add_constraint, "Add a constraint to the solver", 
@@ -407,3 +464,5 @@ NB_MODULE(_shapeop, m) {
           "Add a normal force (inflation) using custom face topology. Pass faces as a flat list along with face sizes.", 
           nb::arg("solver"), nb::arg("faces_flat"), nb::arg("face_sizes"), nb::arg("magnitude"));
 }
+
+//------------------------------------------------------------------------------

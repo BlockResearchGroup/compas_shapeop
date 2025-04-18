@@ -146,6 +146,6 @@ scripts/
 # ------------------------------------------------------------------------------
 
 # External dependencies
-ext/**
-external/
-**/external/
+# ext/**
+# external/
+# **/external/

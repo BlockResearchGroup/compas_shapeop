@@ -6,7 +6,7 @@ from compas_viewer import Viewer
 ###############################################################################################
 # Create balloon mesh and prepare for solver
 ###############################################################################################
-mesh = Mesh.from_obj('data/m0.obj')
+mesh = Mesh.from_obj('data/circular_inflation.obj')
 vertices_list = list(mesh.vertices())
 faces_list = list(mesh.faces())
 vertices, faces = mesh.to_vertices_and_faces()
@@ -14,21 +14,20 @@ vertices, faces = mesh.to_vertices_and_faces()
 ###############################################################################################
 # Initialize solver and set points
 ###############################################################################################
-solver = Solver()
+solver = Solver(1000)
 solver.set_points(vertices)
 
 ###############################################################################################
 # Add constraints to maintain mesh structure
 ###############################################################################################
-edge_weight = 1.0
+edge_weight = 100.0
 edge_count = 0
 for u, v in mesh.edges():
-    solver.add_edge_strain_constraint([u, v], edge_weight, 0.1, 1.0)
+    solver.add_edge_strain_constraint([u, v], edge_weight, 0.95, 1.05)
     edge_count += 1
 
-anchor_weight = 100.0
-fixed_vertices = [0]
-for vertex in fixed_vertices:
+anchor_weight = 0.1
+for vertex in vertices_list:
     solver.add_constraint("Closeness", [vertex], anchor_weight)
 
 ###############################################################################################
@@ -49,7 +48,7 @@ for face in faces:
 faces_flat_np = np.array(faces_flat, dtype=np.int32)
 face_sizes_np = np.array(face_sizes, dtype=np.int32)
 
-inflation_force = 0.15
+inflation_force = 100
 solver.add_normal_force_with_faces(faces_flat_np, face_sizes_np, inflation_force)
 
 ###############################################################################################
@@ -67,8 +66,8 @@ def inflate_balloon(frame):
     if current_iteration >= solver.max_iterations:
         return
 
-    solver.solve(1)
-    current_iteration += 1
+    solver.solve(100)
+    current_iteration += 100
     
     updated_points = solver.get_points()
     

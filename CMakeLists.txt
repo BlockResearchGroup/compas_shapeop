@@ -171,6 +171,12 @@ endfunction()
 # Add our module using the function
 add_shapeop_module(_shapeop src/shapeop.cpp)
 
+# Add our direct API module using the same function
+add_shapeop_module(_shapeop_direct src/shapeop_nanobind_api.cpp)
+
+# Install directive
+install(TARGETS _shapeop_direct LIBRARY DESTINATION compas_shapeop)
+
 # Build configuration info
 message(STATUS "============= Build Configuration =============")
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")

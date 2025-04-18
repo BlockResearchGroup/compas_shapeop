@@ -3,6 +3,7 @@ from compas.datastructures import Mesh
 from compas.geometry import Point
 from compas.colors import Color
 from compas_viewer import Viewer
+import numpy as np
 
 ###############################################################################################
 # Create mesh grid and prepare for solver
@@ -12,7 +13,7 @@ spacing = 1.0
 gravity_force = 0.005
 
 # Create a mesh grid directly, similar to other examples
-mesh = Mesh.from_meshgrid(spacing * (cols - 1), cols-1, spacing * (rows - 1), rows-1)
+mesh = Mesh.from_meshgrid(nx=cols-1, ny=rows-1, dx=spacing * (cols - 1), dy=spacing * (rows - 1))
 
 # Get the mesh points for the solver
 points = mesh.to_vertices_and_faces()[0]
@@ -91,13 +92,18 @@ def deform_mesh(frame):
     if iteration >= solver.max_iterations:
         return
     
+    # Run one solver iteration
     solver.solve(1)
-    updated_points = solver.get_points()
     
+    # Get points from the solver
+    points = solver.get_points()
+    
+    # Update mesh vertex coordinates
     for i, vertex in enumerate(mesh.vertices()):
-        if i < len(updated_points):
-            mesh.vertex_attributes(vertex, 'xyz', updated_points[i])
+        if i < len(points):
+            mesh.vertex_attributes(vertex, 'xyz', points[i])
     
+    # Update the mesh visualization
     mesh_obj.update(update_data=True)
     
     iteration += 1

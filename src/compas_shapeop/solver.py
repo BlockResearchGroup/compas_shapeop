@@ -111,23 +111,23 @@ class Solver:
         """
         self._max_iterations = value
 
-    def set_points(self, points: list[list[float]]) -> None:
-        """Set the points for the solver.
-
+    def set_points(self, points: list) -> None:
+        """Set the vertex positions in the solver.
+        
         Parameters
         ----------
-        points : list[list[float]]
-            List of point coordinates as [x, y, z] lists.
+        points : list
+            List of points.
         """
         so.set_points(self._solver, points)
 
-    def get_points(self) -> list[list[float]]:
-        """Get the points from the solver.
-
+    def get_points(self) -> list:
+        """Get the current vertex positions in the solver.
+        
         Returns
         -------
-        list[list[float]]
-            List of points with their current coordinates.
+        list
+            List of points.
         """
         return so.get_points(self._solver)
 
