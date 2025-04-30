@@ -30,6 +30,9 @@ class Force;
 /** \brief ShapeOp Solver. This class implements the main ShapeOp solver based on \cite Bouaziz2012 and \cite Bouaziz2014.*/
 class SHAPEOP_API Solver {
  public:
+
+  /** \brief Public points to directly access them in Python.*/
+  Matrix3X points_;
   /** \brief Add a constraint to the solver and get back its id.*/
   int addConstraint(const std::shared_ptr<Constraint> &c);
   /** \brief Get a constraint using its id.*/
@@ -57,7 +60,6 @@ class SHAPEOP_API Solver {
   typedef std::vector<std::shared_ptr<Force> > Forces;
 
 //Static
-  Matrix3X points_;
   Matrix3X projections_;
   Constraints constraints_;
   std::shared_ptr<LSSolver> solver_;

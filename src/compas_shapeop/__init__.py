@@ -1,6 +1,12 @@
 from .solver import Solver
 import os
 
+# Import optimized module
+try:
+    from compas_shapeop import _pyshapeop
+except ImportError:
+    _pyshapeop = None
+
 __version__ = "0.1.0"
 
 
@@ -12,4 +18,4 @@ DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
-__all__ = ["HOME", "DATA", "DOCS", "TEMP", "Solver"]
+__all__ = ["HOME", "DATA", "DOCS", "TEMP", "Solver", "_pyshapeop"]

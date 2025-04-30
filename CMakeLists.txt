@@ -31,11 +31,41 @@ endif()
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/external)
 
 # External dependencies setup (Eigen and ShapeOp)
+# First set up Eigen directory to maintain compatibility with existing code
 set(EIGEN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/eigen)
-set(SHAPEOP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/shapeop)
-set(SHAPEOP_SRC_DIR ${SHAPEOP_SOURCE_DIR}/libShapeOp/src)
-set(SHAPEOP_API_DIR ${SHAPEOP_SOURCE_DIR}/libShapeOp/api)
-set(SHAPEOP_INCLUDE_DIR ${SHAPEOP_SOURCE_DIR}/libShapeOp)
+find_package(Eigen3 QUIET)
+if(NOT Eigen3_FOUND)
+  # Use our downloaded Eigen if system Eigen not found
+  set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIR})
+endif()
+
+# ShapeOp is now integrated directly into our source tree
+set(SHAPEOP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(SHAPEOP_API_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/api)
+set(SHAPEOP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# Add debug message for SHAPEOP_API_DIR
+message(STATUS "SHAPEOP_API_DIR: ${SHAPEOP_API_DIR}")
+
+# OpenMP support for parallel processing (especially for large meshes)
+option(USE_OPENMP "Enable OpenMP support for parallel processing" ON)
+if(USE_OPENMP)
+  find_package(OpenMP QUIET)
+  if(OpenMP_CXX_FOUND)
+    message(STATUS "OpenMP found - enabling parallel processing")
+    # Define OpenMP flag for ShapeOp 
+    add_definitions(-DSHAPEOP_OPENMP)
+    # We'll apply OpenMP flags to the libraries that need them below
+  else()
+    message(STATUS "OpenMP not found - parallel processing disabled")
+  endif()
+endif()
+
+# Platform specific settings
+if(APPLE)
+  # macOS has historically had OpenMP issues with default compilers
+  message(STATUS "On macOS: If you have OpenMP issues, you can disable with -DUSE_OPENMP=OFF")
+endif()
 
 # Download Eigen
 if(NOT EXISTS ${EIGEN_INCLUDE_DIR})
@@ -55,31 +85,9 @@ if(NOT EXISTS ${EIGEN_INCLUDE_DIR})
       ${EIGEN_INCLUDE_DIR}
   )
   file(REMOVE ${CMAKE_CURRENT_SOURCE_DIR}/eigen.zip)
-endif()
-
-# Download ShapeOp
-if(NOT EXISTS ${SHAPEOP_SOURCE_DIR})
-  message(STATUS "Downloading ShapeOp...")
-  file(DOWNLOAD
-    https://github.com/EPFL-LGG/ShapeOp/archive/refs/heads/master.zip
-    ${CMAKE_CURRENT_SOURCE_DIR}/shapeop.zip
-    SHOW_PROGRESS
-  )
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_SOURCE_DIR}/shapeop.zip
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/external
-  )
-  execute_process(
-    COMMAND ${CMAKE_COMMAND} -E rename 
-      ${CMAKE_CURRENT_SOURCE_DIR}/external/ShapeOp-master 
-      ${SHAPEOP_SOURCE_DIR}
-  )
-  file(REMOVE ${CMAKE_CURRENT_SOURCE_DIR}/shapeop.zip)
-endif()
-
-# Verify that required files exist
-if(NOT EXISTS ${SHAPEOP_SRC_DIR}/Constraint.cpp)
-  message(FATAL_ERROR "ShapeOp source files missing. Expected: ${SHAPEOP_SRC_DIR}/Constraint.cpp")
+  
+  # When using downloaded Eigen, ensure the include dirs point to it
+  set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIR})
 endif()
 
 # Find Python and nanobind
@@ -105,7 +113,7 @@ add_library(shapeop_extensions STATIC
 
 # Add include directories for ShapeOp
 target_include_directories(shapeop PRIVATE
-  ${EIGEN_INCLUDE_DIR}
+  ${EIGEN3_INCLUDE_DIRS}
   ${SHAPEOP_INCLUDE_DIR}
   ${SHAPEOP_SRC_DIR}
   ${SHAPEOP_API_DIR}
@@ -114,15 +122,25 @@ target_include_directories(shapeop PRIVATE
 
 # Add include directories for shapeop_extensions
 target_include_directories(shapeop_extensions PRIVATE
-  ${EIGEN_INCLUDE_DIR}
+  ${EIGEN3_INCLUDE_DIRS}
   ${SHAPEOP_INCLUDE_DIR}
   ${SHAPEOP_SRC_DIR}
   ${SHAPEOP_API_DIR}
 )
 
-# Ensure both libraries are compiled with -fPIC
+# Make sure position independent code is used
 target_compile_options(shapeop PRIVATE -fPIC)
 target_compile_options(shapeop_extensions PRIVATE -fPIC)
+
+# Apply OpenMP flags if available
+if(OpenMP_CXX_FOUND)
+  target_compile_options(shapeop PRIVATE ${OpenMP_CXX_FLAGS})
+  target_compile_options(shapeop_extensions PRIVATE ${OpenMP_CXX_FLAGS})
+  if(OpenMP_CXX_LIBRARIES)
+    target_link_libraries(shapeop PRIVATE ${OpenMP_CXX_LIBRARIES})
+    target_link_libraries(shapeop_extensions PRIVATE ${OpenMP_CXX_LIBRARIES})
+  endif()
+endif()
 
 # Create a precompiled header library (properly implemented)
 if(ENABLE_PRECOMPILED_HEADERS)
@@ -130,7 +148,7 @@ if(ENABLE_PRECOMPILED_HEADERS)
   target_precompile_headers(compas_pch INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/compas.h)
   target_include_directories(compas_pch INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${EIGEN_INCLUDE_DIR}
+    ${EIGEN3_INCLUDE_DIRS}
     ${SHAPEOP_INCLUDE_DIR}
     ${SHAPEOP_SRC_DIR}
     ${SHAPEOP_API_DIR}
@@ -150,7 +168,7 @@ function(add_shapeop_module module_name source_file)
   # Add include directories for the module
   target_include_directories(${module_name} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${EIGEN_INCLUDE_DIR}
+    ${EIGEN3_INCLUDE_DIRS}
     ${SHAPEOP_INCLUDE_DIR}
     ${SHAPEOP_SRC_DIR}
     ${SHAPEOP_API_DIR}
@@ -171,11 +189,8 @@ endfunction()
 # Add our module using the function
 add_shapeop_module(_shapeop src/shapeop.cpp)
 
-# Add our direct API module using the same function
-add_shapeop_module(_shapeop_direct src/shapeop_nanobind_api.cpp)
-
-# Install directive
-install(TARGETS _shapeop_direct LIBRARY DESTINATION compas_shapeop)
+# Add our optimized zero-copy module for high-performance applications
+add_shapeop_module(_shapeoplibrary src/shapeoplibrary.cpp)
 
 # Build configuration info
 message(STATUS "============= Build Configuration =============")

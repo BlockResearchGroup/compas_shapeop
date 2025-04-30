@@ -26,3 +26,12 @@ please check out the online documentation here: [COMPAS ShapeOp docs](https://bl
 ## Issue Tracker
 
 If you find a bug or if you have a problem with running the code, please file an issue on the [Issue Tracker](https://github.com/blockresearchgroup/compas_shapeop/issues).
+
+
+## Installation with editable rebuild
+
+```bash
+rm -rf build/
+/home/pv/anaconda3/envs/cgal/bin/pip install --no-build-isolation -ve . -Ceditable.rebuild=true --no-cache-dir
+/home/pv/anaconda3/envs/cgal/bin/python /home/pv/brg/code/forks/compas_shapeop/examples/optimized_dynamic_simulation.py
+```
