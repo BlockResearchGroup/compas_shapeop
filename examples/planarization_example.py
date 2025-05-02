@@ -2,7 +2,7 @@ from compas.datastructures import Mesh
 from compas.colors import Color
 from compas.geometry import Plane, Point, Vector
 from compas_viewer import Viewer
-from compas_shapeop.shapeop import ShapeOpSolver
+from compas_shapeop.shapeop import Solver
 import compas
 
 # ==========================================================================
@@ -16,7 +16,7 @@ mesh = Mesh.from_obj(compas.get('hypar.obj'))
 # Initialize solver directly from mesh
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Find boundary vertices for constraints

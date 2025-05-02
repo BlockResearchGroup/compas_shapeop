@@ -1,6 +1,6 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
-from compas_shapeop.shapeop import ShapeOpSolver
+from compas_shapeop.shapeop import Solver
 
 # ==========================================================================
 # Create mesh
@@ -18,7 +18,7 @@ mesh = Mesh.from_meshgrid(
 # Initialize solver directly from mesh
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Add constraints

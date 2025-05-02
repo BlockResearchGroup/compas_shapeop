@@ -1,13 +1,12 @@
 import compas
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
-from compas_shapeop import ShapeOpSolver
+from compas_shapeop import Solver
 
 # ==========================================================================
 # Create mesh
 # ==========================================================================
 
-# Load hexagonal mesh
 mesh = compas.json_load("data/hex_mesh.json")
 mesh = Mesh.from_polygons(mesh.to_polygons())
 mesh.unify_cycles()
@@ -19,7 +18,7 @@ mesh.translate([-20, -20, -1])
 # Initialize solver with mesh vertices
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Add constraints
@@ -78,5 +77,4 @@ def deform_mesh(frame):
     
     mesh_obj.update(update_data=True)
 
-# Start the viewer
 viewer.show()

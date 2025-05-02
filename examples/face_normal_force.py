@@ -1,6 +1,6 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
-from compas_shapeop.shapeop import ShapeOpSolver
+from compas_shapeop.shapeop import Solver
 
 # ==========================================================================
 # Create balloon mesh and prepare for solver
@@ -15,7 +15,7 @@ faces_list = list(mesh.faces())
 # Initialize solver directly from mesh
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Add constraints to maintain mesh structure

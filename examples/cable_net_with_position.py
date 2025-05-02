@@ -1,6 +1,6 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
-from compas_shapeop.shapeop import ShapeOpSolver
+from compas_shapeop.shapeop import Solver
 
 # ==========================================================================
 # Create mesh
@@ -12,7 +12,7 @@ mesh = Mesh.from_meshgrid(10.0, 10, 10.0, 10)
 # Initialize solver from mesh
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Find corner vertices

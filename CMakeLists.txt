@@ -116,7 +116,7 @@ endif()
 # Python module
 # ==============================================================================
 
-# Add the ShapeOpSolver Python module
+# Add the Solver Python module
 nanobind_add_module(
   _shapeop
   STABLE_ABI

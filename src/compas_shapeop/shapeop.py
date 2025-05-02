@@ -1,7 +1,7 @@
 from compas_shapeop import _shapeop
 from compas.datastructures import Mesh
 
-class ShapeOpSolver:
+class Solver:
     """Optimized ShapeOp solver with direct zero-copy access to solver memory.
     
     This solver uses nanobind's Eigen integration to provide direct zero-copy 
@@ -25,7 +25,7 @@ class ShapeOpSolver:
     """
     
     def __init__(self):
-        """Initialize a new optimized ShapeOpSolver.
+        """Initialize a new optimized Solver.
         
         Creates a new DynamicSolver instance that handles direct
         memory sharing between C++ and Python.
@@ -377,7 +377,7 @@ class ShapeOpSolver:
             
         Returns
         -------
-        :class:`ShapeOpSolver`
+        :class:`Solver`
             A new solver instance initialized with the mesh vertices.
         """
         solver = cls()

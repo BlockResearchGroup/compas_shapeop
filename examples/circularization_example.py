@@ -2,7 +2,7 @@ from compas.datastructures import Mesh
 from compas.colors import Color
 from compas.geometry import Circle, Plane, Point
 from compas_viewer import Viewer
-from compas_shapeop.shapeop import ShapeOpSolver
+from compas_shapeop.shapeop import Solver
 
 # ==========================================================================
 # Create mesh grid and prepare for solver
@@ -14,7 +14,7 @@ mesh = Mesh.from_meshgrid(10.0, 7, 10.0, 7)
 # Initialize solver directly from mesh
 # ==========================================================================
 
-solver = ShapeOpSolver.from_mesh(mesh)
+solver = Solver.from_mesh(mesh)
 
 # ==========================================================================
 # Add constraints
