@@ -1,94 +1,93 @@
 from compas_shapeop import _shapeop
-from compas.datastructures import Mesh
+
 
 class Solver:
     """Optimized ShapeOp solver with direct zero-copy access to solver memory.
-    
-    This solver uses nanobind's Eigen integration to provide direct zero-copy 
+
+    This solver uses nanobind's Eigen integration to provide direct zero-copy
     access to the ShapeOp solver's internal memory. This ensures maximum
     performance for dynamic simulations.
-    
+
     The implementation maintains a direct numpy view into the C++ solver's
     Eigen matrix memory. When the solver modifies point positions, the NumPy
     array is automatically updated without any copying or data conversion.
-    
+
     Available constraints:
     - Closeness
     - EdgeStrain
     - Circle
     - Plane
     - Similarity (for regular polygons)
-    
+
     Available forces:
     - VertexForce
     - NormalForce
     """
-    
+
     def __init__(self):
         """Initialize a new optimized Solver.
-        
+
         Creates a new DynamicSolver instance that handles direct
         memory sharing between C++ and Python.
         """
 
         self._solver = _shapeop.DynamicSolver()
-        self.points = None # Direct reference to ShapeOp's points matrix
-        
-    
+        self.points = None  # Direct reference to ShapeOp's points matrix
+
     def set_points(self, points):
         """Set the vertex positions in the solver.
-        
+
         This method initializes the solver's internal memory with the
         provided points. After setting the points, it establishes a
         direct zero-copy view to the solver's memory.
-        
+
         Parameters
         ----------
         points : array-like
             Array of 3D points in shape (n, 3).
         """
         self._solver.set_points(points)
-    
+
     def get_points(self):
         """Get the current vertex positions from the solver.
-        
+
         Returns a direct view of the solver's point data. This is a zero-copy
         operation that provides direct access to the memory used by the C++ solver.
-        
+
         Returns
         -------
         numpy.ndarray
             Direct view of the solver's point data in shape (n, 3).
         """
         return self.points
-    
+
     def add_closeness_constraint(self, indices, weight=1.0):
         """Add a closeness constraint to the solver.
-        
+
         A closeness constraint tries to keep vertices close to their
         original positions. This directly adds the constraint to the C++ solver.
-        
+
         Parameters
         ----------
         indices : list
             List of vertex indices to constrain.
         weight : float, optional
             Weight of the constraint. Higher values make the constraint stronger.
-            
+
         Returns
         -------
         int
             ID of the added constraint.
         """
         return self._solver.add_closeness_constraint(indices, weight)
-    
+
     def add_closeness_constraint_with_position(self, indices, weight, position):
         """Add a closeness constraint with a specified target position.
-        
+
         A closeness constraint that keeps vertices close to a specified target position
         rather than their original positions. This is useful for fixing points in space
         or forcing points to move to specific locations.
-        
+
         Parameters
         ----------
         indices : list
@@ -97,21 +96,21 @@ class Solver:
             Weight of the constraint. Higher values make the constraint stronger.
         position : list
             Target position [x, y, z] for the constraint.
-            
+
         Returns
         -------
         int
             ID of the added constraint.
         """
         return self._solver.add_closeness_constraint_with_position(indices, weight, position)
-    
+
     def add_edge_strain_constraint(self, indices, weight=1.0, min_range=0.9, max_range=1.1):
         """Add an edge strain constraint to the solver.
-        
+
         An edge strain constraint tries to keep the distance between two vertices
         within a specified range relative to the original distance.
         This directly adds the constraint to the C++ solver.
-        
+
         Parameters
         ----------
         indices : list
@@ -122,21 +121,21 @@ class Solver:
             Minimum allowed relative length (default=0.9)
         max_range : float, optional
             Maximum allowed relative length (default=1.1)
-            
+
         Returns
         -------
         int
             ID of the added constraint.
         """
         return self._solver.add_edge_strain_constraint(indices, weight, min_range, max_range)
-    
+
     def add_shrinking_edge_constraint(self, indices, weight=1.0, shrink_factor=0.25):
         """Add a shrinking edge constraint to the solver.
-        
+
         A shrinking edge constraint tries to shrink the edge length by a specified factor.
         This is particularly useful for cable nets and other structures that need to
         maintain tension. The constraint creates a min/max range of ±5% around the target length.
-        
+
         Parameters
         ----------
         indices : list
@@ -146,56 +145,56 @@ class Solver:
         shrink_factor : float, optional
             Target shrinking factor (default=0.25). The target length will be
             (1.0 - shrink_factor) times the original length.
-            
+
         Returns
         -------
         int
             ID of the added constraint.
         """
         return self._solver.add_shrinking_edge_constraint(indices, weight, shrink_factor)
-    
+
     def add_circle_constraint(self, indices, weight=1.0):
         """Add circle constraint to make vertices lie on a circle.
-        
+
         Parameters
         ----------
         indices : list
             List of vertex indices.
         weight : float, optional
             Weight of the constraint, by default 1.0
-            
+
         Returns
         -------
         bool
             True if the constraint was added successfully.
         """
         return self._solver.add_circle_constraint(indices, weight)
-    
+
     def add_plane_constraint(self, indices, weight=1.0):
         """Add plane constraint to make vertices lie on a plane.
-        
+
         Parameters
         ----------
         indices : list
             List of vertex indices.
         weight : float, optional
             Weight of the constraint, by default 1.0
-            
+
         Returns
         -------
         bool
             True if the constraint was added successfully.
         """
         return self._solver.add_plane_constraint(indices, weight)
-    
+
     def add_similarity_constraint(self, indices, weight=1.0, allow_scaling=True, allow_rotation=True, allow_translation=True):
         """Add similarity constraint to transform vertices to match a target shape.
-        
+
         This is a low-level method that creates a similarity constraint. You must
         manually set the target shape using set_similarity_constraint_shape().
         For a higher-level method that automatically creates a regular polygon,
         use add_regular_polygon_constraint().
-        
+
         Parameters
         ----------
         indices : list
@@ -208,86 +207,87 @@ class Solver:
             Whether to allow rotation, by default True
         allow_translation : bool, optional
             Whether to allow translation, by default True
-            
+
         Returns
         -------
         bool
             True if the constraint was added successfully.
         """
         return self._solver.add_similarity_constraint(indices, weight, allow_scaling, allow_rotation, allow_translation)
-    
+
     def set_similarity_constraint_shape(self, constraint_id, points):
         """Set the target shape for a similarity constraint.
-        
+
         Parameters
         ----------
         constraint_id : int
             ID of the similarity constraint.
         points : list
             List of 3D points defining the target shape.
-            
+
         Returns
         -------
         bool
             True if the shape was set successfully.
         """
         return self._solver.set_similarity_constraint_shape(constraint_id, points)
-    
+
     def add_regular_polygon_constraint(self, indices, weight=1.0):
         """Add constraint to make vertices form a regular polygon.
-        
+
         This is a high-level method that automatically:
         1. Creates a regular polygon template in the face's plane
         2. Creates a similarity constraint to match the template
-        
+
         Parameters
         ----------
         indices : list
             List of vertex indices of the polygon face.
         weight : float, optional
             Weight of the constraint, by default 1.0
-            
+
         Returns
         -------
         bool
             True if the constraint was added successfully.
         """
         return self._solver.add_regular_polygon_constraint(indices, weight)
-    
+
     def add_normal_force_with_faces(self, faces_flat, face_sizes, magnitude=1.0):
         """Add a normal force (inflation) using custom face topology.
-        
-        This applies forces along face normals, causing inflation or deflation 
+
+        This applies forces along face normals, causing inflation or deflation
         depending on the magnitude's sign.
-        
+
         Parameters
         ----------
         faces_flat : ndarray
-            Flattened array of face vertex indices, where consecutive indices 
+            Flattened array of face vertex indices, where consecutive indices
             describe each face.
         face_sizes : ndarray
             Array indicating how many vertices are in each face.
         magnitude : float, optional
-            Magnitude of the normal force. Positive values inflate, 
+            Magnitude of the normal force. Positive values inflate,
             negative values deflate.
-            
+
         Returns
         -------
         bool
             True if the force was added successfully.
         """
         import numpy as np
+
         # Ensure inputs are numpy arrays of int type
         faces_flat = np.asarray(faces_flat, dtype=np.int32)
         face_sizes = np.asarray(face_sizes, dtype=np.int32)
         return self._solver.add_normal_force_with_faces(faces_flat, face_sizes, magnitude)
-    
+
     def add_vertex_force(self, force_x, force_y, force_z, vertex_id):
         """Add a force to a specific vertex.
-        
+
         A vertex force applies a constant force vector to a specific vertex.
         This directly adds the force to the C++ solver.
-        
+
         Parameters
         ----------
         force_x : float
@@ -298,7 +298,7 @@ class Solver:
             Z component of the force.
         vertex_id : int
             Index of the vertex to apply the force to.
-            
+
         Returns
         -------
         bool
@@ -308,28 +308,28 @@ class Solver:
 
     def _setup_direct_view(self):
         """Set up a direct view to the solver's internal memory for zero-copy operations.
-        
+
         Gets a direct reference to the solver's points matrix and transposes it
-        to match the standard (N×3) format expected by Python code. This doesn't copy 
+        to match the standard (N×3) format expected by Python code. This doesn't copy
         data, just creates a view with different strides.
         """
         # Get direct reference to the solver's points matrix and transpose it
         self.points = self._solver.get_points_ref().T
-        
+
         # Verify the view has the expected shape
         if self.points.shape[1] != 3:
             raise ValueError(f"Expected 3 columns (x,y,z), got {self.points.shape[1]}")
 
     def init(self):
         """Initialize the solver.
-        
+
         This method must be called after adding all constraints and before
         calling solve(). It builds the solver's internal structures based on
         the added constraints.
-        
+
         After initialization, the direct view to the solver's memory is
         established to ensure zero-copy access to the point positions.
-        
+
         Returns
         -------
         ndarray
@@ -338,43 +338,43 @@ class Solver:
         """
         # Initialize the solver
         self._solver.initialize()
-        
+
         # Set up the direct view after initialization when memory is fully prepared
         self._setup_direct_view()
-        
+
         # Return the points reference for convenience
         return self.points
-    
+
     def solve(self, iterations=10):
         """Solve the constraint problem.
-        
+
         Runs the simulation for the specified number of iterations.
         The solver will try to satisfy all constraints while respecting
         the applied forces. All point positions are updated directly in
         shared memory.
-        
+
         Parameters
         ----------
         iterations : int, optional
             Number of iterations to run.
         """
         self._solver.solve(iterations)
-    
+
     # ==========================================================================
     # COMPAS Mesh Integration Methods
     # ==========================================================================
-    
+
     @classmethod
     def from_mesh(cls, mesh):
         """Create a solver initialized with vertices from a COMPAS mesh.
-        
+
         This is a convenience method to create a solver directly from a mesh.
-        
+
         Parameters
         ----------
         mesh : :class:`compas.datastructures.Mesh`
             A COMPAS mesh.
-            
+
         Returns
         -------
         :class:`Solver`
@@ -384,13 +384,13 @@ class Solver:
         points = mesh.to_vertices_and_faces()[0]
         solver.set_points(points)
         return solver
-    
+
     def add_mesh_edge_strain_constraint(self, mesh, weight=1.0, min_range=0.8, max_range=1.2):
         """Add edge strain constraints to all edges of a COMPAS mesh.
-        
+
         This is a convenience method that adds edge strain constraints to all
         edges in the provided mesh.
-        
+
         Parameters
         ----------
         mesh : :class:`compas.datastructures.Mesh`
@@ -404,13 +404,13 @@ class Solver:
         """
         for u, v in mesh.edges():
             self.add_edge_strain_constraint([u, v], weight, min_range, max_range)
-    
+
     def add_mesh_vertex_force(self, mesh, force_x, force_y, force_z, exclude_vertices=None):
         """Add a force to all vertices of a COMPAS mesh.
-        
+
         This is a convenience method that adds the same force to all vertices
         in the provided mesh, optionally excluding specified vertices.
-        
+
         Parameters
         ----------
         mesh : :class:`compas.datastructures.Mesh`
@@ -428,13 +428,13 @@ class Solver:
         for vertex in mesh.vertices():
             if vertex not in exclude_vertices:
                 self.add_vertex_force(force_x, force_y, force_z, vertex)
-                
+
     def add_mesh_closeness_constraint(self, mesh, vertices, weight=1e5):
         """Add closeness constraints to specific vertices of a COMPAS mesh.
-        
+
         This is a convenience method that adds closeness constraints to the
         specified vertices in the provided mesh.
-        
+
         Parameters
         ----------
         mesh : :class:`compas.datastructures.Mesh`

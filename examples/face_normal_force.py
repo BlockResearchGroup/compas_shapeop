@@ -7,7 +7,7 @@ from compas_shapeop.shapeop import Solver
 # ==========================================================================
 
 # Load the mesh
-mesh = Mesh.from_obj('data/m0.obj')
+mesh = Mesh.from_obj("data/m0.obj")
 vertices_list = list(mesh.vertices())
 faces_list = list(mesh.faces())
 
@@ -59,13 +59,15 @@ solver.add_normal_force_with_faces(faces_flat, face_sizes, inflation_force)
 viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh)
 
+
 @viewer.on(interval=1)
 def update(frame):
     solver.solve(10)
-    
+
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
 
     mesh_obj.update(update_data=True)
+
 
 viewer.show()

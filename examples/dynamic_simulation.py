@@ -7,12 +7,7 @@ from compas_shapeop.shapeop import Solver
 # ==========================================================================
 
 rows, cols = 14, 14
-mesh = Mesh.from_meshgrid(
-    nx=cols-1, 
-    ny=rows-1, 
-    dx=1.0 * (cols - 1), 
-    dy=1.0 * (rows - 1)
-)
+mesh = Mesh.from_meshgrid(nx=cols - 1, ny=rows - 1, dx=1.0 * (cols - 1), dy=1.0 * (rows - 1))
 
 # ==========================================================================
 # Initialize solver directly from mesh
@@ -41,18 +36,19 @@ points_ref = solver.init()
 viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh)
 
-@viewer.on(interval=1)  
-def deform_mesh(frame):
 
+@viewer.on(interval=1)
+def deform_mesh(frame):
     # Run one solver iteration
     solver.solve(20)
-    
+
     # Update mesh vertices directly from the points_ref array
     # No need to manually copy values - the shared memory is automatically updated
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
-    
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
+
     # Update the viewer
     mesh_obj.update(update_data=True)
+
 
 viewer.show()

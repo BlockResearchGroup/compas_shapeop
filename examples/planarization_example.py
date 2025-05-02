@@ -1,6 +1,4 @@
 from compas.datastructures import Mesh
-from compas.colors import Color
-from compas.geometry import Plane, Point, Vector
 from compas_viewer import Viewer
 from compas_shapeop.shapeop import Solver
 import compas
@@ -10,7 +8,7 @@ import compas
 # ==========================================================================
 
 # Load the hypar mesh
-mesh = Mesh.from_obj(compas.get('hypar.obj'))
+mesh = Mesh.from_obj(compas.get("hypar.obj"))
 
 # ==========================================================================
 # Initialize solver directly from mesh
@@ -81,13 +79,13 @@ mesh_obj = viewer.scene.add(mesh)
 
 @viewer.on(interval=1)
 def update(frame):
-    
     # Run solver iteration
     solver.solve(1)
 
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
 
     mesh_obj.update(update_data=True)
+
 
 viewer.show()

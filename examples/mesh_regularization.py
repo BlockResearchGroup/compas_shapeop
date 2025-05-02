@@ -67,14 +67,15 @@ for line in mesh.to_lines():
 for v in boundary_vertices:
     viewer.scene.add(compas.geometry.Point(*mesh.vertex_coordinates(v)))
 
-@viewer.on(interval=1)  
-def deform_mesh(frame):
 
+@viewer.on(interval=1)
+def deform_mesh(frame):
     solver.solve(10)
-    
+
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
-    
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
+
     mesh_obj.update(update_data=True)
+
 
 viewer.show()

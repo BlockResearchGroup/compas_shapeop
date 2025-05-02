@@ -56,21 +56,23 @@ viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh, show_edges=True)
 iteration = 0
 
+
 @viewer.on(interval=0)
 def update(frame):
     global iteration
     if iteration >= 100:
         return
-        
+
     # Run solver iteration
     solver.solve(1)
-    
+
     # Update mesh vertices from the solver's points
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
-    
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
+
     # Update the viewer
     mesh_obj.update(update_data=True)
     iteration += 1
+
 
 viewer.show()

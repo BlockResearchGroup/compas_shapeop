@@ -73,6 +73,7 @@ for face_vertices in faces:
 
 iteration = 0
 
+
 @viewer.on(interval=1)
 def deform_mesh(frame):
     global iteration
@@ -80,12 +81,12 @@ def deform_mesh(frame):
         return
 
     solver.solve(5)
-    
+
     for i, vertex in enumerate(mesh.vertices()):
-        mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
+        mesh.vertex_attributes(vertex, "xyz", points_ref[i])
 
     mesh_obj.update(update_data=True)
-    
+
     # Update the circles
     for idx, face_vertices in enumerate(faces):
         face_points = [Point(*mesh.vertex_coordinates(vertex)) for vertex in face_vertices]
@@ -94,7 +95,7 @@ def deform_mesh(frame):
         circles[idx].radius = circle.radius
         circle_objs[idx].update(update_data=True)
 
-    
     iteration += 1
+
 
 viewer.show()
