@@ -17,7 +17,7 @@ Manual setup
 
 .. code-block:: bash
 
-    conda create -n compas_shapeop python=3.9 compas -y
+    conda create -n compas_shapeop -c conda-forge python=3.9 compas -y
     pip install -r requirements-dev.txt
     pip install --no-build-isolation -ve . -Ceditable.rebuild=true
 

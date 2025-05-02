@@ -93,6 +93,7 @@ target_include_directories(shapeop PUBLIC
 )
 
 target_compile_options(shapeop PRIVATE -fPIC)
+target_compile_definitions(shapeop PUBLIC SHAPEOP_EXPORT)
 if(OpenMP_CXX_FOUND)
   target_compile_options(shapeop PUBLIC ${OpenMP_CXX_FLAGS})
   target_link_libraries(shapeop PUBLIC ${OpenMP_CXX_LIBRARIES})
