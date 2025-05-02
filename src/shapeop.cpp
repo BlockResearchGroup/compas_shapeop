@@ -233,6 +233,144 @@ public:
         return constraint_id > 0;
     }
 
+    // Add similarity constraint (for regular polygon formation)
+    bool add_similarity_constraint(nb::list indices, double weight, 
+                                  bool allow_scaling, bool allow_rotation, bool allow_translation) {
+        if (!is_valid()) {
+            return false;
+        }
+        
+        // Convert Python list to std::vector
+        std::vector<int> ids;
+        for (auto item : indices) {
+            try {
+                ids.push_back(nb::cast<int>(item));
+            } catch (const std::exception& e) {
+                throw std::runtime_error("Failed to convert list item to integer");
+            }
+        }
+        
+        // Create the constraint
+        auto constraint = std::make_shared<ShapeOp::SimilarityConstraint>(
+            ids, weight, solver->getPoints(), 
+            allow_scaling, allow_rotation, allow_translation);
+        
+        return solver->addConstraint(constraint) > 0;
+    }
+    
+    // Set shape for similarity constraint - allows specifying the target shape
+    bool set_similarity_constraint_shape(int constraint_id, nb::list points) {
+        if (!is_valid()) {
+            return false;
+        }
+        
+        // Validate constraint ID - ShapeOp uses 1-based constraint IDs
+        if (constraint_id <= 0) {
+            throw std::runtime_error("Invalid constraint ID - must be > 0");
+        }
+        
+        // Get the constraint directly by ID
+        auto constraint = solver->getConstraint(constraint_id);
+        if (!constraint) {
+            throw std::runtime_error("Constraint not found with the given ID");
+        }
+        
+        // Check if it's a similarity constraint
+        auto similarity_constraint = std::dynamic_pointer_cast<ShapeOp::SimilarityConstraint>(constraint);
+        if (!similarity_constraint) {
+            throw std::runtime_error("Constraint is not a SimilarityConstraint");
+        }
+        
+        // Convert Python list to ShapeOp::Matrix3X
+        int num_points = len(points);
+        if (num_points <= 0) {
+            throw std::runtime_error("Empty points list");
+        }
+        
+        ShapeOp::Matrix3X shape(3, num_points);
+        for (int i = 0; i < num_points; i++) {
+            nb::list point = nb::cast<nb::list>(points[i]);
+            if (len(point) != 3) {
+                throw std::runtime_error("Each point must have 3 coordinates (x,y,z)");
+            }
+            
+            shape.col(i)[0] = nb::cast<double>(point[0]);
+            shape.col(i)[1] = nb::cast<double>(point[1]);
+            shape.col(i)[2] = nb::cast<double>(point[2]);
+        }
+        
+        // Set the shape
+        std::vector<ShapeOp::Matrix3X> shapes;
+        shapes.push_back(shape);
+        similarity_constraint->setShapes(shapes);
+        
+        return true;
+    }
+    
+    // Add regular polygon constraint for a face (high-level convenience function)
+    bool add_regular_polygon_constraint(nb::list indices, double weight) {
+        if (!is_valid()) {
+            return false;
+        }
+        
+        // Convert Python list to std::vector
+        std::vector<int> ids;
+        for (auto item : indices) {
+            try {
+                ids.push_back(nb::cast<int>(item));
+            } catch (const std::exception& e) {
+                throw std::runtime_error("Failed to convert list item to integer");
+            }
+        }
+        
+        // Need at least 3 vertices to define a polygon
+        if (ids.size() < 3) {
+            throw std::runtime_error("Regular polygon constraint requires at least 3 vertices");
+        }
+        
+        // Calculate face centroid
+        ShapeOp::Vector3 centroid = ShapeOp::Vector3::Zero();
+        for (const auto& id : ids) {
+            centroid += solver->getPoints().col(id);
+        }
+        centroid /= ids.size();
+        
+        // Calculate face normal using first three points
+        ShapeOp::Vector3 p0 = solver->getPoints().col(ids[0]);
+        ShapeOp::Vector3 p1 = solver->getPoints().col(ids[1]);
+        ShapeOp::Vector3 p2 = solver->getPoints().col(ids[2]);
+        ShapeOp::Vector3 normal = (p1 - p0).cross(p2 - p0).normalized();
+        
+        // Create a local coordinate system on the face
+        ShapeOp::Vector3 x_axis = ShapeOp::Vector3(1, 0, 0);
+        if (std::abs(x_axis.dot(normal)) > 0.9) {
+            x_axis = ShapeOp::Vector3(0, 1, 0);
+        }
+        x_axis = (x_axis - normal * x_axis.dot(normal)).normalized();
+        ShapeOp::Vector3 y_axis = normal.cross(x_axis).normalized();
+        
+        // Create a regular polygon template
+        ShapeOp::Matrix3X shape(3, ids.size());
+        for (size_t i = 0; i < ids.size(); i++) {
+            double angle = 2.0 * M_PI * i / ids.size();
+            ShapeOp::Vector3 pt = centroid + 
+                                  x_axis * std::cos(angle) + 
+                                  y_axis * std::sin(angle);
+            shape.col(i) = pt;
+        }
+        
+        // Create a similarity constraint
+        auto constraint = std::make_shared<ShapeOp::SimilarityConstraint>(
+            ids, weight, solver->getPoints(), true, true, true);
+        
+        // Set the regular polygon shape
+        std::vector<ShapeOp::Matrix3X> shapes;
+        shapes.push_back(shape);
+        constraint->setShapes(shapes);
+        
+        return solver->addConstraint(constraint) > 0;
+    }
+
     //┌───────────────────────────────────────────────────────────────────────┐
     //│                    FORCE CONSTRAINTS                                  │
     //└───────────────────────────────────────────────────────────────────────┘
@@ -317,6 +455,9 @@ NB_MODULE(_shapeop, m) {
         .def("add_shrinking_edge_constraint", &DynamicSolver::add_shrinking_edge_constraint)
         .def("add_circle_constraint", &DynamicSolver::add_circle_constraint)
         .def("add_plane_constraint", &DynamicSolver::add_plane_constraint)
+        .def("add_similarity_constraint", &DynamicSolver::add_similarity_constraint)
+        .def("set_similarity_constraint_shape", &DynamicSolver::set_similarity_constraint_shape)
+        .def("add_regular_polygon_constraint", &DynamicSolver::add_regular_polygon_constraint)
         .def("add_normal_force_with_faces", &DynamicSolver::add_normal_force_with_faces)
         .def("add_vertex_force", &DynamicSolver::add_vertex_force)
         .def("initialize", &DynamicSolver::initialize)

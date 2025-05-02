@@ -15,9 +15,13 @@ class ShapeOpSolver:
     Available constraints:
     - Closeness
     - EdgeStrain
+    - Circle
+    - Plane
+    - Similarity (for regular polygons)
     
     Available forces:
     - VertexForce
+    - NormalForce
     """
     
     def __init__(self):
@@ -151,44 +155,104 @@ class ShapeOpSolver:
         return self._solver.add_shrinking_edge_constraint(indices, weight, shrink_factor)
     
     def add_circle_constraint(self, indices, weight=1.0):
-        """Add a circle constraint to the solver.
-        
-        A circle constraint tries to make a set of vertices lie on a circle.
-        This is useful for circularizing polygonal faces in a mesh.
+        """Add circle constraint to make vertices lie on a circle.
         
         Parameters
         ----------
         indices : list
-            List of vertex indices to constrain. Must contain at least 3 vertices.
+            List of vertex indices.
         weight : float, optional
-            Weight of the constraint. Higher values make the constraint stronger.
+            Weight of the constraint, by default 1.0
             
         Returns
         -------
-        int
-            ID of the added constraint.
+        bool
+            True if the constraint was added successfully.
         """
         return self._solver.add_circle_constraint(indices, weight)
     
     def add_plane_constraint(self, indices, weight=1.0):
-        """Add a plane constraint to the solver.
-        
-        A plane constraint tries to make a set of vertices lie on a plane.
-        This is useful for planarizing polygonal faces in a mesh.
+        """Add plane constraint to make vertices lie on a plane.
         
         Parameters
         ----------
         indices : list
-            List of vertex indices to constrain. Must contain at least 3 vertices.
+            List of vertex indices.
         weight : float, optional
-            Weight of the constraint. Higher values make the constraint stronger.
+            Weight of the constraint, by default 1.0
             
         Returns
         -------
-        int
-            ID of the added constraint.
+        bool
+            True if the constraint was added successfully.
         """
         return self._solver.add_plane_constraint(indices, weight)
+    
+    def add_similarity_constraint(self, indices, weight=1.0, allow_scaling=True, allow_rotation=True, allow_translation=True):
+        """Add similarity constraint to transform vertices to match a target shape.
+        
+        This is a low-level method that creates a similarity constraint. You must
+        manually set the target shape using set_similarity_constraint_shape().
+        For a higher-level method that automatically creates a regular polygon,
+        use add_regular_polygon_constraint().
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices.
+        weight : float, optional
+            Weight of the constraint, by default 1.0
+        allow_scaling : bool, optional
+            Whether to allow scaling, by default True
+        allow_rotation : bool, optional
+            Whether to allow rotation, by default True
+        allow_translation : bool, optional
+            Whether to allow translation, by default True
+            
+        Returns
+        -------
+        bool
+            True if the constraint was added successfully.
+        """
+        return self._solver.add_similarity_constraint(indices, weight, allow_scaling, allow_rotation, allow_translation)
+    
+    def set_similarity_constraint_shape(self, constraint_id, points):
+        """Set the target shape for a similarity constraint.
+        
+        Parameters
+        ----------
+        constraint_id : int
+            ID of the similarity constraint.
+        points : list
+            List of 3D points defining the target shape.
+            
+        Returns
+        -------
+        bool
+            True if the shape was set successfully.
+        """
+        return self._solver.set_similarity_constraint_shape(constraint_id, points)
+    
+    def add_regular_polygon_constraint(self, indices, weight=1.0):
+        """Add constraint to make vertices form a regular polygon.
+        
+        This is a high-level method that automatically:
+        1. Creates a regular polygon template in the face's plane
+        2. Creates a similarity constraint to match the template
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices of the polygon face.
+        weight : float, optional
+            Weight of the constraint, by default 1.0
+            
+        Returns
+        -------
+        bool
+            True if the constraint was added successfully.
+        """
+        return self._solver.add_regular_polygon_constraint(indices, weight)
     
     def add_normal_force_with_faces(self, faces_flat, face_sizes, magnitude=1.0):
         """Add a normal force (inflation) using custom face topology.
@@ -317,7 +381,8 @@ class ShapeOpSolver:
             A new solver instance initialized with the mesh vertices.
         """
         solver = cls()
-        solver.set_points(mesh.to_vertices_and_faces()[0])
+        points = mesh.to_vertices_and_faces()[0]
+        solver.set_points(points)
         return solver
     
     def add_mesh_edge_strain_constraint(self, mesh, weight=1.0, min_range=0.8, max_range=1.2):
