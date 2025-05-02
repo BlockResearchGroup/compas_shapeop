@@ -150,6 +150,46 @@ class ShapeOpSolver:
         """
         return self._solver.add_shrinking_edge_constraint(indices, weight, shrink_factor)
     
+    def add_circle_constraint(self, indices, weight=1.0):
+        """Add a circle constraint to the solver.
+        
+        A circle constraint tries to make a set of vertices lie on a circle.
+        This is useful for circularizing polygonal faces in a mesh.
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices to constrain. Must contain at least 3 vertices.
+        weight : float, optional
+            Weight of the constraint. Higher values make the constraint stronger.
+            
+        Returns
+        -------
+        int
+            ID of the added constraint.
+        """
+        return self._solver.add_circle_constraint(indices, weight)
+    
+    def add_plane_constraint(self, indices, weight=1.0):
+        """Add a plane constraint to the solver.
+        
+        A plane constraint tries to make a set of vertices lie on a plane.
+        This is useful for planarizing polygonal faces in a mesh.
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices to constrain. Must contain at least 3 vertices.
+        weight : float, optional
+            Weight of the constraint. Higher values make the constraint stronger.
+            
+        Returns
+        -------
+        int
+            ID of the added constraint.
+        """
+        return self._solver.add_plane_constraint(indices, weight)
+    
     def add_vertex_force(self, force_x, force_y, force_z, vertex_id):
         """Add a force to a specific vertex.
         

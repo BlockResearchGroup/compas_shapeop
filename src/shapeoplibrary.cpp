@@ -166,6 +166,50 @@ public:
         return solver->addConstraint(constraint);
     }
     
+    // Add circle constraint (for face circularization)
+    int add_circle_constraint(nb::list indices, double weight) {
+        if (!is_valid()) {
+            return -1;
+        }
+        
+        std::vector<int> indices_vec;
+        for (nb::handle h : indices) {
+            indices_vec.push_back(nb::cast<int>(h));
+        }
+        
+        // Circle constraint requires at least 3 vertices
+        if (indices_vec.size() < 3) {
+            throw std::runtime_error("Circle constraint requires at least 3 vertices");
+        }
+        
+        auto constraint = std::make_shared<ShapeOp::CircleConstraint>(
+            indices_vec, weight, solver->getPoints());
+        
+        return solver->addConstraint(constraint);
+    }
+    
+    // Add plane constraint (for face planarization)
+    int add_plane_constraint(nb::list indices, double weight) {
+        if (!is_valid()) {
+            return -1;
+        }
+        
+        std::vector<int> indices_vec;
+        for (nb::handle h : indices) {
+            indices_vec.push_back(nb::cast<int>(h));
+        }
+        
+        // Plane constraint requires at least 3 vertices
+        if (indices_vec.size() < 3) {
+            throw std::runtime_error("Plane constraint requires at least 3 vertices");
+        }
+        
+        auto constraint = std::make_shared<ShapeOp::PlaneConstraint>(
+            indices_vec, weight, solver->getPoints());
+        
+        return solver->addConstraint(constraint);
+    }
+    
     // Add vertex force (for individual vertices)
     bool add_vertex_force(double force_x, double force_y, double force_z, int vertex_id) {
         if (!is_valid()) {
@@ -219,6 +263,8 @@ NB_MODULE(_shapeoplibrary, m) {
         .def("add_closeness_constraint_with_position", &DynamicSolver::add_closeness_constraint_with_position)
         .def("add_edge_strain_constraint", &DynamicSolver::add_edge_strain_constraint)
         .def("add_shrinking_edge_constraint", &DynamicSolver::add_shrinking_edge_constraint)
+        .def("add_circle_constraint", &DynamicSolver::add_circle_constraint)
+        .def("add_plane_constraint", &DynamicSolver::add_plane_constraint)
         .def("add_vertex_force", &DynamicSolver::add_vertex_force)
         .def("initialize", &DynamicSolver::initialize)
         .def("solve", &DynamicSolver::solve);
