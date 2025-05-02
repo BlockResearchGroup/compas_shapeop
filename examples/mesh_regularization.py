@@ -11,8 +11,9 @@ mesh = compas.json_load("data/hex_mesh.json")
 mesh = Mesh.from_polygons(mesh.to_polygons())
 mesh.unify_cycles()
 mesh.weld()
-mesh.scale(10)
-mesh.translate([-20, -20, -1])
+mesh.scale(8.5)
+mesh.translate([-16.5, -18, -1])
+mesh.rotate(-3.14 / 2)
 
 # ==========================================================================
 # Initialize solver with mesh vertices
@@ -62,15 +63,15 @@ viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh)
 
 for line in mesh.to_lines():
-    viewer.scene.add(compas.geometry.Line(*line))
+    viewer.scene.add(compas.geometry.Line(*line), color=(200, 200, 200))
 
-for v in boundary_vertices:
-    viewer.scene.add(compas.geometry.Point(*mesh.vertex_coordinates(v)))
+# for v in boundary_vertices:
+#     viewer.scene.add(compas.geometry.Point(*mesh.vertex_coordinates(v)))
 
 
 @viewer.on(interval=1)
 def deform_mesh(frame):
-    solver.solve(10)
+    solver.solve(1)
 
     for i, vertex in enumerate(mesh.vertices()):
         mesh.vertex_attributes(vertex, "xyz", points_ref[i])

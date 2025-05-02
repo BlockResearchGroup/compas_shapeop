@@ -4,23 +4,38 @@
 //║                        DYNAMIC SOLVER CLASS                               ║
 //╚═══════════════════════════════════════════════════════════════════════════╝
 
-// Wrapper class for ShapeOp::Solver with a more unique name to avoid conflicts
+/**
+ * @brief Wrapper class for ShapeOp::Solver with dynamic memory management
+ * @details Provides a C++ interface between ShapeOp library and Python with
+ *          automatic memory management using std::unique_ptr
+ */
 class DynamicSolver {
 private:
-    std::unique_ptr<ShapeOp::Solver> solver;
+    std::unique_ptr<ShapeOp::Solver> solver;  //!< Managed ShapeOp solver instance
     
-    // Helper method to check if solver is valid
+    /**
+     * @brief Helper method to check if solver is valid
+     * @return true if solver pointer is not null
+     */
     bool is_valid() const {
         return solver != nullptr;
     }
     
 public:
+    /**
+     * @brief Constructor for the DynamicSolver
+     * @throws std::runtime_error if solver creation fails
+     */
     DynamicSolver() : solver(std::make_unique<ShapeOp::Solver>()) {
         if (!solver) {
             throw std::runtime_error("Failed to create ShapeOp solver");
         }
     }
     
+    /**
+     * @brief Destructor for the DynamicSolver
+     * @details The unique_ptr will automatically release the solver
+     */
     ~DynamicSolver() {
         // The unique_ptr will automatically release the solver
     }
@@ -29,7 +44,12 @@ public:
     //│                    SOLVER CORE FUNCTIONALITY                          │
     //└───────────────────────────────────────────────────────────────────────┘
     
-    // Direct access to ShapeOp's internal points matrix with zero-copy
+    /**
+     * @brief Get a reference to the solver's internal points matrix
+     * @details Provides zero-copy access to the solver's internal points
+     * @return Reference to the solver's points matrix
+     * @throws std::runtime_error if solver is invalid
+     */
     Eigen::Ref<Eigen::MatrixXd> get_points_ref() {
         if (!is_valid()) {
             throw std::runtime_error("Invalid solver");
@@ -38,7 +58,11 @@ public:
         return solver->points_;
     }
     
-    // Set points from a list of lists
+    /**
+     * @brief Set points from a list of lists
+     * @param points_list List of points where each point is a list of 3 coordinates
+     * @throws std::runtime_error if points list is empty or if each point does not have 3 coordinates
+     */
     void set_points(nb::list points_list) {
         if (!is_valid()) {
             throw std::runtime_error("Invalid solver");
@@ -69,7 +93,10 @@ public:
         solver->setPoints(matrix_points);
     }
     
-    // Initialize the solver
+    /**
+     * @brief Initialize the solver
+     * @return true if initialization is successful
+     */
     bool initialize() {
         if (!is_valid()) {
             return false;
@@ -78,7 +105,11 @@ public:
         return solver->initialize();
     }
     
-    // Solve for a number of iterations
+    /**
+     * @brief Solve for a number of iterations
+     * @param iterations Number of iterations to solve for
+     * @return true if solve is successful
+     */
     bool solve(int iterations) {
         if (!is_valid()) {
             return false;
@@ -91,7 +122,12 @@ public:
     //│                    GEOMETRIC CONSTRAINTS                              │
     //└───────────────────────────────────────────────────────────────────────┘
     
-    // Add closeness constraint
+    /**
+     * @brief Add closeness constraint
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_closeness_constraint(nb::list indices, double weight) {
         if (!is_valid()) {
             return false;
@@ -108,7 +144,13 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Add closeness constraint with target position
+    /**
+     * @brief Add closeness constraint with target position
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @param position Target position
+     * @return true if constraint is added successfully
+     */
     bool add_closeness_constraint_with_position(nb::list indices, double weight, nb::list position) {
         if (!is_valid()) {
             return false;
@@ -142,7 +184,14 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Add edge strain constraint
+    /**
+     * @brief Add edge strain constraint
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @param min_range Minimum range of the constraint
+     * @param max_range Maximum range of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_edge_strain_constraint(nb::list indices, double weight, double min_range, double max_range) {
         if (!is_valid()) {
             return false;
@@ -159,7 +208,13 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Add shrinking edge constraint (specifically for cable nets)
+    /**
+     * @brief Add shrinking edge constraint (specifically for cable nets)
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @param shrink_factor Shrink factor of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_shrinking_edge_constraint(nb::list indices, double weight, double shrink_factor) {
         if (!is_valid()) {
             return false;
@@ -184,7 +239,12 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Add circle constraint (for face circularization)
+    /**
+     * @brief Add circle constraint (for face circularization)
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_circle_constraint(nb::list indices, double weight) {
         if (!is_valid()) {
             return false;
@@ -206,7 +266,12 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Add plane constraint (for face planarization)
+    /**
+     * @brief Add plane constraint (for face planarization)
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_plane_constraint(nb::list indices, double weight) {
         if (!solver) {
             throw std::runtime_error("Solver not initialized");
@@ -233,7 +298,15 @@ public:
         return constraint_id > 0;
     }
 
-    // Add similarity constraint (for regular polygon formation)
+    /**
+     * @brief Add similarity constraint (for regular polygon formation)
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @param allow_scaling Allow scaling of the constraint
+     * @param allow_rotation Allow rotation of the constraint
+     * @param allow_translation Allow translation of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_similarity_constraint(nb::list indices, double weight, 
                                   bool allow_scaling, bool allow_rotation, bool allow_translation) {
         if (!is_valid()) {
@@ -258,7 +331,12 @@ public:
         return solver->addConstraint(constraint) > 0;
     }
     
-    // Set shape for similarity constraint - allows specifying the target shape
+    /**
+     * @brief Set shape for similarity constraint - allows specifying the target shape
+     * @param constraint_id ID of the constraint
+     * @param points List of points defining the target shape
+     * @return true if shape is set successfully
+     */
     bool set_similarity_constraint_shape(int constraint_id, nb::list points) {
         if (!is_valid()) {
             return false;
@@ -307,7 +385,12 @@ public:
         return true;
     }
     
-    // Add regular polygon constraint for a face (high-level convenience function)
+    /**
+     * @brief Add regular polygon constraint for a face (high-level convenience function)
+     * @param indices List of vertex indices
+     * @param weight Weight of the constraint
+     * @return true if constraint is added successfully
+     */
     bool add_regular_polygon_constraint(nb::list indices, double weight) {
         if (!is_valid()) {
             return false;
@@ -375,6 +458,13 @@ public:
     //│                    FORCE CONSTRAINTS                                  │
     //└───────────────────────────────────────────────────────────────────────┘
 
+    /**
+     * @brief Add normal force with faces
+     * @param faces_flat_array Flat array of face indices
+     * @param face_sizes_array Array of face sizes
+     * @param magnitude Magnitude of the force
+     * @return true if force is added successfully
+     */
     bool add_normal_force_with_faces(nb::ndarray<int> faces_flat_array, 
                                     nb::ndarray<int> face_sizes_array, 
                                     double magnitude) {
@@ -414,7 +504,14 @@ public:
         return true;
     }
 
-    // Add vertex force (for individual vertices)
+    /**
+     * @brief Add vertex force (for individual vertices)
+     * @param force_x X-component of the force
+     * @param force_y Y-component of the force
+     * @param force_z Z-component of the force
+     * @param vertex_id ID of the vertex
+     * @return true if force is added successfully
+     */
     bool add_vertex_force(double force_x, double force_y, double force_z, int vertex_id) {
         if (!is_valid()) {
             return false;
