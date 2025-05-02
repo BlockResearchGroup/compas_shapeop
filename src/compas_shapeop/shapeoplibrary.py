@@ -190,6 +190,34 @@ class ShapeOpSolver:
         """
         return self._solver.add_plane_constraint(indices, weight)
     
+    def add_normal_force_with_faces(self, faces_flat, face_sizes, magnitude=1.0):
+        """Add a normal force (inflation) using custom face topology.
+        
+        This applies forces along face normals, causing inflation or deflation 
+        depending on the magnitude's sign.
+        
+        Parameters
+        ----------
+        faces_flat : ndarray
+            Flattened array of face vertex indices, where consecutive indices 
+            describe each face.
+        face_sizes : ndarray
+            Array indicating how many vertices are in each face.
+        magnitude : float, optional
+            Magnitude of the normal force. Positive values inflate, 
+            negative values deflate.
+            
+        Returns
+        -------
+        bool
+            True if the force was added successfully.
+        """
+        import numpy as np
+        # Ensure inputs are numpy arrays of int type
+        faces_flat = np.asarray(faces_flat, dtype=np.int32)
+        face_sizes = np.asarray(face_sizes, dtype=np.int32)
+        return self._solver.add_normal_force_with_faces(faces_flat, face_sizes, magnitude)
+    
     def add_vertex_force(self, force_x, force_y, force_z, vertex_id):
         """Add a force to a specific vertex.
         

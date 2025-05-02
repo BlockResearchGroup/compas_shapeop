@@ -107,9 +107,23 @@ add_library(shapeop STATIC
 )
 
 # Create a separate library for our custom ShapeOp extensions
-add_library(shapeop_extensions STATIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/normalforce.cpp
+add_library(shapeop_extensions STATIC 
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/api/API.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/custom_constraints/normalforce.cpp
 )
+
+target_include_directories(shapeop_extensions PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/custom_constraints
+  ${EIGEN3_INCLUDE_DIRS}
+)
+
+target_link_libraries(shapeop_extensions PUBLIC shapeop)
+
+if(OpenMP_CXX_FOUND)
+  target_compile_options(shapeop_extensions PRIVATE ${OpenMP_CXX_FLAGS})
+  target_link_libraries(shapeop_extensions PRIVATE ${OpenMP_CXX_LIBRARIES})
+endif()
 
 # Add include directories for ShapeOp
 target_include_directories(shapeop PRIVATE
@@ -120,26 +134,14 @@ target_include_directories(shapeop PRIVATE
   ${nanobind_INCLUDE_DIRS}
 )
 
-# Add include directories for shapeop_extensions
-target_include_directories(shapeop_extensions PRIVATE
-  ${EIGEN3_INCLUDE_DIRS}
-  ${SHAPEOP_INCLUDE_DIR}
-  ${SHAPEOP_SRC_DIR}
-  ${SHAPEOP_API_DIR}
-)
-
 # Make sure position independent code is used
 target_compile_options(shapeop PRIVATE -fPIC)
 target_compile_options(shapeop_extensions PRIVATE -fPIC)
 
 # Apply OpenMP flags if available
 if(OpenMP_CXX_FOUND)
-  target_compile_options(shapeop PRIVATE ${OpenMP_CXX_FLAGS})
-  target_compile_options(shapeop_extensions PRIVATE ${OpenMP_CXX_FLAGS})
-  if(OpenMP_CXX_LIBRARIES)
-    target_link_libraries(shapeop PRIVATE ${OpenMP_CXX_LIBRARIES})
-    target_link_libraries(shapeop_extensions PRIVATE ${OpenMP_CXX_LIBRARIES})
-  endif()
+  target_compile_options(shapeop PUBLIC ${OpenMP_CXX_FLAGS})
+  target_link_libraries(shapeop PUBLIC ${OpenMP_CXX_LIBRARIES})
 endif()
 
 # Force rebuild every time by updating timestamp

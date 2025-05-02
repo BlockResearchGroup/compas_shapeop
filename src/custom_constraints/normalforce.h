@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Force.h"
-#include "Types.h"
+#include "../Force.h"
+#include "../Types.h"
 
 namespace ShapeOp {
 

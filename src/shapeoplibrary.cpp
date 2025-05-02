@@ -1,11 +1,15 @@
 #include "Solver.h"
 #include "Constraint.h"
 #include "Force.h"
+#include "custom_constraints/normalforce.h"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/pair.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/eigen/dense.h>  // Include this for Eigen support
 
+#include <iostream>
 #include <memory>
 #include <vector>
 #include <stdexcept>
@@ -189,27 +193,71 @@ public:
     }
     
     // Add plane constraint (for face planarization)
-    int add_plane_constraint(nb::list indices, double weight) {
-        if (!is_valid()) {
-            return -1;
+    bool add_plane_constraint(nb::list indices, double weight) {
+        if (!solver) {
+            throw std::runtime_error("Solver not initialized");
         }
-        
-        std::vector<int> indices_vec;
-        for (nb::handle h : indices) {
-            indices_vec.push_back(nb::cast<int>(h));
+
+        // Convert Python list to std::vector
+        std::vector<int> ids;
+        for (auto item : indices) {
+            try {
+                ids.push_back(nb::cast<int>(item));
+            } catch (const std::exception& e) {
+                throw std::runtime_error("Failed to convert list item to integer");
+            }
         }
-        
-        // Plane constraint requires at least 3 vertices
-        if (indices_vec.size() < 3) {
+
+        // Validate that we have at least 3 vertices (needed for a plane)
+        if (ids.size() < 3) {
             throw std::runtime_error("Plane constraint requires at least 3 vertices");
         }
-        
-        auto constraint = std::make_shared<ShapeOp::PlaneConstraint>(
-            indices_vec, weight, solver->getPoints());
-        
-        return solver->addConstraint(constraint);
+
+        // Create the constraint
+        auto constraint = std::make_shared<ShapeOp::PlaneConstraint>(ids, weight, solver->getPoints());
+        auto constraint_id = solver->addConstraint(constraint);
+        return constraint_id > 0;
     }
-    
+
+    bool add_normal_force_with_faces(nb::ndarray<int> faces_flat_array, 
+                                    nb::ndarray<int> face_sizes_array, 
+                                    double magnitude) {
+        if (!solver) {
+            throw std::runtime_error("Solver not initialized");
+        }
+
+        // Get data pointers and dimensions
+        const int* faces_flat_ptr = faces_flat_array.data();
+        const int* face_sizes_ptr = face_sizes_array.data();
+        
+        size_t faces_flat_size = faces_flat_array.size();
+        size_t face_count = face_sizes_array.size();
+        
+        // Convert the flat array representation to vector of vectors for faces
+        std::vector<std::vector<int>> faces;
+        size_t idx = 0;
+        
+        for (size_t i = 0; i < face_count; ++i) {
+            int face_size = face_sizes_ptr[i];
+            std::vector<int> face;
+            
+            for (int j = 0; j < face_size; ++j) {
+                if (idx < faces_flat_size) {
+                    face.push_back(faces_flat_ptr[idx++]);
+                } else {
+                    throw std::runtime_error("Face index out of bounds");
+                }
+            }
+            
+            faces.push_back(face);
+        }
+        
+        // Create the normal force
+        auto force = std::make_shared<ShapeOp::NormalForce>(faces, magnitude);
+        solver->addForces({force});
+        return true;
+    }
+
     // Add vertex force (for individual vertices)
     bool add_vertex_force(double force_x, double force_y, double force_z, int vertex_id) {
         if (!is_valid()) {
@@ -265,6 +313,7 @@ NB_MODULE(_shapeoplibrary, m) {
         .def("add_shrinking_edge_constraint", &DynamicSolver::add_shrinking_edge_constraint)
         .def("add_circle_constraint", &DynamicSolver::add_circle_constraint)
         .def("add_plane_constraint", &DynamicSolver::add_plane_constraint)
+        .def("add_normal_force_with_faces", &DynamicSolver::add_normal_force_with_faces)
         .def("add_vertex_force", &DynamicSolver::add_vertex_force)
         .def("initialize", &DynamicSolver::initialize)
         .def("solve", &DynamicSolver::solve);
