@@ -32,6 +32,6 @@ If you find a bug or if you have a problem with running the code, please file an
 
 ```bash
 rm -rf build/
-pip install --no-build-isolation -ve . -Ceditable.rebuild=true --no-cache-dir
+/home/pv/anaconda3/envs/compas_shapeop/bin/pip install --no-build-isolation -ve . -Ceditable.rebuild=true --no-cache-dir
 python examples/optimized_dynamic_simulation.py
 ```

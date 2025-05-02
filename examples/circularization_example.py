@@ -2,7 +2,7 @@ from compas.datastructures import Mesh
 from compas.colors import Color
 from compas.geometry import Circle, Plane, Point
 from compas_viewer import Viewer
-from compas_shapeop.shapeoplibrary import ShapeOpSolver
+from compas_shapeop.shapeop import ShapeOpSolver
 
 # ==========================================================================
 # Create mesh grid and prepare for solver
@@ -61,25 +61,23 @@ points_ref = solver.init()
 viewer = Viewer()
 mesh_obj = viewer.scene.add(mesh, show_points=True)
 
-# Color vertices
-for i in mesh.vertices():
-    color = Color.from_hex("#e74c3c") if i in corners else Color.from_hex("#3498db")
-    mesh.vertex_attribute(i, 'color', color)
-
 # Create circle visualizations
 circles = []
 circle_objs = []
 
 for face_vertices in faces:
-    # Get the current points for this face
     face_points = [Point(*mesh.vertex_coordinates(idx)) for idx in face_vertices]
     circle = Circle.from_points(face_points)
     circles.append(circle)
     circle_objs.append(viewer.scene.add(circle, linecolor=Color.red(), u=32))
 
+iteration = 0
 
 @viewer.on(interval=1)
 def deform_mesh(frame):
+    global iteration
+    if iteration >= 100:
+        return
 
     solver.solve(5)
     
@@ -96,5 +94,7 @@ def deform_mesh(frame):
         circles[idx].radius = circle.radius
         circle_objs[idx].update(update_data=True)
 
+    
+    iteration += 1
 
 viewer.show()

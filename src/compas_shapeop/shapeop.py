@@ -1,4 +1,4 @@
-from compas_shapeop import _shapeoplibrary
+from compas_shapeop import _shapeop
 from compas.datastructures import Mesh
 
 class ShapeOpSolver:
@@ -27,7 +27,7 @@ class ShapeOpSolver:
         memory sharing between C++ and Python.
         """
 
-        self._solver = _shapeoplibrary.DynamicSolver()
+        self._solver = _shapeop.DynamicSolver()
         self.points = None # Direct reference to ShapeOp's points matrix
         
     

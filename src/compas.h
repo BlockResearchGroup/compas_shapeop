@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cmath>
 #include <unordered_set>
+#include <stdexcept>
 
 // Eigen includes
 #include <Eigen/Core>
@@ -19,32 +20,24 @@
 #include <Eigen/Sparse>
 
 // ShapeOp includes - use relative paths as resolved by CMake
-#include "Solver.h"
-#include "Constraint.h"
-#include "Force.h"
-#include "Types.h"
-#include "Common.h"
-#include "API.h"
-#include "normalforce.h"  // Custom class for inflation force
+#include "shapeop/Solver.h"
+#include "shapeop/Constraint.h"
+#include "shapeop/Force.h"
+#include "shapeop/Types.h"
+#include "shapeop/Common.h"
+#include "shapeop/custom_constraints/normalforce.h"  // Custom class for inflation force
 
 // Nanobind includes
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
-#include <nanobind/eigen/dense.h>
-#include <nanobind/eigen/sparse.h>
-#include <nanobind/stl/tuple.h>
-#include <nanobind/stl/bind_vector.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/pair.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/stl/bind_vector.h>
+#include <nanobind/ndarray.h>
+#include <nanobind/eigen/dense.h>
+#include <nanobind/eigen/sparse.h>
 
-// C++ includes
-#include <vector>
-#include <memory>
-#include <iostream>
-#include <stdexcept>
-
+// Namespace definitions
 namespace nb = nanobind;
 using namespace nb::literals;
-
-// Include ShapeOp API
-#include "shapeop_api.h"

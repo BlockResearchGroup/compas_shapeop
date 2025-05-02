@@ -1,6 +1,6 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
-from compas_shapeop.shapeoplibrary import ShapeOpSolver
+from compas_shapeop.shapeop import ShapeOpSolver
 
 # ==========================================================================
 # Create mesh

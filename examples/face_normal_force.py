@@ -1,8 +1,6 @@
-import numpy as np
 from compas.datastructures import Mesh
-from compas.colors import Color
 from compas_viewer import Viewer
-from compas_shapeop.shapeoplibrary import ShapeOpSolver
+from compas_shapeop.shapeop import ShapeOpSolver
 
 # ==========================================================================
 # Create balloon mesh and prepare for solver
@@ -43,7 +41,6 @@ points_ref = solver.init()
 # Prepare normal force data
 # ==========================================================================
 
-# Convert faces to the flat representation needed for normal force
 faces_flat = []
 face_sizes = []
 for face in faces_list:
@@ -64,11 +61,8 @@ mesh_obj = viewer.scene.add(mesh)
 
 @viewer.on(interval=1)
 def update(frame):
-    # Run solver for multiple iterations to see changes faster
     solver.solve(10)
     
-    # Update mesh vertices directly from the points_ref array
-    # No need to manually copy values - the shared memory is automatically updated
     for i, vertex in enumerate(mesh.vertices()):
         mesh.vertex_attributes(vertex, 'xyz', points_ref[i])
 
