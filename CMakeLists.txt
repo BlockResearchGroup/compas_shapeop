@@ -142,6 +142,10 @@ if(OpenMP_CXX_FOUND)
   endif()
 endif()
 
+# Force rebuild every time by updating timestamp
+add_definitions(-DBUILD_TIMESTAMP="${CMAKE_CURRENT_TIMESTAMP}")
+add_definitions(-DFORCE_REBUILD=1)
+
 # Create a precompiled header library (properly implemented)
 if(ENABLE_PRECOMPILED_HEADERS)
   add_library(compas_pch INTERFACE)

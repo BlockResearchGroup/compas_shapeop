@@ -58,17 +58,17 @@ class ShapeOpSolver:
         """
         return self.points
     
-    def add_closeness_constraint(self, indices, weight):
+    def add_closeness_constraint(self, indices, weight=1.0):
         """Add a closeness constraint to the solver.
         
-        A closeness constraint tries to keep vertices close to their original positions.
-        This directly adds the constraint to the C++ solver.
+        A closeness constraint tries to keep vertices close to their
+        original positions. This directly adds the constraint to the C++ solver.
         
         Parameters
         ----------
         indices : list
             List of vertex indices to constrain.
-        weight : float
+        weight : float, optional
             Weight of the constraint. Higher values make the constraint stronger.
             
         Returns
@@ -78,7 +78,30 @@ class ShapeOpSolver:
         """
         return self._solver.add_closeness_constraint(indices, weight)
     
-    def add_edge_strain_constraint(self, indices, weight, min_range=0.9, max_range=1.1):
+    def add_closeness_constraint_with_position(self, indices, weight, position):
+        """Add a closeness constraint with a specified target position.
+        
+        A closeness constraint that keeps vertices close to a specified target position
+        rather than their original positions. This is useful for fixing points in space
+        or forcing points to move to specific locations.
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices to constrain.
+        weight : float
+            Weight of the constraint. Higher values make the constraint stronger.
+        position : list
+            Target position [x, y, z] for the constraint.
+            
+        Returns
+        -------
+        int
+            ID of the added constraint.
+        """
+        return self._solver.add_closeness_constraint_with_position(indices, weight, position)
+    
+    def add_edge_strain_constraint(self, indices, weight=1.0, min_range=0.9, max_range=1.1):
         """Add an edge strain constraint to the solver.
         
         An edge strain constraint tries to keep the distance between two vertices
@@ -89,7 +112,7 @@ class ShapeOpSolver:
         ----------
         indices : list
             List of vertex indices to constrain. Must contain exactly 2 indices.
-        weight : float
+        weight : float, optional
             Weight of the constraint. Higher values make the constraint stronger.
         min_range : float, optional
             Minimum allowed relative length (default=0.9)
@@ -102,6 +125,30 @@ class ShapeOpSolver:
             ID of the added constraint.
         """
         return self._solver.add_edge_strain_constraint(indices, weight, min_range, max_range)
+    
+    def add_shrinking_edge_constraint(self, indices, weight=1.0, shrink_factor=0.25):
+        """Add a shrinking edge constraint to the solver.
+        
+        A shrinking edge constraint tries to shrink the edge length by a specified factor.
+        This is particularly useful for cable nets and other structures that need to
+        maintain tension. The constraint creates a min/max range of ±5% around the target length.
+        
+        Parameters
+        ----------
+        indices : list
+            List of vertex indices to constrain. Must contain exactly 2 indices.
+        weight : float, optional
+            Weight of the constraint. Higher values make the constraint stronger.
+        shrink_factor : float, optional
+            Target shrinking factor (default=0.25). The target length will be
+            (1.0 - shrink_factor) times the original length.
+            
+        Returns
+        -------
+        int
+            ID of the added constraint.
+        """
+        return self._solver.add_shrinking_edge_constraint(indices, weight, shrink_factor)
     
     def add_vertex_force(self, force_x, force_y, force_z, vertex_id):
         """Add a force to a specific vertex.

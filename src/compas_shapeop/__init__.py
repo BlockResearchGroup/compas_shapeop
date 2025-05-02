@@ -7,6 +7,12 @@ try:
 except ImportError:
     _pyshapeop = None
 
+# Import the optimized ShapeOpSolver
+try:
+    from .shapeoplibrary import ShapeOpSolver
+except ImportError:
+    ShapeOpSolver = None
+
 __version__ = "0.1.0"
 
 
@@ -18,4 +24,4 @@ DOCS = os.path.abspath(os.path.join(HOME, "docs"))
 TEMP = os.path.abspath(os.path.join(HOME, "temp"))
 
 
-__all__ = ["HOME", "DATA", "DOCS", "TEMP", "Solver", "_pyshapeop"]
+__all__ = ["HOME", "DATA", "DOCS", "TEMP", "Solver", "_pyshapeop", "ShapeOpSolver"]
