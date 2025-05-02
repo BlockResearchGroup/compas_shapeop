@@ -1,0 +1,12 @@
+name: compas_shapeop-dev
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python <=3.12
+  - pip
+  - cmake
+  - compas
+  - pip:
+      - -r requirements-dev.txt
+      - .

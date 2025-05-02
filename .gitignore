@@ -10,6 +10,8 @@ __pycache__/
 .Python
 env/
 build/
+_build/
+**/build/
 develop-eggs/
 dist/
 downloads/
@@ -123,7 +125,7 @@ temp/**
 
 src/.build/**
 
-data/
+# data/
 
 *.tar.gz
 
@@ -138,3 +140,12 @@ docs/api/generated/
 scripts/
 
 .ruff_cache
+
+# ------------------------------------------------------------------------------
+# cmakelists
+# ------------------------------------------------------------------------------
+
+# External dependencies
+# ext/**
+# external/
+# **/external/

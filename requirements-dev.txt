@@ -7,3 +7,6 @@ ruff
 sphinx_compas2_theme
 twine
 wheel
+scikit-build-core
+nanobind
+compas_viewer
