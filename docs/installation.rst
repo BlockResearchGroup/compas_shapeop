@@ -5,14 +5,32 @@ Installation
 Stable
 ======
 
-Stable releases of :mod:`compas_shapeop` can be installed via pip:
+Stable releases are available on PyPI and can be installed with pip.
 
 .. code-block:: bash
-    
+
     pip install compas_shapeop
 
-For visualization (optional):
+
+Latest
+======
+
+The latest version can be installed from local source.
 
 .. code-block:: bash
 
-    pip install compas_viewer
+    git clone https://github.com/blockresearchgroup/compas_shapeop.git
+    cd compas_tna
+    pip install -e .
+
+
+Development
+===========
+
+To install `compas_shapeop` for development, install from local source with the "dev" requirements.
+
+.. code-block:: bash
+
+    git clone https://github.com/blockresearchgroup/compas_shapeop.git
+    cd compas_tna
+    pip install -e ".[dev]"

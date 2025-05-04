@@ -84,7 +84,7 @@ add_library(shapeop STATIC
   ${SHAPEOP_SRC_DIR}/LSSolver.cpp
   ${SHAPEOP_SRC_DIR}/Solver.cpp
   # Custom constraints/forces
-  ${SHAPEOP_SRC_DIR}/custom_constraints/normalforce.cpp
+  ${SHAPEOP_SRC_DIR}/custom_constraints/NormalForce.cpp
 )
 
 target_include_directories(shapeop PUBLIC
