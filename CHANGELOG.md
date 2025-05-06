@@ -18,8 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Nanobind for ShapeOp solver.
-* Currently constraints: `ShapeOp::ClosenessConstraint`, `ShapeOp::EdgeStrainConstraint`, `ShapeOp::GravityForce`, `ShapeOp::ClosenessConstraint`, `ShapeOp::NormalForce`.
+* Implemented zero-copy integration between Python (NumPy) and C++ (Eigen/ShapeOp).
+* Constraints: ClosenessConstraint (with target position variant), EdgeStrainConstraint, ShrinkingEdgeConstraint, CircleConstraint, PlaneConstraint, BendingConstraint, SimilarityConstraint, RegularPolygonConstraint, ShapeConstraint
+* Forces: VertexForce, NormalForce, GravityForce
 
 ### Changed
 
