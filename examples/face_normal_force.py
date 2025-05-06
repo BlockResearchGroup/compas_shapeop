@@ -1,13 +1,14 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
 from compas_shapeop.shapeop import Solver
+import pathlib
 
 # ==========================================================================
 # Create balloon mesh and prepare for solver
 # ==========================================================================
 
 # Load the mesh
-mesh = Mesh.from_obj("data/m0.obj")
+mesh = Mesh.from_obj(pathlib.Path(__file__).parent.parent / "data/m0.obj")
 mesh.scale(0.75)
 vertices_list = list(mesh.vertices())
 faces_list = list(mesh.faces())

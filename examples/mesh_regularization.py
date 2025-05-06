@@ -2,14 +2,14 @@ import compas
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
 from compas_shapeop import Solver
+import pathlib
 
 # ==========================================================================
 # Create mesh
 # ==========================================================================
 
-mesh = compas.json_load("data/hex_mesh.json")
+mesh = compas.json_load("C:/brg/code/compas_shapeop/data/hex_mesh.json")
 mesh = Mesh.from_polygons(mesh.to_polygons())
-mesh.unify_cycles()
 mesh.weld()
 mesh.scale(8.5)
 mesh.translate([-16.5, -18, -1])

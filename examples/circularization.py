@@ -46,7 +46,7 @@ for face in mesh.faces():
     solver.add_circle_constraint(face_vertices, circle_weight)
 
 # Add gravity force
-gravity_force = 0.5
+gravity_force = 0.3
 solver.add_mesh_vertex_force(mesh, 0.0, 0.0, gravity_force)
 
 # ==========================================================================
@@ -81,6 +81,14 @@ iteration = 0
 def deform_mesh(frame):
     global iteration
     if iteration >= 100:
+        # Update the circles
+        for idx, face_vertices in enumerate(faces):
+            face_points = [Point(*mesh.vertex_coordinates(vertex)) for vertex in face_vertices]
+            circle = Circle.from_three_points(face_points[0], face_points[1], face_points[2])
+            circles[idx].frame = circle.frame
+            circles[idx].radius = circle.radius
+            circle_objs[idx].update(update_data=True)
+
         return
 
     solver.solve(1)
@@ -89,15 +97,6 @@ def deform_mesh(frame):
         mesh.vertex_attributes(vertex, "xyz", points_ref[i])
 
     mesh_obj.update(update_data=True)
-
-    # Update the circles
-    for idx, face_vertices in enumerate(faces):
-        face_points = [Point(*mesh.vertex_coordinates(vertex)) for vertex in face_vertices]
-        circle = Circle.from_three_points(face_points[0], face_points[1], face_points[2])
-        circles[idx].frame = circle.frame
-        circles[idx].radius = circle.radius
-        circle_objs[idx].update(update_data=True)
-
     iteration += 1
 
 
