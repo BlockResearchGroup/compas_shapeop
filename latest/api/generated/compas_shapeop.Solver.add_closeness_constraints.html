@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="../../_static/compas.ico" type="image/x-icon">
-    <title>Solver.add_mesh_vertex_force &#8212; COMPAS ShapeOp</title>
+    <title>Solver.add_closeness_constraints &#8212; COMPAS ShapeOp</title>
   
   
   
@@ -51,15 +51,15 @@
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_shapeop.Solver.add_mesh_vertex_force';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_shapeop.Solver.add_closeness_constraints';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/blockresearchgroup/compas_shapeop/gh-pages/versions.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Solver.add_normal_force_with_faces" href="compas_shapeop.Solver.add_normal_force_with_faces.html" />
-    <link rel="prev" title="Solver.add_mesh_edge_strain_constraint" href="compas_shapeop.Solver.add_mesh_edge_strain_constraint.html" />
+    <link rel="next" title="Solver.add_edge_strain_constraint" href="compas_shapeop.Solver.add_edge_strain_constraint.html" />
+    <link rel="prev" title="Solver.add_closeness_constraint_with_position" href="compas_shapeop.Solver.add_closeness_constraint_with_position.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -504,7 +504,7 @@ document.write(`
 <li class="toctree-l3 current active"><a class="reference internal" href="compas_shapeop.Solver.html">Solver</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">Solver.add_mesh_vertex_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -580,7 +580,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="compas_shapeop.Solver.html" class="nav-link">Solver</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Solver.add_mesh_vertex_force</li>
+    <li class="breadcrumb-item active" aria-current="page">Solver.add_closeness_constraints</li>
   </ul>
 </nav>
 </div>
@@ -597,30 +597,18 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="solver-add-mesh-vertex-force">
-<h1>Solver.add_mesh_vertex_force</h1>
+  <section id="solver-add-closeness-constraints">
+<h1>Solver.add_closeness_constraints</h1>
 <dl class="py method">
-<dt class="sig sig-object py" id="compas_shapeop.Solver.add_mesh_vertex_force">
-<span class="sig-prename descclassname"><span class="pre">Solver.</span></span><span class="sig-name descname"><span class="pre">add_mesh_vertex_force</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_vertices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Add vertex forces to all vertices of a COMPAS mesh.</p>
-<dl class="field-list">
+<dt class="sig sig-object py" id="compas_shapeop.Solver.add_closeness_constraints">
+<span class="sig-prename descclassname"><span class="pre">Solver.</span></span><span class="sig-name descname"><span class="pre">add_closeness_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000.0</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Add closeness constraints to multiple vertices.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>mesh</strong><span class="classifier"><a class="reference external" href="https://compas.dev/compas/latest/api/compas.datastructures.Mesh.html#compas.datastructures.Mesh" title="(in COMPAS vlatest)"><code class="xref py py-class docutils literal notranslate"><span class="pre">compas.datastructures.Mesh</span></code></a></span></dt><dd><p>The COMPAS mesh to add forces to.</p>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>vertices</strong><span class="classifier">list</span></dt><dd><p>List of vertex indices to constrain.</p>
 </dd>
-<dt><strong>force_x</strong><span class="classifier">float, optional</span></dt><dd><p>X component of the force vector. Default is 0.0.</p>
-</dd>
-<dt><strong>force_y</strong><span class="classifier">float, optional</span></dt><dd><p>Y component of the force vector. Default is 0.0.</p>
-</dd>
-<dt><strong>force_z</strong><span class="classifier">float, optional</span></dt><dd><p>Z component of the force vector. Default is 0.0.</p>
-</dd>
-<dt><strong>exclude_vertices</strong><span class="classifier">list, optional</span></dt><dd><p>List of vertices to exclude from forces. Default is None.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>list</dt><dd><p>IDs of all added forces.</p>
+<dt><strong>weight</strong><span class="classifier">float, optional</span></dt><dd><p>Weight of the constraints. Default is 1e5.</p>
 </dd>
 </dl>
 </dd>
@@ -650,7 +638,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_shapeop.Solver.add_mesh_vertex_force"><code class="docutils literal notranslate"><span class="pre">Solver.add_mesh_vertex_force()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_shapeop.Solver.add_closeness_constraints"><code class="docutils literal notranslate"><span class="pre">Solver.add_closeness_constraints()</span></code></a></li>
 </ul>
   </nav></div>
 

@@ -490,6 +490,7 @@ document.write(`
 </li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/face_normal_force.html">Face Normal Force</a></li>
@@ -504,7 +505,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -512,12 +512,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -681,25 +682,28 @@ regularization, and dynamic simulations.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">Solver.from_mesh(mesh)</span></code>: Initialize a solver with mesh vertices</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">add_mesh_edge_strain_constraint()</span></code>: Add edge constraints to all mesh edges</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">add_mesh_vertex_force()</span></code>: Add forces to all vertices</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">add_mesh_closeness_constraint()</span></code>: Pin specific vertices</p></li>
 </ul>
 <p>These methods simplify the process of setting up constraints for complex meshes.</p>
 </section>
 <section id="zero-copy-integration">
 <h2>Zero-Copy Integration</h2>
-<p>One of the key features of COMPAS ShapeOp is its zero-copy integration between Python and C++. When you initialize the solver, it returns a direct view of the solver’s internal memory:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize the solver and get a direct reference to its points</span>
-<span class="n">points_ref</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<p>One of the key features of COMPAS ShapeOp is its zero-copy integration between Python and C++. When setting and getting point data, the library provides efficient memory handling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setting points (using the property setter)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices_attributes</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>  <span class="c1"># Automatically converts to NumPy array</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
-<span class="c1"># After solving, the points_ref array is automatically updated</span>
+<span class="c1"># Getting points (direct reference to solver&#39;s memory)</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">points</span>  <span class="c1"># This is a zero-copy view into the C++ solver&#39;s memory</span>
+
+<span class="c1"># Points are directly modified in the solver&#39;s memory</span>
+<span class="c1"># No need to call set_points() again!</span>
+<span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mf">1.0</span>  <span class="c1"># Modify Z-coordinate of first point</span>
+
+<span class="c1"># Solve to apply constraints with the modified points</span>
 <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c1"># No need to manually retrieve the points - they&#39;re already updated</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">()):</span>
-    <span class="n">mesh</span><span class="o">.</span><span class="n">vertex_attributes</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">points_ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>This direct memory sharing eliminates unnecessary data copying, making COMPAS ShapeOp very efficient for interactive applications.</p>
 </section>
 <section id="interactive-visualization">
 <h2>Interactive Visualization</h2>

@@ -490,6 +490,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/face_normal_force.html">Face Normal Force</a></li>
@@ -504,7 +505,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -512,12 +512,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -607,16 +608,13 @@ document.write(`
 <table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.from_mesh.html" title="compas_shapeop.Solver.from_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.from_mesh</span></code></a></p></td>
-<td><p>Create a solver initialized with vertices from a COMPAS mesh.</p></td>
+<td><p>Create a solver from a COMPAS mesh.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html" title="compas_shapeop.Solver.add_mesh_edge_strain_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_mesh_edge_strain_constraint</span></code></a></p></td>
 <td><p>Add edge strain constraints to all edges of a COMPAS mesh.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_vertex_force.html" title="compas_shapeop.Solver.add_mesh_vertex_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_mesh_vertex_force</span></code></a></p></td>
-<td><p>Add a force to all vertices of a COMPAS mesh.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html" title="compas_shapeop.Solver.add_mesh_closeness_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_mesh_closeness_constraint</span></code></a></p></td>
-<td><p>Add closeness constraints to specific vertices of a COMPAS mesh.</p></td>
+<td><p>Add vertex forces to all vertices of a COMPAS mesh.</p></td>
 </tr>
 </tbody>
 </table>
@@ -629,10 +627,10 @@ document.write(`
 <td><p>Add a closeness constraint to the solver.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html" title="compas_shapeop.Solver.add_closeness_constraint_with_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_closeness_constraint_with_position</span></code></a></p></td>
-<td><p>Add a closeness constraint with a specified target position.</p></td>
+<td><p>Add a closeness constraint at a specific xyz coordinate.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_edge_strain_constraint.html" title="compas_shapeop.Solver.add_edge_strain_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_edge_strain_constraint</span></code></a></p></td>
-<td><p>Add an edge strain constraint to the solver.</p></td>
+<td><p>Add an edge strain constraint between two specific vertices.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_shrinking_edge_constraint.html" title="compas_shapeop.Solver.add_shrinking_edge_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_shrinking_edge_constraint</span></code></a></p></td>
 <td><p>Add a shrinking edge constraint to the solver.</p></td>
@@ -641,16 +639,19 @@ document.write(`
 <td><p>Add circle constraint to make vertices lie on a circle.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_plane_constraint.html" title="compas_shapeop.Solver.add_plane_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_plane_constraint</span></code></a></p></td>
-<td><p>Add plane constraint to make vertices lie on a plane.</p></td>
+<td><p>Add a plane constraint to the solver.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_similarity_constraint.html" title="compas_shapeop.Solver.add_similarity_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_similarity_constraint</span></code></a></p></td>
 <td><p>Add similarity constraint to transform vertices to match a target shape.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.set_similarity_constraint_shape.html" title="compas_shapeop.Solver.set_similarity_constraint_shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.set_similarity_constraint_shape</span></code></a></p></td>
-<td><p>Set the target shape for a similarity constraint.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_regular_polygon_constraint.html" title="compas_shapeop.Solver.add_regular_polygon_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_regular_polygon_constraint</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_regular_polygon_constraint.html" title="compas_shapeop.Solver.add_regular_polygon_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_regular_polygon_constraint</span></code></a></p></td>
 <td><p>Add constraint to make vertices form a regular polygon.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_bending_constraint.html" title="compas_shapeop.Solver.add_bending_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_bending_constraint</span></code></a></p></td>
+<td><p>Add a bending constraint between two neighboring triangles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_shape_constraint.html" title="compas_shapeop.Solver.add_shape_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_shape_constraint</span></code></a></p></td>
+<td><p>Add a unified shape constraint with different shape types.</p></td>
 </tr>
 </tbody>
 </table>
@@ -660,10 +661,13 @@ document.write(`
 <table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_vertex_force.html" title="compas_shapeop.Solver.add_vertex_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_vertex_force</span></code></a></p></td>
-<td><p>Add a force to a specific vertex.</p></td>
+<td><p>Add a vertex force to a specific point.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_normal_force_with_faces.html" title="compas_shapeop.Solver.add_normal_force_with_faces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_normal_force_with_faces</span></code></a></p></td>
 <td><p>Add a normal force (inflation) using custom face topology.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.add_gravity_force.html" title="compas_shapeop.Solver.add_gravity_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.add_gravity_force</span></code></a></p></td>
+<td><p>Add a gravity force to all vertices in the system.</p></td>
 </tr>
 </tbody>
 </table>
@@ -672,16 +676,13 @@ document.write(`
 <h3>Core Methods</h3>
 <table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.set_points.html" title="compas_shapeop.Solver.set_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.set_points</span></code></a></p></td>
-<td><p>Set the vertex positions in the solver.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.points.html" title="compas_shapeop.Solver.points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.points</span></code></a></p></td>
+<td><p>Get the solver's current point positions.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.get_points.html" title="compas_shapeop.Solver.get_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.get_points</span></code></a></p></td>
-<td><p>Get the current vertex positions from the solver.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.init.html" title="compas_shapeop.Solver.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.init</span></code></a></p></td>
+<td><p>Initialize the solver with simulation parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.init.html" title="compas_shapeop.Solver.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.init</span></code></a></p></td>
-<td><p>Initialize the solver.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.solve.html" title="compas_shapeop.Solver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.solve</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/compas_shapeop.Solver.solve.html" title="compas_shapeop.Solver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Solver.solve</span></code></a></p></td>
 <td><p>Solve the constraint problem.</p></td>
 </tr>
 </tbody>

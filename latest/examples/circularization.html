@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Closeness Constraint with Target" href="closeness_constraint_with_target.html" />
-    <link rel="prev" title="Examples" href="../examples.html" />
+    <link rel="prev" title="Bending Constraint" href="bending_constraint.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -486,6 +486,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="face_normal_force.html">Face Normal Force</a></li>
@@ -500,7 +501,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -508,12 +508,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -592,7 +593,7 @@ document.write(`
 </figure>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.datastructures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mesh</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">compas.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Color</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">Plane</span><span class="p">,</span> <span class="n">Point</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circle</span><span class="p">,</span> <span class="n">Point</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">compas_viewer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Viewer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">compas_shapeop.shapeop</span><span class="w"> </span><span class="kn">import</span> <span class="n">Solver</span>
 
@@ -622,12 +623,12 @@ document.write(`
 <span class="c1"># Pin the corners with high weight</span>
 <span class="n">corner_weight</span> <span class="o">=</span> <span class="mf">1000.0</span>
 <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">:</span>
-    <span class="n">solver</span><span class="o">.</span><span class="n">add_closeness_constraint</span><span class="p">([</span><span class="n">idx</span><span class="p">],</span> <span class="n">corner_weight</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">add_closeness_constraint</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">corner_weight</span><span class="p">)</span>
 
-<span class="c1"># Add edge constraints with medium weight</span>
-<span class="n">edge_weight</span> <span class="o">=</span> <span class="mf">5.0</span>
+<span class="c1"># Add edge strain constraints to maintain mesh topology</span>
+<span class="n">edge_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
-    <span class="n">solver</span><span class="o">.</span><span class="n">add_edge_strain_constraint</span><span class="p">([</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">],</span> <span class="n">edge_weight</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">add_edge_strain_constraint</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">)</span>
 
 <span class="c1"># Add Circle constraint to each face with high weight</span>
 <span class="n">circle_weight</span> <span class="o">=</span> <span class="mf">100.0</span>
@@ -645,7 +646,8 @@ document.write(`
 <span class="c1"># Initialize the solver</span>
 <span class="c1"># ==========================================================================</span>
 
-<span class="n">points_ref</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">points_ref</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">points</span>
 
 <span class="c1"># ==========================================================================</span>
 <span class="c1"># Visualization</span>

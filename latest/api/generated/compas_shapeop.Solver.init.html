@@ -58,8 +58,8 @@
         </script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Solver.set_points" href="compas_shapeop.Solver.set_points.html" />
-    <link rel="prev" title="Solver.get_points" href="compas_shapeop.Solver.get_points.html" />
+    <link rel="next" title="Solver.solve" href="compas_shapeop.Solver.solve.html" />
+    <link rel="prev" title="Solver.from_mesh" href="compas_shapeop.Solver.from_mesh.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -490,6 +490,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/face_normal_force.html">Face Normal Force</a></li>
@@ -504,7 +505,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -512,12 +512,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -600,18 +601,18 @@ document.write(`
 <h1>Solver.init</h1>
 <dl class="py method">
 <dt class="sig sig-object py" id="compas_shapeop.Solver.init">
-<span class="sig-prename descclassname"><span class="pre">Solver.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the solver.</p>
-<p>This method must be called after adding all constraints and before
-calling solve(). It builds the solver’s internal structures based on
-the added constraints.</p>
-<p>After initialization, the direct view to the solver’s memory is
-established to ensure zero-copy access to the point positions.</p>
+<span class="sig-prename descclassname"><span class="pre">Solver.</span></span><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the solver with simulation parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ndarray</dt><dd><p>Direct reference to the solver’s points matrix, in row-major (N×3) format.
-This is the same as accessing the <cite>.points</cite> attribute after initialization.</p>
+<dt><strong>dynamic</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to use dynamic simulation. Default is False.</p>
+</dd>
+<dt><strong>masses</strong><span class="classifier">float, optional</span></dt><dd><p>Mass value for dynamic simulation. Default is 1.0.</p>
+</dd>
+<dt><strong>damping</strong><span class="classifier">float, optional</span></dt><dd><p>Damping factor for dynamic simulation. Default is 1.0.</p>
+</dd>
+<dt><strong>timestep</strong><span class="classifier">float, optional</span></dt><dd><p>Time step for dynamic simulation. Default is 1.0.</p>
 </dd>
 </dl>
 </dd>

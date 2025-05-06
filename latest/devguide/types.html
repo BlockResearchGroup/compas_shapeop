@@ -490,6 +490,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/face_normal_force.html">Face Normal Force</a></li>
@@ -504,7 +505,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -512,12 +512,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -594,13 +595,13 @@ document.write(`
 <h2>Binding Approach by Exposing C++ Class</h2>
 <p>The compas_shapeop extension uses nanobind to expose C++ classes and methods to Python. The binding approach in compas_shapeop has two main components:</p>
 <ol class="arabic simple">
-<li><p>The C++ <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class which wraps the ShapeOp C++ library and provides methods for Python</p></li>
+<li><p>The C++ <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class which wraps the ShapeOp C++ library and provides methods for Python</p></li>
 <li><p>The Python <code class="docutils literal notranslate"><span class="pre">Solver</span></code> class which imports and provides a user-friendly interface to the C++ functionality</p></li>
 </ol>
 <section id="memory-management-with-std-unique-ptr">
 <h3>Memory Management with std::unique_ptr</h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class uses <code class="docutils literal notranslate"><span class="pre">std::unique_ptr</span></code> to manage the lifetime of the <code class="docutils literal notranslate"><span class="pre">ShapeOp::Solver</span></code> instance:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DynamicSolver</span><span class="w"> </span><span class="p">{</span>
+<p>The <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class uses <code class="docutils literal notranslate"><span class="pre">std::unique_ptr</span></code> to manage the lifetime of the <code class="docutils literal notranslate"><span class="pre">ShapeOp::Solver</span></code> instance:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SolverWrapper</span><span class="w"> </span><span class="p">{</span>
 <span class="k">private</span><span class="o">:</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">ShapeOp</span><span class="o">::</span><span class="n">Solver</span><span class="o">&gt;</span><span class="w"> </span><span class="n">solver</span><span class="p">;</span>
 
@@ -610,13 +611,13 @@ document.write(`
 <span class="w">    </span><span class="p">}</span>
 
 <span class="k">public</span><span class="o">:</span>
-<span class="w">    </span><span class="n">DynamicSolver</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">solver</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">ShapeOp</span><span class="o">::</span><span class="n">Solver</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">SolverWrapper</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">solver</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">ShapeOp</span><span class="o">::</span><span class="n">Solver</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">solver</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">&quot;Failed to create ShapeOp solver&quot;</span><span class="p">);</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="o">~</span><span class="n">DynamicSolver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">~</span><span class="n">SolverWrapper</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">// The unique_ptr will automatically release the solver</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="c1">// ...</span>
@@ -625,34 +626,34 @@ document.write(`
 </div>
 <p>There are several important reasons for using <code class="docutils literal notranslate"><span class="pre">std::unique_ptr</span></code> here:</p>
 <ol class="arabic simple">
-<li><p><strong>Automatic Memory Management</strong>: The <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code> automatically deallocates the solver when the <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> instance is destroyed, preventing memory leaks</p></li>
-<li><p><strong>Ownership Semantics</strong>: The <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code> indicates that the <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> has exclusive ownership of the <code class="docutils literal notranslate"><span class="pre">ShapeOp::Solver</span></code> instance</p></li>
+<li><p><strong>Automatic Memory Management</strong>: The <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code> automatically deallocates the solver when the <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> instance is destroyed, preventing memory leaks</p></li>
+<li><p><strong>Ownership Semantics</strong>: The <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code> indicates that the <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> has exclusive ownership of the <code class="docutils literal notranslate"><span class="pre">ShapeOp::Solver</span></code> instance</p></li>
 <li><p><strong>Exception Safety</strong>: If an exception occurs during construction or operation, the solver will still be properly cleaned up</p></li>
-<li><p><strong>Explicit Lifetime Management</strong>: The solver’s lifetime is explicitly tied to the <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> instance</p></li>
+<li><p><strong>Explicit Lifetime Management</strong>: The solver’s lifetime is explicitly tied to the <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> instance</p></li>
 <li><p><strong>Python Binding Compatibility</strong>: This approach works well with nanobind’s memory management system, ensuring proper cleanup when Python objects are garbage collected</p></li>
 </ol>
 <p>Using a raw pointer or a direct class member would require manual memory management or additional copying operations that could affect performance. With <code class="docutils literal notranslate"><span class="pre">unique_ptr</span></code>, we get safe, efficient memory management with clear ownership semantics.</p>
 </section>
 <section id="class-binding">
 <h3>Class Binding</h3>
-<p>The C++ <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class is bound to Python in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code> using nanobind:</p>
+<p>The C++ <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class is bound to Python in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code> using nanobind:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">NB_MODULE</span><span class="p">(</span><span class="n">_shapeop</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Give a clear docstring about this module</span>
 <span class="w">    </span><span class="n">m</span><span class="p">.</span><span class="n">doc</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ShapeOp dynamic solver binding&quot;</span><span class="p">;</span>
 
 <span class="w">    </span><span class="c1">// Define the solver class with a unique name</span>
-<span class="w">    </span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">DynamicSolver</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DynamicSolver&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">SolverWrapper</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SolverWrapper&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="n">nb</span><span class="o">::</span><span class="n">init</span><span class="o">&lt;&gt;</span><span class="p">())</span>
-<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;set_points&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">set_points</span><span class="p">)</span>
-<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;get_points_ref&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">get_points_ref</span><span class="p">)</span>
-<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_closeness_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">add_closeness_constraint</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;set_points&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">set_points</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;get_points_ref&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">get_points_ref</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_closeness_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">add_closeness_constraint</span><span class="p">)</span>
 <span class="w">        </span><span class="c1">// ... other methods</span>
-<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;initialize&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">initialize</span><span class="p">)</span>
-<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;solve&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">solve</span><span class="p">);</span>
+<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;initialize&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">initialize</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;solve&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">solve</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">nb::class_</span></code> template creates a Python binding for the C++ <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class, and the <code class="docutils literal notranslate"><span class="pre">.def()</span></code> calls expose individual methods.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">nb::class_</span></code> template creates a Python binding for the C++ <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class, and the <code class="docutils literal notranslate"><span class="pre">.def()</span></code> calls expose individual methods.</p>
 </section>
 <section id="method-binding">
 <h3>Method Binding</h3>

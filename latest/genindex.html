@@ -483,6 +483,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/face_normal_force.html">Face Normal Force</a></li>
@@ -497,7 +498,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -505,12 +505,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -558,28 +559,34 @@ document.write(`
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
  | <a href="#F"><strong>F</strong></a>
- | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_shapeop.Solver.add_bending_constraint.html#compas_shapeop.Solver.add_bending_constraint">add_bending_constraint() (compas_shapeop.Solver method)</a>
+</li>
       <li><a href="api/generated/compas_shapeop.Solver.add_circle_constraint.html#compas_shapeop.Solver.add_circle_constraint">add_circle_constraint() (compas_shapeop.Solver method)</a>
 </li>
       <li><a href="api/generated/compas_shapeop.Solver.add_closeness_constraint.html#compas_shapeop.Solver.add_closeness_constraint">add_closeness_constraint() (compas_shapeop.Solver method)</a>
 </li>
       <li><a href="api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html#compas_shapeop.Solver.add_closeness_constraint_with_position">add_closeness_constraint_with_position() (compas_shapeop.Solver method)</a>
 </li>
+      <li><a href="api/generated/compas_shapeop.Solver.add_closeness_constraints.html#compas_shapeop.Solver.add_closeness_constraints">add_closeness_constraints() (compas_shapeop.Solver method)</a>
+</li>
       <li><a href="api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html#compas_shapeop.Solver.add_edge_strain_constraint">add_edge_strain_constraint() (compas_shapeop.Solver method)</a>
 </li>
-      <li><a href="api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html#compas_shapeop.Solver.add_mesh_closeness_constraint">add_mesh_closeness_constraint() (compas_shapeop.Solver method)</a>
+      <li><a href="api/generated/compas_shapeop.Solver.add_gravity_force.html#compas_shapeop.Solver.add_gravity_force">add_gravity_force() (compas_shapeop.Solver method)</a>
 </li>
-      <li><a href="api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html#compas_shapeop.Solver.add_mesh_edge_strain_constraint">add_mesh_edge_strain_constraint() (compas_shapeop.Solver method)</a>
+      <li><a href="api/generated/compas_shapeop.Solver.add_mesh_bending_constraints.html#compas_shapeop.Solver.add_mesh_bending_constraints">add_mesh_bending_constraints() (compas_shapeop.Solver method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html#compas_shapeop.Solver.add_mesh_edge_strain_constraint">add_mesh_edge_strain_constraint() (compas_shapeop.Solver method)</a>
+</li>
       <li><a href="api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html#compas_shapeop.Solver.add_mesh_vertex_force">add_mesh_vertex_force() (compas_shapeop.Solver method)</a>
 </li>
       <li><a href="api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html#compas_shapeop.Solver.add_normal_force_with_faces">add_normal_force_with_faces() (compas_shapeop.Solver method)</a>
@@ -587,6 +594,8 @@ document.write(`
       <li><a href="api/generated/compas_shapeop.Solver.add_plane_constraint.html#compas_shapeop.Solver.add_plane_constraint">add_plane_constraint() (compas_shapeop.Solver method)</a>
 </li>
       <li><a href="api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html#compas_shapeop.Solver.add_regular_polygon_constraint">add_regular_polygon_constraint() (compas_shapeop.Solver method)</a>
+</li>
+      <li><a href="api/generated/compas_shapeop.Solver.add_shape_constraint.html#compas_shapeop.Solver.add_shape_constraint">add_shape_constraint() (compas_shapeop.Solver method)</a>
 </li>
       <li><a href="api/generated/compas_shapeop.Solver.add_shrinking_edge_constraint.html#compas_shapeop.Solver.add_shrinking_edge_constraint">add_shrinking_edge_constraint() (compas_shapeop.Solver method)</a>
 </li>
@@ -605,14 +614,6 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_shapeop.Solver.get_points.html#compas_shapeop.Solver.get_points">get_points() (compas_shapeop.Solver method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -621,17 +622,21 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/compas_shapeop.Solver.points.html#compas_shapeop.Solver.points">points (compas_shapeop.Solver property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_shapeop.Solver.set_points.html#compas_shapeop.Solver.set_points">set_points() (compas_shapeop.Solver method)</a>
-</li>
-      <li><a href="api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html#compas_shapeop.Solver.set_similarity_constraint_shape">set_similarity_constraint_shape() (compas_shapeop.Solver method)</a>
+      <li><a href="api/generated/compas_shapeop.Solver.solve.html#compas_shapeop.Solver.solve">solve() (compas_shapeop.Solver method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/compas_shapeop.Solver.solve.html#compas_shapeop.Solver.solve">solve() (compas_shapeop.Solver method)</a>
-</li>
       <li><a href="api/generated/compas_shapeop.Solver.html#compas_shapeop.Solver">Solver (class in compas_shapeop)</a>
 </li>
   </ul></td>

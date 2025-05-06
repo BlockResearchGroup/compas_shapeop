@@ -490,6 +490,7 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/bending_constraint.html">Bending Constraint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/circularization.html">Circularization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/face_normal_force.html">Face Normal Force</a></li>
@@ -504,7 +505,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.from_mesh.html">Solver.from_mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_edge_strain_constraint.html">Solver.add_mesh_edge_strain_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_vertex_force.html">Solver.add_mesh_vertex_force</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_mesh_closeness_constraint.html">Solver.add_mesh_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint.html">Solver.add_closeness_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_closeness_constraint_with_position.html">Solver.add_closeness_constraint_with_position</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_edge_strain_constraint.html">Solver.add_edge_strain_constraint</a></li>
@@ -512,12 +512,13 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_circle_constraint.html">Solver.add_circle_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_plane_constraint.html">Solver.add_plane_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_similarity_constraint.html">Solver.add_similarity_constraint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_similarity_constraint_shape.html">Solver.set_similarity_constraint_shape</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_regular_polygon_constraint.html">Solver.add_regular_polygon_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_bending_constraint.html">Solver.add_bending_constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_shape_constraint.html">Solver.add_shape_constraint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_vertex_force.html">Solver.add_vertex_force</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_normal_force_with_faces.html">Solver.add_normal_force_with_faces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.set_points.html">Solver.set_points</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.get_points.html">Solver.get_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.add_gravity_force.html">Solver.add_gravity_force</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.points.html">Solver.points</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.init.html">Solver.init</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.Solver.solve.html">Solver.solve</a></li>
 </ul>
@@ -610,9 +611,9 @@ document.write(`
 <li><p>Understand the parameters required by its constructor and any additional methods it may have</p></li>
 </ul>
 </li>
-<li><p><strong>Add a Method to DynamicSolver</strong>:</p>
+<li><p><strong>Add a Method to SolverWrapper</strong>:</p>
 <ul class="simple">
-<li><p>In <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code>, add a new method to the <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class:</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code>, add a new method to the <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class:</p></li>
 </ul>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">add_your_constraint</span><span class="p">(</span><span class="n">nb</span><span class="o">::</span><span class="n">list</span><span class="w"> </span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">is_valid</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
@@ -643,9 +644,9 @@ document.write(`
 <ul class="simple">
 <li><p>In the <code class="docutils literal notranslate"><span class="pre">NB_MODULE</span></code> section at the bottom of <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code>, add your method:</p></li>
 </ul>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">DynamicSolver</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DynamicSolver&quot;</span><span class="p">)</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">SolverWrapper</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SolverWrapper&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="c1">// ... existing methods</span>
-<span class="w">    </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_your_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">add_your_constraint</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_your_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">add_your_constraint</span><span class="p">,</span>
 <span class="w">         </span><span class="n">nb</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;indices&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">nb</span><span class="o">::</span><span class="n">arg</span><span class="p">(</span><span class="s">&quot;weight&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span>
 <span class="w">    </span><span class="c1">// ... more methods</span>
 </pre></div>
@@ -702,7 +703,7 @@ document.write(`
 </li>
 <li><p><strong>Update C++ Binding</strong>:</p>
 <ul class="simple">
-<li><p>Add a method to the <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> class in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code></p></li>
+<li><p>Add a method to the <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> class in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code></p></li>
 <li><p>Expose the new method in the Python module definition</p></li>
 </ul>
 </li>
@@ -742,7 +743,7 @@ document.write(`
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p>Add the binding method to <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code> in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code>:</p></li>
+<li><p>Add the binding method to <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code> in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code>:</p></li>
 </ol>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Add a new custom constraint</span>
 <span class="kt">int</span><span class="w"> </span><span class="nf">add_my_constraint</span><span class="p">(</span><span class="n">nb</span><span class="o">::</span><span class="n">list</span><span class="w"> </span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -766,9 +767,9 @@ document.write(`
 <ol class="arabic simple" start="3">
 <li><p>Expose the method in the Python module definition:</p></li>
 </ol>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">DynamicSolver</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DynamicSolver&quot;</span><span class="p">)</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">nb</span><span class="o">::</span><span class="n">class_</span><span class="o">&lt;</span><span class="n">SolverWrapper</span><span class="o">&gt;</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;SolverWrapper&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="c1">// ... existing methods</span>
-<span class="w">    </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_my_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">DynamicSolver</span><span class="o">::</span><span class="n">add_my_constraint</span><span class="p">);</span>
+<span class="w">    </span><span class="p">.</span><span class="n">def</span><span class="p">(</span><span class="s">&quot;add_my_constraint&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">SolverWrapper</span><span class="o">::</span><span class="n">add_my_constraint</span><span class="p">);</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="4">
@@ -798,7 +799,7 @@ document.write(`
 <p>The process for adding new forces is similar to adding constraints:</p>
 <ol class="arabic simple">
 <li><p>Create a C++ force implementation inheriting from <code class="docutils literal notranslate"><span class="pre">ShapeOp::Force</span></code></p></li>
-<li><p>Add binding methods to <code class="docutils literal notranslate"><span class="pre">DynamicSolver</span></code></p></li>
+<li><p>Add binding methods to <code class="docutils literal notranslate"><span class="pre">SolverWrapper</span></code></p></li>
 <li><p>Add Python wrapper methods to the <code class="docutils literal notranslate"><span class="pre">Solver</span></code> class</p></li>
 </ol>
 </section>

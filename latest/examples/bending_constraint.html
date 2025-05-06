@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="../_static/compas.ico" type="image/x-icon">
-    <title>CMake Configuration &#8212; COMPAS ShapeOp</title>
+    <title>Bending Constraint &#8212; COMPAS ShapeOp</title>
   
   
   
@@ -51,15 +51,15 @@
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'devguide/cmake_configuration';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/bending_constraint';</script>
     <script>
         DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/blockresearchgroup/compas_shapeop/gh-pages/versions.json';
         DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'latest';
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Types" href="types.html" />
-    <link rel="prev" title="Contribute" href="contribute.html" />
+    <link rel="next" title="Circularization" href="circularization.html" />
+    <link rel="prev" title="Examples" href="../examples.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -163,7 +163,7 @@
                     </li>
                 
 
-                    <li class="nav-item current active">
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../devguide.html">
                         Development Guide
                       </a>
@@ -177,7 +177,7 @@
                     </li>
                 
 
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../examples.html">
                         Examples
                       </a>
@@ -308,10 +308,6 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
 </div>
 
     </nav>
@@ -351,7 +347,7 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item current active">
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../devguide.html">
                         Development Guide
                       </a>
@@ -365,7 +361,7 @@ document.write(`
                     </li>
                 
 
-                    <li class="nav-item">
+                    <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="../examples.html">
                         Examples
                       </a>
@@ -478,25 +474,25 @@ document.write(`
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../devguide.html">Development Guide</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="compiler.html">Compiler Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="conda_environment.html">Conda Environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contribute.html">Contribute</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">CMake Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="types.html">Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="style.html">Style</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../devguide.html">Development Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/compiler.html">Compiler Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/conda_environment.html">Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/contribute.html">Contribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/cmake_configuration.html">CMake Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../devguide/style.html">Style</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/bending_constraint.html">Bending Constraint</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/circularization.html">Circularization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/face_normal_force.html">Face Normal Force</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/mesh_regularization.html">Mesh Regularization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/plane_projection.html">Plane Projection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/vertex_force_and_closeness_constraint.html">Vertex Force and Closeness Constraint</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Bending Constraint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circularization.html">Circularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
+<li class="toctree-l2"><a class="reference internal" href="face_normal_force.html">Face Normal Force</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh_regularization.html">Mesh Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plane_projection.html">Plane Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vertex_force_and_closeness_constraint.html">Vertex Force and Closeness Constraint</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -570,9 +566,9 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="../devguide.html" class="nav-link">Development Guide</a></li>
+    <li class="breadcrumb-item"><a href="../examples.html" class="nav-link">Examples</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">CMake Configuration</li>
+    <li class="breadcrumb-item active" aria-current="page">Bending Constraint</li>
   </ul>
 </nav>
 </div>
@@ -589,99 +585,82 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="cmake-configuration">
-<h1>CMake Configuration</h1>
-<p>The COMPAS ShapeOp extension is built with CMake, which configures and generates the C++ build system. The main <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file contains all the necessary configuration to build the ShapeOp library and its Python bindings.</p>
-<section id="project-structure">
-<h2>Project Structure</h2>
-<p>The CMake configuration is organized as follows:</p>
-<ol class="arabic simple">
-<li><p>Basic project configuration and compiler options</p></li>
-<li><p>Dependency handling (Eigen, nanobind, OpenMP)</p></li>
-<li><p>ShapeOp library compilation</p></li>
-<li><p>Precompiled headers setup</p></li>
-<li><p>Python module definition and linking</p></li>
-</ol>
-</section>
-<section id="build-options">
-<h2>Build Options</h2>
-<p>The CMakeLists.txt file provides several options to customize the build:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">option</span><span class="p">(</span><span class="s">ENABLE_PRECOMPILED_HEADERS</span><span class="w"> </span><span class="s2">&quot;Enable precompiled headers&quot;</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span>
-<span class="nb">option</span><span class="p">(</span><span class="s">FAST_COMPILE</span><span class="w"> </span><span class="s2">&quot;Optimize for faster compilation (-O0) vs execution (-O3)&quot;</span><span class="w"> </span><span class="s">OFF</span><span class="p">)</span>
-<span class="nb">option</span><span class="p">(</span><span class="s">USE_OPENMP</span><span class="w"> </span><span class="s2">&quot;Enable OpenMP support for parallel processing&quot;</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span>
+  <section id="bending-constraint">
+<h1>Bending Constraint</h1>
+<p>This example demonstrates how to use COMPAS ShapeOp to apply bending constraints to meshes.</p>
+<figure class="figure align-default">
+<img alt="../_images/bending_constraint.png" class="figure-img img-fluid" src="../_images/bending_constraint.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">compas.datastructures</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mesh</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_viewer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Viewer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">compas_shapeop.shapeop</span><span class="w"> </span><span class="kn">import</span> <span class="n">Solver</span>
+
+<span class="c1"># ==========================================================================</span>
+<span class="c1"># Create triangulated mesh</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="c1"># First create a basic quad mesh</span>
+<span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">14</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="o">.</span><span class="n">from_meshgrid</span><span class="p">(</span><span class="n">nx</span><span class="o">=</span><span class="n">cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ny</span><span class="o">=</span><span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dy</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">translate</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">mesh</span><span class="o">.</span><span class="n">quads_to_triangles</span><span class="p">()</span>
+
+<span class="c1"># ==========================================================================</span>
+<span class="c1"># Initialize solver directly from mesh</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">Solver</span><span class="o">.</span><span class="n">from_mesh</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+<span class="c1"># ==========================================================================</span>
+<span class="c1"># Add constraints</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="c1"># Fix the corners in place</span>
+<span class="n">corner_vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertex_neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">corner_vertices</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+<span class="n">solver</span><span class="o">.</span><span class="n">add_closeness_constraints</span><span class="p">(</span><span class="n">corner_vertices</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1e5</span><span class="p">)</span>
+
+<span class="c1"># Add edge strain to maintain edge lengths</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">add_mesh_edge_strain_constraint</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">min_range</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">max_range</span><span class="o">=</span><span class="mf">1.2</span><span class="p">)</span>
+
+<span class="c1"># Add bending constraints to control the bending between adjacent triangle faces</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">add_mesh_bending_constraints</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">min_range</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">max_range</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+
+<span class="c1"># Add a gentle gravity force</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">add_gravity_force</span><span class="p">(</span><span class="n">fz</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">)</span>
+
+<span class="c1"># ==========================================================================</span>
+<span class="c1"># Initialize the solver</span>
+<span class="c1"># ==========================================================================</span>
+
+<span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">masses</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">damping</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">points_ref</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">points</span>
+
+<span class="c1"># ==========================================================================</span>
+<span class="c1"># Visualization</span>
+<span class="c1"># ==========================================================================</span>
+<span class="n">viewer</span> <span class="o">=</span> <span class="n">Viewer</span><span class="p">()</span>
+<span class="n">mesh_obj</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">mesh</span><span class="p">)</span>
+
+
+<span class="nd">@viewer</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">deform_mesh</span><span class="p">(</span><span class="n">frame</span><span class="p">):</span>
+    <span class="c1"># Run solver iterations</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="c1"># Update mesh vertices directly from the points_ref array</span>
+    <span class="c1"># No need to manually copy values - the shared memory is automatically updated</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">()):</span>
+        <span class="n">mesh</span><span class="o">.</span><span class="n">vertex_attributes</span><span class="p">(</span><span class="n">vertex</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">points_ref</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="c1"># Update the viewer</span>
+    <span class="n">mesh_obj</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">update_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="n">viewer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ENABLE_PRECOMPILED_HEADERS</span></code>: Enable precompiled headers for faster compilation (default: ON)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FAST_COMPILE</span></code>: Optimize for faster compilation time with -O0 instead of faster execution with -O3 (default: OFF)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">USE_OPENMP</span></code>: Enable OpenMP for parallel constraint solving (default: ON)</p></li>
-</ul>
-</section>
-<section id="dependencies">
-<h2>Dependencies</h2>
-<p>The project has several external dependencies:</p>
-<ul class="simple">
-<li><p><strong>Eigen</strong>: A header-only C++ library for linear algebra that is automatically downloaded if not already installed</p></li>
-<li><p><strong>nanobind</strong>: A lightweight library for creating Python bindings, used to expose the C++ ShapeOp implementation to Python</p></li>
-<li><p><strong>OpenMP</strong>: An optional dependency for parallel processing, which significantly improves performance for large meshes</p></li>
-</ul>
-</section>
-<section id="shapeop-library">
-<h2>ShapeOp Library</h2>
-<p>The core ShapeOp library is built as a static library:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">add_library</span><span class="p">(</span><span class="s">shapeop</span><span class="w"> </span><span class="s">STATIC</span>
-<span class="w">  </span><span class="c"># Core ShapeOp files</span>
-<span class="w">  </span><span class="o">${</span><span class="nv">SHAPEOP_SRC_DIR</span><span class="o">}</span><span class="s">/Constraint.cpp</span>
-<span class="w">  </span><span class="o">${</span><span class="nv">SHAPEOP_SRC_DIR</span><span class="o">}</span><span class="s">/Force.cpp</span>
-<span class="w">  </span><span class="o">${</span><span class="nv">SHAPEOP_SRC_DIR</span><span class="o">}</span><span class="s">/LSSolver.cpp</span>
-<span class="w">  </span><span class="o">${</span><span class="nv">SHAPEOP_SRC_DIR</span><span class="o">}</span><span class="s">/Solver.cpp</span>
-<span class="w">  </span><span class="c"># Custom constraints/forces</span>
-<span class="w">  </span><span class="o">${</span><span class="nv">SHAPEOP_SRC_DIR</span><span class="o">}</span><span class="s">/custom_constraints/normalforce.cpp</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>This library contains both the core ShapeOp implementation and custom constraints/forces specific to COMPAS ShapeOp.</p>
-</section>
-<section id="python-module">
-<h2>Python Module</h2>
-<p>The Python module is built using nanobind:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">nanobind_add_module</span><span class="p">(</span>
-<span class="w">  </span><span class="s">_shapeop</span>
-<span class="w">  </span><span class="s">STABLE_ABI</span>
-<span class="w">  </span><span class="s">NB_STATIC</span>
-<span class="w">  </span><span class="s">src/shapeop.cpp</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>The module is named <code class="docutils literal notranslate"><span class="pre">_shapeop</span></code> and is linked against the ShapeOp static library. It uses the stable ABI to ensure compatibility across Python versions.</p>
-</section>
-<section id="installation">
-<h2>Installation</h2>
-<p>The installation target installs the module to the <code class="docutils literal notranslate"><span class="pre">compas_shapeop</span></code> package directory:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span><span class="w"> </span><span class="s">_shapeop</span><span class="w"> </span><span class="s">LIBRARY</span><span class="w"> </span><span class="s">DESTINATION</span><span class="w"> </span><span class="s">compas_shapeop</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This allows the Python frontend to import the C++ module as <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">compas_shapeop</span> <span class="pre">import</span> <span class="pre">_shapeop</span></code>.</p>
-</section>
-<section id="adding-new-constraints-or-forces">
-<h2>Adding New Constraints or Forces</h2>
-<p>To add a new constraint or force:</p>
-<ol class="arabic simple">
-<li><p>Add the C++ implementation to <code class="docutils literal notranslate"><span class="pre">src/shapeop/</span></code> or <code class="docutils literal notranslate"><span class="pre">src/shapeop/custom_constraints/</span></code></p></li>
-<li><p>Add the file to the <code class="docutils literal notranslate"><span class="pre">shapeop</span></code> library in <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
-<li><p>Expose the new constraint/force in <code class="docutils literal notranslate"><span class="pre">src/shapeop.cpp</span></code></p></li>
-<li><p>Create a Python wrapper in <code class="docutils literal notranslate"><span class="pre">src/compas_shapeop/shapeop.py</span></code></p></li>
-</ol>
-</section>
-<section id="build-process">
-<h2>Build Process</h2>
-<p>The build process is handled by scikit-build-core, which manages the CMake configuration and build process during Python package installation. When you run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code>, scikit-build-core automatically:</p>
-<ol class="arabic simple">
-<li><p>Runs CMake to configure the build</p></li>
-<li><p>Builds the C++ extension</p></li>
-<li><p>Installs it alongside the Python files</p></li>
-</ol>
-</section>
 </section>
 
 
@@ -696,27 +675,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-structure">Project Structure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-options">Build Options</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shapeop-library">ShapeOp Library</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-module">Python Module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-new-constraints-or-forces">Adding New Constraints or Forces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-process">Build Process</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
