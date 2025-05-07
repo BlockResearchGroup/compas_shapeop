@@ -10,7 +10,7 @@ def test_solver_basic_functionality():
     mesh = Mesh.from_meshgrid(nx=cols - 1, ny=rows - 1, dx=1.0 * (cols - 1), dy=1.0 * (rows - 1))
     mesh.translate([-5, -5, 0])
     points = mesh.to_vertices_and_faces()[0]
-    
+
     solver = Solver()
     solver.points = points
     corner_vertices = [v for v in mesh.vertices() if len(mesh.vertex_neighbors(v)) == 2]
