@@ -8,5 +8,5 @@ This example demonstrates how to project mesh faces vertices onto a plane. Edges
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/plane_projection.py
+.. literalinclude:: ../../examples/meshsolver_plane_projection.py
     :language: python

@@ -2,7 +2,7 @@
 compas_shapeop
 ********************************************************************************
 
-.. currentmodule:: compas_shapeop
+.. currentmodule:: compas_shapeop.solvers
 
 Classes
 =======
@@ -11,7 +11,7 @@ Classes
     :toctree: generated/
     :nosignatures:
 
-    Solver
+    MeshSolver
 
 Functions and Methods
 =====================
@@ -23,9 +23,10 @@ Mesh Integration
     :toctree: generated/
     :nosignatures:
 
-    Solver.from_mesh
-    Solver.add_mesh_edge_strain_constraint
-    Solver.add_mesh_vertex_force
+    MeshSolver.from_obj
+    MeshSolver.from_grid
+    MeshSolver.constrain_edge_lengths
+    MeshSolver.fix_vertices
 
 Constraints
 -----------
@@ -34,16 +35,13 @@ Constraints
     :toctree: generated/
     :nosignatures:
 
-    Solver.add_closeness_constraint
-    Solver.add_closeness_constraint_with_position
-    Solver.add_edge_strain_constraint
-    Solver.add_shrinking_edge_constraint
-    Solver.add_circle_constraint
-    Solver.add_plane_constraint
-    Solver.add_similarity_constraint
-    Solver.add_regular_polygon_constraint
-    Solver.add_bending_constraint
-    Solver.add_shape_constraint
+    MeshSolver.constrain_edge_lengths
+    MeshSolver.constrain_face_diagonals
+    MeshSolver.constrain_face_planarity
+    MeshSolver.constrain_face_regularization
+    MeshSolver.constrain_triface_bending
+    MeshSolver.fix_vertex
+    MeshSolver.fix_vertices
 
 Forces
 ------
@@ -52,9 +50,8 @@ Forces
     :toctree: generated/
     :nosignatures:
 
-    Solver.add_vertex_force
-    Solver.add_normal_force_with_faces
-    Solver.add_gravity_force
+    MeshSolver.add_gravity
+    MeshSolver.inflate
 
 Core Methods
 ------------
@@ -63,9 +60,8 @@ Core Methods
     :toctree: generated/
     :nosignatures:
 
-    Solver.points
-    Solver.init
-    Solver.solve
+    MeshSolver.points
+    MeshSolver.solve
 
 .. toctree::
     :maxdepth: 1

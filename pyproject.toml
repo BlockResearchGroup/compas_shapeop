@@ -101,6 +101,42 @@ macos.environment.MACOSX_DEPLOYMENT_TARGET = "11.00"
 macos.archs = ["x86_64", "arm64"]
 
 # ============================================================================
+# code style configuration
+# ============================================================================
+
+[tool.black]
+line-length = 179
+
+[tool.ruff]
+line-length = 179
+indent-width = 4
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["compas", "compas_shapeop"]
+force-single-line = true
+order-by-type = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["I001"]
+"tests/*" = ["I001"]
+"tasks.py" = ["I001"]
+"docs/examples/*.py" = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 179
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+# ============================================================================
 # bumpversion configuration
 # ============================================================================
 
@@ -120,36 +156,4 @@ filename = "CHANGELOG.md"
 search = "Unreleased"
 replace = "[{new_version}] {now:%Y-%m-%d}"
 
-# ============================================================================
-# code style configuration
-# ============================================================================
 
-[tool.black]
-line-length = 179
-
-[tool.ruff]
-line-length = 179
-indent-width = 4
-target-version = "py39"
-
-[tool.ruff.lint]
-select = ["E", "F", "I"]
-
-[tool.ruff.lint.isort]
-force-single-line = true
-
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["I001"]
-"tests/*" = ["I001"]
-"tasks.py" = ["I001"]
-"docs/examples/*.py" = []
-
-[tool.ruff.lint.pydocstyle]
-convention = "numpy"
-
-[tool.ruff.lint.pycodestyle]
-max-doc-length = 179
-
-[tool.ruff.format]
-docstring-code-format = true
-docstring-code-line-length = "dynamic"

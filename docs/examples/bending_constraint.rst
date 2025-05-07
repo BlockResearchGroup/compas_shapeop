@@ -8,5 +8,5 @@ This example demonstrates how to use COMPAS ShapeOp to apply bending constraints
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/bending_constraint.py
+.. literalinclude:: ../../examples/meshsolver_bending_constraint.py
     :language: python
