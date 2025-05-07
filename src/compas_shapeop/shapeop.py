@@ -66,6 +66,7 @@ class Solver:
         points : array-like
             Array of 3D points in shape (n, 3).
         """
+
         # Convert any input to a numpy array first
         if not isinstance(points, np.ndarray):
             # Convert list of points to numpy array
@@ -77,7 +78,6 @@ class Solver:
 
         # Convert to (3, n) Fortran-ordered array for efficient transfer to C++
         points_array = np.asfortranarray(points.T)
-
         # Use the optimized array-based method
         self._solver.set_points(points_array)
 
@@ -100,6 +100,8 @@ class Solver:
         # Set up the direct view after initialization when memory is fully prepared
         if result:
             self._points = self._solver.get_points().T
+        else:
+            print("Failed to initialize solver")
 
     def solve(self, iterations=10):
         """Solve the constraint problem.
