@@ -48,25 +48,10 @@ class Solver:
 
     @property
     def points(self):
-        """Get the solver's current point positions.
-
-        Returns
-        -------
-        numpy.ndarray
-            Points in shape (n, 3) format, representing x, y, z coordinates.
-            This is a direct view of the solver's memory (zero-copy).
-        """
         return self._points
 
     @points.setter
     def points(self, points):
-        """Set the point positions in the solver.
-
-        Parameters
-        ----------
-        points : array-like
-            Array of 3D points in shape (n, 3), representing x, y, z coordinates.
-        """
         self._set_points(points)
 
     def _set_points(self, points):

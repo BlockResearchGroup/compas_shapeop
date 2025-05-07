@@ -25,8 +25,6 @@ Mesh Integration
 
     MeshSolver.from_obj
     MeshSolver.from_grid
-    MeshSolver.constrain_edge_lengths
-    MeshSolver.fix_vertices
 
 Constraints
 -----------
@@ -60,7 +58,6 @@ Core Methods
     :toctree: generated/
     :nosignatures:
 
-    MeshSolver.points
     MeshSolver.solve
 
 .. toctree::

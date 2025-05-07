@@ -14,14 +14,6 @@ class MeshSolver(Solver):
         A COMPAS mesh.
     points : numpy.ndarray
         Direct reference to the solver's points matrix in shape (n, 3).
-    dynamic : bool, optional
-        Whether to use dynamic simulation (default: False)
-    masses : float, optional
-        Mass value for dynamic simulation (default: 1.0)
-    damping : float, optional
-        Damping factor for dynamic simulation (default: 1.0)
-    timestep : float, optional
-        Time step for dynamic simulation (default: 1.0)
     """
 
     def __init__(self, mesh):
@@ -76,7 +68,7 @@ class MeshSolver(Solver):
         return ms
 
     @classmethod
-    def from_obj(cls, obj, transformations=None):
+    def from_obj(cls, obj, transformation=None):
         """Create a MeshSolver from an OBJ file.
 
         Parameters
@@ -92,8 +84,8 @@ class MeshSolver(Solver):
             A new mesh solver instance.
         """
         mesh = Mesh.from_obj(obj)
-        if transformations:
-            mesh.transform(transformations)
+        if transformation:
+            mesh.transform(transformation)
         ms = cls(mesh)
         return ms
 
