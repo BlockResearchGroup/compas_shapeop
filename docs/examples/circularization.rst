@@ -8,5 +8,5 @@ This example demonstrates how to use COMPAS ShapeOp to apply circle constraints 
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/circularization.py
+.. literalinclude:: ../../examples/meshsolver_circularization.py
     :language: python

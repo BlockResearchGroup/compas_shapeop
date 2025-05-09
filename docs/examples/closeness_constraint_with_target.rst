@@ -8,5 +8,5 @@ This example demonstrates how to use COMPAS ShapeOp to create a tensioned cable 
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/closeness_constraint_with_target.py
+.. literalinclude:: ../../examples/meshsolver_closeness_constraint_with_target.py
     :language: python
