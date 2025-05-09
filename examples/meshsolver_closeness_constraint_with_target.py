@@ -1,7 +1,7 @@
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
 
-from compas_shapeop.solvers import MeshSolver
+from compas_shapeop.meshsolver import MeshSolver
 
 mesh = Mesh.from_meshgrid(10.0, 10, 10.0, 10)
 mesh.translate([-5, -5, 0])

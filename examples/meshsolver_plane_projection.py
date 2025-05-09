@@ -3,7 +3,7 @@ from compas.geometry import Scale
 from compas.geometry import Translation
 from compas_viewer import Viewer
 
-from compas_shapeop.solvers import MeshSolver
+from compas_shapeop.meshsolver import MeshSolver
 
 T = Translation.from_vector([-5, -5, -3]) * Scale.from_factors([2, 2, 2])
 s = MeshSolver.from_obj(compas.get("hypar.obj"), T)
