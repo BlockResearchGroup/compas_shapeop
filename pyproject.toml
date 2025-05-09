@@ -89,6 +89,10 @@ CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
 
 # ============================================================================
 # cibuildwheel configuration
+# Skip python versions:
+# skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp312-*"]
+# Build only python version:
+# build = ["cp313-*"]
 # ============================================================================
 
 [tool.cibuildwheel]
@@ -97,7 +101,7 @@ test-requires = ["numpy", "compas", "pytest", "build"]
 test-command = "pip install numpy compas && pip list && pytest {project}/tests"
 build-frontend = "pip"
 manylinux-x86_64-image = "manylinux2014"
-skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*"]
+skip = ["*_i686", "*-musllinux_*", "*-win32", "pp*", "cp36-*", "cp37-*", "cp38-*", "cp313-*"]
 macos.environment.MACOSX_DEPLOYMENT_TARGET = "11.00"
 macos.archs = ["x86_64", "arm64"]
 

@@ -5,7 +5,8 @@ from typing import Union
 import numpy as np
 
 from compas.datastructures import Mesh
-from . import _shapeop
+
+from ._shapeop import SolverWrapper
 
 
 class Solver:
@@ -47,8 +48,7 @@ class Solver:
         Creates a new SolverWrapper instance that handles direct
         memory sharing between C++ and Python.
         """
-
-        self._solver: _shapeop.SolverWrapper = _shapeop.SolverWrapper()
+        self._solver = SolverWrapper()
         self._points: Optional[np.ndarray] = None  # Direct reference to ShapeOp's points matrix
 
     @property

@@ -22,3 +22,13 @@ Manual setup
     pip install --no-build-isolation -ve . -Ceditable.rebuild=true
 
 Both methods will create and configure the same development environment.
+
+Building Wheels Locally
+-----------------------
+
+To test package building locally before PyPI release on all recent Python versions:
+
+.. code-block:: bash
+
+    pip install cibuildwheel
+    cibuildwheel --output-dir wheelhouse .

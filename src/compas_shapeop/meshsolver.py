@@ -6,7 +6,8 @@ import numpy as np
 
 from compas.datastructures import Mesh
 from compas.geometry import Transformation
-from compas_shapeop import Solver
+
+from .shapeop import Solver
 
 
 class MeshSolver(Solver):
