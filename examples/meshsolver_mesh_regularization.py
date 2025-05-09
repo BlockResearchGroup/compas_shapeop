@@ -4,7 +4,7 @@ import compas
 from compas.datastructures import Mesh
 from compas_viewer import Viewer
 
-from compas_shapeop.solvers import MeshSolver
+from compas_shapeop.meshsolver import MeshSolver
 
 mesh = compas.json_load(pathlib.Path(__file__).parent.parent / "data/hex_mesh.json")
 mesh = Mesh.from_polygons(mesh.to_polygons())

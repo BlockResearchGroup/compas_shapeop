@@ -10,10 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Added MeshSolver class.
+* Added documentation for cibuildwheel.
 
 ### Changed
 
 * Fix circular Solver import.
+* Fix build.yml to match release.yml.
+* Fix license files.
 
 ### Removed
 

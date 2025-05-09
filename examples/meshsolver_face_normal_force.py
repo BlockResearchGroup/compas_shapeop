@@ -2,7 +2,7 @@ import pathlib
 
 from compas_viewer import Viewer
 
-from compas_shapeop.solvers import MeshSolver
+from compas_shapeop.meshsolver import MeshSolver
 
 s = MeshSolver.from_obj(pathlib.Path(__file__).parent.parent / "data/m0.obj")
 s.fix_vertices(weight=0.1)

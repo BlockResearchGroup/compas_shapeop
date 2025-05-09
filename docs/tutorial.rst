@@ -30,7 +30,7 @@ Here's a simple example:
 .. code-block:: python
 
     from compas.datastructures import Mesh
-    from compas_shapeop import MeshSolver
+    from compas_shapeop.meshsolver import MeshSolver
 
     # 1. Create a mesh
     mesh = Mesh.from_obj("data/m0.obj")

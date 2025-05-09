@@ -14,11 +14,19 @@ option(ENABLE_PRECOMPILED_HEADERS "Enable precompiled headers" ON)
 option(FAST_COMPILE "Optimize for faster compilation (-O0) vs execution (-O3)" OFF)
 option(USE_OPENMP "Enable OpenMP support for parallel processing" OFF)
 
-# Apply optimization flags
+# Apply optimization flags in a cross-platform way
 if(FAST_COMPILE)
-  add_compile_options(-O0)
+  if(MSVC)
+    add_compile_options(/Od)  # Disable optimization (MSVC)
+  else()
+    add_compile_options(-O0)  # Disable optimization (GCC/Clang)
+  endif()
 else()
-  add_compile_options(-O3)
+  if(MSVC)
+    add_compile_options(/O2)  # Optimize for speed (MSVC)
+  else()
+    add_compile_options(-O3)  # Optimize for speed (GCC/Clang)
+  endif()
 endif()
 
 # ==============================================================================
