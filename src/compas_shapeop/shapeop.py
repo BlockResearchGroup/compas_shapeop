@@ -5,6 +5,7 @@ from typing import Union
 import numpy as np
 
 from compas.datastructures import Mesh
+
 from . import _shapeop
 
 
