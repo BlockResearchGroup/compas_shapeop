@@ -9,15 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Changed
-
-### Removed
-
-
-## [0.0.1] 2025-04-01
-
-### Added
-
 * Implemented zero-copy integration between Python (NumPy) and C++ (Eigen/ShapeOp).
 * Constraints: ClosenessConstraint (with target position variant), EdgeStrainConstraint, ShrinkingEdgeConstraint, CircleConstraint, PlaneConstraint, BendingConstraint, SimilarityConstraint, RegularPolygonConstraint, ShapeConstraint
 * Forces: VertexForce, NormalForce, GravityForce
