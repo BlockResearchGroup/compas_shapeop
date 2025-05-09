@@ -1,0 +1,782 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="../../_static/compas.ico" type="image/x-icon">
+    <title>MeshSolver &#8212; COMPAS ShapeOp</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/compas.css?v=617b33e2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script src="../../_static/documentation_options.js?v=e5353d3f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/compas_shapeop.meshsolver.MeshSolver';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://raw.githubusercontent.com/blockresearchgroup/compas_shapeop/gh-pages/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1';
+        </script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MeshSolver.add_gravity" href="compas_shapeop.meshsolver.MeshSolver.add_gravity.html" />
+    <link rel="prev" title="compas_shapeop" href="../compas_shapeop.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/compas_icon_white.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/compas_icon_white.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">COMPAS ShapeOp</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../devguide.html">
+                        Development Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul> -->
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      0.1  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/blockresearchgroup/compas_shapeop" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/compas_shapeop/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <!-- <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../installation.html">
+                        Installation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../devguide.html">
+                        Development Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../tutorial.html">
+                        Tutorial
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../examples.html">
+                        Examples
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../api.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../license.html">
+                        License
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul> -->
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button type="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown">
+      0.1  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div class="version-switcher__menu dropdown-menu list-group-flush py-0">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/blockresearchgroup/compas_shapeop" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="http://forum.compas-framework.org/" title="Discourse" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-discourse"></i></span>
+            <label class="sr-only">Discourse</label></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/compas_shapeop/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-python"></i></span>
+            <label class="sr-only">PyPI</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../devguide.html">Development Guide</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/compiler.html">Compiler Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/conda_environment.html">Conda Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/contribute.html">Contribute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/cmake_configuration.html">CMake Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/types.html">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../devguide/style.html">Style</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/bending_constraint.html">Bending Constraint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/circularization.html">Circularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/closeness_constraint_with_target.html">Closeness Constraint with Target</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/face_normal_force.html">Face Normal Force</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/mesh_regularization.html">Mesh Regularization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/plane_projection.html">Plane Projection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/vertex_force_and_closeness_constraint.html">Vertex Force and Closeness Constraint</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../api.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../compas_shapeop.html">compas_shapeop</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">MeshSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.from_obj.html">MeshSolver.from_obj</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.from_grid.html">MeshSolver.from_grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_edge_lengths.html">MeshSolver.constrain_edge_lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_diagonals.html">MeshSolver.constrain_face_diagonals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_planarity.html">MeshSolver.constrain_face_planarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_regularization.html">MeshSolver.constrain_face_regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_triface_bending.html">MeshSolver.constrain_triface_bending</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.fix_vertex.html">MeshSolver.fix_vertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.fix_vertices.html">MeshSolver.fix_vertices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_gravity.html">MeshSolver.add_gravity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.inflate.html">MeshSolver.inflate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.solve.html">MeshSolver.solve</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="sidebar-primary-item"><div class="sidebar-primary-item">
+    <a href="https://compas.dev" target="_blank">
+        COMPAS.dev <i class="fa fa-external-link" aria-hidden="true"></i>
+    </a>
+</div></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../api.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../compas_shapeop.html" class="nav-link">compas_shapeop</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">MeshSolver</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="meshsolver">
+<h1>MeshSolver</h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="compas_shapeop.meshsolver.MeshSolver">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">compas_shapeop.meshsolver.</span></span><span class="sig-name descname"><span class="pre">MeshSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Solver</span></code></p>
+<p>Create a solver from a COMPAS mesh.</p>
+<p>This is a convenience method that allows you to initialize a solver
+directly from a COMPAS mesh.</p>
+<dl class="field-list">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>mesh</strong><span class="classifier"><a class="reference external" href="https://compas.dev/compas/latest/api/compas.datastructures.Mesh.html#compas.datastructures.Mesh" title="(in COMPAS vlatest)"><code class="xref py py-class docutils literal notranslate"><span class="pre">compas.datastructures.Mesh</span></code></a></span></dt><dd><p>A COMPAS mesh.</p>
+</dd>
+<dt><strong>points</strong><span class="classifier">numpy.ndarray</span></dt><dd><p>Direct reference to the solver’s points matrix in shape (n, 3).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_gravity.html#compas_shapeop.meshsolver.MeshSolver.add_gravity" title="compas_shapeop.meshsolver.MeshSolver.add_gravity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_gravity</span></code></a></p></td>
+<td><p>Add gravity to the mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_edge_lengths.html#compas_shapeop.meshsolver.MeshSolver.constrain_edge_lengths" title="compas_shapeop.meshsolver.MeshSolver.constrain_edge_lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_edge_lengths</span></code></a></p></td>
+<td><p>Add edge length constraints to all edges of a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_diagonals.html#compas_shapeop.meshsolver.MeshSolver.constrain_face_diagonals" title="compas_shapeop.meshsolver.MeshSolver.constrain_face_diagonals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_face_diagonals</span></code></a></p></td>
+<td><p>Add diagonal constraints to quads to prevent shearing.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_planarity.html#compas_shapeop.meshsolver.MeshSolver.constrain_face_planarity" title="compas_shapeop.meshsolver.MeshSolver.constrain_face_planarity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_face_planarity</span></code></a></p></td>
+<td><p>Add plane constraints to all faces of a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_face_regularization.html#compas_shapeop.meshsolver.MeshSolver.constrain_face_regularization" title="compas_shapeop.meshsolver.MeshSolver.constrain_face_regularization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_face_regularization</span></code></a></p></td>
+<td><p>Add equalize face constraints to all faces of a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.constrain_triface_bending.html#compas_shapeop.meshsolver.MeshSolver.constrain_triface_bending" title="compas_shapeop.meshsolver.MeshSolver.constrain_triface_bending"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constrain_triface_bending</span></code></a></p></td>
+<td><p>Add bending constraints to all pairs of adjacent triangular faces in a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.fix_vertex.html#compas_shapeop.meshsolver.MeshSolver.fix_vertex" title="compas_shapeop.meshsolver.MeshSolver.fix_vertex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_vertex</span></code></a></p></td>
+<td><p>Add closeness constraints to all vertices of a COMPAS mesh to the boundary edges.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.fix_vertices.html#compas_shapeop.meshsolver.MeshSolver.fix_vertices" title="compas_shapeop.meshsolver.MeshSolver.fix_vertices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_vertices</span></code></a></p></td>
+<td><p>Add closeness constraints to vertices of a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.from_grid.html#compas_shapeop.meshsolver.MeshSolver.from_grid" title="compas_shapeop.meshsolver.MeshSolver.from_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_grid</span></code></a></p></td>
+<td><p>Create a MeshSolver from a rectangular grid mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.from_obj.html#compas_shapeop.meshsolver.MeshSolver.from_obj" title="compas_shapeop.meshsolver.MeshSolver.from_obj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_obj</span></code></a></p></td>
+<td><p>Create a MeshSolver from an OBJ file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.inflate.html#compas_shapeop.meshsolver.MeshSolver.inflate" title="compas_shapeop.meshsolver.MeshSolver.inflate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inflate</span></code></a></p></td>
+<td><p>Add inflation force to the mesh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.solve.html#compas_shapeop.meshsolver.MeshSolver.solve" title="compas_shapeop.meshsolver.MeshSolver.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a></p></td>
+<td><p>Solve the constraint problem.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Inherited Methods</p>
+<table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_bending_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_bending_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_bending_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_bending_constraint</span></code></a></p></td>
+<td><p>Add a bending constraint between two neighboring triangles.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_circle_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_circle_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_circle_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_circle_constraint</span></code></a></p></td>
+<td><p>Add circle constraint to make vertices lie on a circle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_closeness_constraint</span></code></a></p></td>
+<td><p>Add a closeness constraint to the solver.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint_with_position.html#compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint_with_position" title="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraint_with_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_closeness_constraint_with_position</span></code></a></p></td>
+<td><p>Add a closeness constraint at a specific xyz coordinate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraints.html#compas_shapeop.meshsolver.MeshSolver.add_closeness_constraints" title="compas_shapeop.meshsolver.MeshSolver.add_closeness_constraints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_closeness_constraints</span></code></a></p></td>
+<td><p>Add closeness constraints to multiple vertices.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_edge_strain_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_edge_strain_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_edge_strain_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_edge_strain_constraint</span></code></a></p></td>
+<td><p>Add an edge strain constraint between two specific vertices.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_gravity_force.html#compas_shapeop.meshsolver.MeshSolver.add_gravity_force" title="compas_shapeop.meshsolver.MeshSolver.add_gravity_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_gravity_force</span></code></a></p></td>
+<td><p>Add a gravity force to all vertices in the system.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_mesh_vertex_force.html#compas_shapeop.meshsolver.MeshSolver.add_mesh_vertex_force" title="compas_shapeop.meshsolver.MeshSolver.add_mesh_vertex_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_mesh_vertex_force</span></code></a></p></td>
+<td><p>Add vertex forces to all vertices of a COMPAS mesh.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_normal_force_with_faces.html#compas_shapeop.meshsolver.MeshSolver.add_normal_force_with_faces" title="compas_shapeop.meshsolver.MeshSolver.add_normal_force_with_faces"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_normal_force_with_faces</span></code></a></p></td>
+<td><p>Add a normal force (inflation) using custom face topology.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_plane_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_plane_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_plane_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_plane_constraint</span></code></a></p></td>
+<td><p>Add a plane constraint to the solver.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_regular_polygon_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_regular_polygon_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_regular_polygon_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_regular_polygon_constraint</span></code></a></p></td>
+<td><p>Add constraint to make vertices form a regular polygon.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_shape_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_shape_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_shape_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_shape_constraint</span></code></a></p></td>
+<td><p>Add a unified shape constraint with different shape types.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_shrinking_edge_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_shrinking_edge_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_shrinking_edge_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_shrinking_edge_constraint</span></code></a></p></td>
+<td><p>Add a shrinking edge constraint to the solver.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_similarity_constraint.html#compas_shapeop.meshsolver.MeshSolver.add_similarity_constraint" title="compas_shapeop.meshsolver.MeshSolver.add_similarity_constraint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_similarity_constraint</span></code></a></p></td>
+<td><p>Add similarity constraint to transform vertices to match a target shape.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.add_vertex_force.html#compas_shapeop.meshsolver.MeshSolver.add_vertex_force" title="compas_shapeop.meshsolver.MeshSolver.add_vertex_force"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_vertex_force</span></code></a></p></td>
+<td><p>Add a vertex force to a specific point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="compas_shapeop.meshsolver.MeshSolver.init.html#compas_shapeop.meshsolver.MeshSolver.init" title="compas_shapeop.meshsolver.MeshSolver.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a></p></td>
+<td><p>Initialize the solver with simulation parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compas_shapeop.meshsolver.MeshSolver"><code class="docutils literal notranslate"><span class="pre">MeshSolver</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright ETH Zurich - Block Research Group.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
