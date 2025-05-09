@@ -501,19 +501,19 @@ document.write(`
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../api/compas_shapeop.html">compas_shapeop</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.html">MeshSolver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.from_obj.html">MeshSolver.from_obj</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.from_grid.html">MeshSolver.from_grid</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.constrain_edge_lengths.html">MeshSolver.constrain_edge_lengths</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.constrain_face_diagonals.html">MeshSolver.constrain_face_diagonals</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.constrain_face_planarity.html">MeshSolver.constrain_face_planarity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.constrain_face_regularization.html">MeshSolver.constrain_face_regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.constrain_triface_bending.html">MeshSolver.constrain_triface_bending</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.fix_vertex.html">MeshSolver.fix_vertex</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.fix_vertices.html">MeshSolver.fix_vertices</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.add_gravity.html">MeshSolver.add_gravity</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.inflate.html">MeshSolver.inflate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.solvers.MeshSolver.solve.html">MeshSolver.solve</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.html">MeshSolver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.from_obj.html">MeshSolver.from_obj</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.from_grid.html">MeshSolver.from_grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.constrain_edge_lengths.html">MeshSolver.constrain_edge_lengths</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.constrain_face_diagonals.html">MeshSolver.constrain_face_diagonals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.constrain_face_planarity.html">MeshSolver.constrain_face_planarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.constrain_face_regularization.html">MeshSolver.constrain_face_regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.constrain_triface_bending.html">MeshSolver.constrain_triface_bending</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.fix_vertex.html">MeshSolver.fix_vertex</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.fix_vertices.html">MeshSolver.fix_vertices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.add_gravity.html">MeshSolver.add_gravity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.inflate.html">MeshSolver.inflate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/generated/compas_shapeop.meshsolver.MeshSolver.solve.html">MeshSolver.solve</a></li>
 </ul>
 </li>
 </ul>
@@ -601,6 +601,14 @@ pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<s
 </div>
 <p>Both methods will create and configure the same development environment.</p>
 </section>
+<section id="building-wheels-locally">
+<h2>Building Wheels Locally</h2>
+<p>To test package building locally before PyPI release on all recent Python versions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>cibuildwheel
+cibuildwheel<span class="w"> </span>--output-dir<span class="w"> </span>wheelhouse<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -626,6 +634,7 @@ pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<s
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-environment-yml-recommended">Using environment.yml (recommended)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-setup">Manual setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-wheels-locally">Building Wheels Locally</a></li>
 </ul>
   </nav></div>
 
