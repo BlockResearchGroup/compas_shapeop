@@ -9,5 +9,5 @@ First we create a grid mesh and initialize the solver from it. Then we add close
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/vertex_force_and_closeness_constraint.py
+.. literalinclude:: ../../examples/meshsolver_vertex_force_and_closeness_constraint.py
     :language: python

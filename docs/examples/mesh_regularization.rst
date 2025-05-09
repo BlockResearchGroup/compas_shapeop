@@ -8,5 +8,5 @@ This example demonstrates how to use COMPAS ShapeOp to regularize a mesh by appl
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/mesh_regularization.py
+.. literalinclude:: ../../examples/meshsolver_mesh_regularization.py
     :language: python

@@ -8,5 +8,5 @@ Vertex forces are computed by applying a normal force to each face of the mesh. 
     :figclass: figure
     :class: figure-img img-fluid
 
-.. literalinclude:: ../../examples/face_normal_force.py
+.. literalinclude:: ../../examples/meshsolver_face_normal_force.py
     :language: python

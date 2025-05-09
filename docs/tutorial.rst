@@ -19,36 +19,33 @@ Basic Workflow
 The basic workflow for using COMPAS ShapeOp involves:
 
 1. Creating or loading a mesh
-2. Initializing the solver with mesh vertices
+2. Creating a solver with the mesh
 3. Adding constraints and forces
-4. Initializing the solver
-5. Running the solver
-6. Updating the mesh with the optimized vertex positions
+4. Running the solver to optimize the mesh
+
+The solver automatically handles initialization and mesh vertex updates.
 
 Here's a simple example:
 
 .. code-block:: python
 
     from compas.datastructures import Mesh
-    from compas_shapeop import Solver
+    from compas_shapeop import MeshSolver
 
     # 1. Create a mesh
     mesh = Mesh.from_obj("data/m0.obj")
 
     # 2. Initialize the solver
-    solver = Solver.from_mesh(mesh)
+    solver = MeshSolver(mesh)
 
     # 3. Add constraints and forces
-    solver.add_mesh_edge_strain_constraint(mesh, weight=1.0)
-    solver.add_plane_constraint(mesh.face_vertices(0), weight=10.0)
+    solver.constrain_edge_lengths(weight=1.0)
+    solver.constrain_face_planarity(weight=10.0)
 
-    # 4. Initialize the solver
-    points_ref = solver.init()
-
-    # 5. Run the solver
+    # 4. Run the solver
     solver.solve(iterations=10)
 
-    # 6. Update the mesh
+    # The mesh vertices are automatically updated
     for i, vertex in enumerate(mesh.vertices()):
         mesh.vertex_attributes(vertex, "xyz", points_ref[i])
 
@@ -95,16 +92,23 @@ Example: Adding Gravity
 .. code-block:: python
 
     # Add downward force (gravity) to all vertices
-    solver.add_mesh_vertex_force(mesh, 0, 0, -0.001)
+    solver.add_gravity(fz=-0.001)
 
 Mesh Integration
 ================
 
 COMPAS ShapeOp provides convenience methods for working with COMPAS meshes:
 
-* ``Solver.from_mesh(mesh)``: Initialize a solver with mesh vertices
-* ``add_mesh_edge_strain_constraint()``: Add edge constraints to all mesh edges
-* ``add_mesh_vertex_force()``: Add forces to all vertices
+* ``MeshSolver(mesh)``: Create a solver from a COMPAS mesh
+* ``MeshSolver.from_obj(path)``: Create a solver from an OBJ file
+* ``MeshSolver.from_grid(dx, nx, dy, ny)``: Create a solver from a grid mesh
+* ``constrain_edge_lengths()``: Add edge length constraints
+* ``constrain_face_planarity()``: Add face planarity constraints
+* ``constrain_face_regularization()``: Add face regularization constraints
+* ``constrain_triface_bending()``: Add bending constraints between triangular faces
+* ``fix_vertices()``: Fix vertices in place or to target positions
+* ``add_gravity()``: Add gravity force
+* ``inflate()``: Add inflation force
 
 These methods simplify the process of setting up constraints for complex meshes.
 
@@ -115,12 +119,8 @@ One of the key features of COMPAS ShapeOp is its zero-copy integration between P
 
 .. code-block:: python
 
-    # Setting points (using the property setter)
-    solver = Solver()
-    solver.points = mesh.vertices_attributes('xyz')  # Automatically converts to NumPy array
-    solver.init()
-    
-    # Getting points (direct reference to solver's memory)
+    # The solver's points property provides direct access to the C++ solver's memory
+    solver = MeshSolver(mesh)
     points = solver.points  # This is a zero-copy view into the C++ solver's memory
     
     # Points are directly modified in the solver's memory
