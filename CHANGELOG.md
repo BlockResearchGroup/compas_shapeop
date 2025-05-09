@@ -9,19 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* Added MeshSolver class.
+
 ### Changed
+
+* Fix circular Solver import.
 
 ### Removed
 
 
-## [0.0.1] 2025-04-01
+## [0.1.1] 2025-05-09
 
 ### Added
 
 * Implemented zero-copy integration between Python (NumPy) and C++ (Eigen/ShapeOp).
 * Constraints: ClosenessConstraint (with target position variant), EdgeStrainConstraint, ShrinkingEdgeConstraint, CircleConstraint, PlaneConstraint, BendingConstraint, SimilarityConstraint, RegularPolygonConstraint, ShapeConstraint
 * Forces: VertexForce, NormalForce, GravityForce
-* Added MeshSolver class.
 
 ### Changed
 
